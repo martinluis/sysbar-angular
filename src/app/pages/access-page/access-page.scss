@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+.main-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .access-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    padding: 3rem;
+    margin-top: 10%;
+
+    .error-text {
+      color: red;
+      width: 100%;
+      text-align: center;
+    }
+
+    img {
+      width: 8rem;
+      height: 8rem;
+      margin-bottom: 3rem;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+}
+
