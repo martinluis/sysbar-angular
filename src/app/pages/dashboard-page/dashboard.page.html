@@ -1,1 +1,8 @@
-<p>dashboard.page works!</p>
+<app-header />
+
+<div class="items-container d-flex flex-wrap">
+  @for (section of activeSections; track section.name) {
+    <app-dashboard-item [section]="section"/>
+  }
+</div>
+

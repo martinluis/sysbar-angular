@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {AccessPage} from './access-page';
+import {AccessPage} from './access.page';
 import {FormsModule} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {By} from '@angular/platform-browser';

@@ -1,0 +1,35 @@
+@use 'variables' as *;
+
+header {
+  background-color: $primary-color;
+  height: 6rem;
+
+  .logo-link {
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 0.5rem;
+    .logo {
+      height: 3rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  h2 {
+    align-items: start;
+    color: white;
+  }
+
+  .nav {
+    margin-right: 3rem;
+  }
+
+  .logged-user {
+    color: white !important;
+    text-align: center;
+    svg {
+      width: 2rem;
+      height: 2rem;
+      fill: white;
+    }
+  }
+}

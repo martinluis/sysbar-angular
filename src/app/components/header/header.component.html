@@ -1,0 +1,24 @@
+<header class="d-flex flex-wrap align-items-center">
+  <a routerLink="/dashboard" class="logo-link col-1 align-items-center">
+    <img src="/img/logo.png" class="logo" alt="Logo">
+  </a>
+  <h2 class="col-8 mb-0">
+    <a routerLink="/dashboard" class="nav-link px-2">SysBar Restaurant</a>
+  </h2>
+  <a href="/" class="logged-user nav-link text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-block mx-auto mb-1"
+         width="64.000000pt" height="64.000000pt" viewBox="0 0 64.000000 64.000000"
+         preserveAspectRatio="xMidYMid meet">
+
+      <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
+        <path d="M223 622 c-109 -39 -178 -112 -210 -221 -29 -102 4 -228 82 -306 122
+                -121 328 -121 450 0 91 92 118 241 64 356 -69 146 -241 223 -386 171z m161
+                -103 c28 -22 45 -70 38 -106 -6 -30 -46 -70 -77 -75 -39 -8 -72 2 -99 28 -64
+                64 -17 174 74 174 23 0 48 -8 64 -21z m46 -252 c36 -17 66 -82 52 -112 -29
+                -62 -179 -88 -268 -45 -60 30 -72 56 -48 107 26 51 53 63 154 63 48 0 96 -6
+                110 -13z"/>
+      </g>
+    </svg>
+    {{user?.name}}
+  </a>
+</header>
