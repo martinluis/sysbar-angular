@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {AppProperties} from '../config/app.properties';
+import {Table} from '../models/table';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TableService {
+
+  private apiUrl = AppProperties['apiUrl'] + '/table/';
+
+  constructor(private http: HttpClient) {}
+
+  /**
+   *
+   */
+  getAll(): Observable<Table[]> {
+    return this.http.get<Table[]>(this.apiUrl);
+  }
+}
+

@@ -1,0 +1,7 @@
+<h2>Mesas</h2>
+<div class="d-flex flex-wrap">
+  @for (table of tables$ | async ; track table.id) {
+    <app-table-selector-item [table]="table" />
+  }
+</div>
+

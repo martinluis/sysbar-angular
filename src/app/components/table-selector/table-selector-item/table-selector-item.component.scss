@@ -1,0 +1,29 @@
+@use 'variables' as *;
+
+.item-container {
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  background-color: lightgray;
+  color: darkslategray;
+  margin: 0.5rem;
+  padding: 0.5rem;
+
+  &.active {
+    background-color: $success-color;
+    color: white;
+    &:hover {
+      background-color: $success-color;
+      opacity: 0.9;
+    }
+
+  }
+
+  span {
+    text-align: center;
+    margin: auto;
+    font-size: 18px;
+  }
+}

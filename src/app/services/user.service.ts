@@ -16,7 +16,7 @@ export class UserService {
    * @param code
    */
   requestAccess(code: string): Observable<User> {
-    const apiUrl = AppProperties['apiUrl'];
+    const apiUrl = AppProperties['apiUrl'] + '/user';
     let url = apiUrl + `/requestAccess?code=${code}`;
     return this.http.get<User>(url);
   }

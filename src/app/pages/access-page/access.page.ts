@@ -33,7 +33,6 @@ export class AccessPage {
         this.router.navigate(['dashboard']);
       },
       error: (err) => {
-        console.log(err);
         this.errorMessage = this.errorHandler.parseError(err);
         this.accessCode = ''
       }

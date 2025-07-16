@@ -6,12 +6,12 @@
   height: 12rem;
   width: 10rem;
   border-radius: 0.5rem;
-  background-color: $primary-color;
+  background-color: $secondary-color;
   margin: 0.5rem;
   padding: 1rem;
 
   &:hover {
-    background-color: $primary-selected-color;
+    opacity: 0.9;
   }
 
   .icon {
