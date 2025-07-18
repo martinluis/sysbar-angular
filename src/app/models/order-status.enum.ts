@@ -1,0 +1,6 @@
+export enum OrderStatus {
+  ACTIVE = 'ACTIVE',
+  PAYED = 'PAYED',
+  PARTIAL_PAYED = 'PARTIAL_PAYED',
+  CANCELED = 'CANCELED'
+}

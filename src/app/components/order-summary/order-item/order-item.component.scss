@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+.order-item-container {
+  border-bottom: 1px solid lightgray;
+  padding: 0.5rem;
+
+  .item-actions {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+
+      .edit {
+        svg {
+          fill: #0d6efd;
+          width: 1rem;
+          height: 1rem;
+        }
+        &:hover {
+          svg {
+            fill: white;
+          }
+        }
+      }
+      .delete {
+        svg {
+          width: 1.2rem;
+          height: 1.2rem;
+          fill: $error-color;
+        }
+        &:hover {
+          svg {
+            fill: white;
+          }
+        }
+      }
+  }
+}

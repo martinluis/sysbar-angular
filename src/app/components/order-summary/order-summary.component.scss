@@ -1,0 +1,41 @@
+@use 'variables' as *;
+
+
+.content-summary {
+  display: flex;
+  flex-direction: column;
+  height: 86.5vh;
+
+  .header-summary {
+    height: 3rem;
+    background-color: #212633;
+    align-content: center;
+    text-align: center;
+    span {
+      color: white;
+    }
+  }
+
+  .content-summary {
+    flex: 1;
+    overflow: auto;
+    border: 1px solid $lightgray;
+  }
+
+  .footer-summary {
+    height: 6rem;
+    font-size: x-large;
+
+    .total-container {
+      background-color: $lightgray;
+      height: 3rem;
+      align-content: center;
+    }
+
+    .actions-container {
+      height: 3rem;
+      background-color: $lightgray;
+    }
+  }
+
+}

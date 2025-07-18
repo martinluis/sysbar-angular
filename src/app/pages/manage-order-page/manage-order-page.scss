@@ -1,0 +1,32 @@
+
+$base-height: 90vh;
+
+.manage-order-container {
+  height: $base-height;
+  padding: 1rem 2rem;
+}
+
+.manage-order-left-container {
+  height: 100%;
+
+  .manage-order-user-info-container {
+    background-color: #c53c49;
+    height: 10rem;
+  }
+
+  .manage-order-product-container {
+    background-color: rebeccapurple;
+    flex: 1;
+  }
+
+  .manage-order-actions-container {
+    background-color: #c53c49;
+    height: 5rem;
+  }
+
+}
+
+.manage-order-summary-container {
+  padding-left: 0.5rem;
+  height: 100%
+}

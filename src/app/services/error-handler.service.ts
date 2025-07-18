@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ErrorResponse} from '../models/error.response';
+import {ErrorResponse} from '../models/error-response';
 import {AppLabels} from '../config/app.labels';
 
 @Injectable({
@@ -24,6 +24,25 @@ export class ErrorHandlerService {
       errorMsg = this.errorMessageHandler(err.message);
     }
     return errorMsg;
+  }
+
+
+  /**
+   *
+   * @param err
+   */
+  getErrorCode(err: any): string {
+    let errorCode = '';
+    const error: ErrorResponse = err?.error;
+
+    if (error?.errorCodes?.[0]) {
+      errorCode = error.errorCodes[0];
+    } else if (error?.status) {
+      errorCode = error.status + "";
+    } else if (err?.status) {
+      errorCode = err?.status;
+    }
+    return errorCode;
   }
 
   private errorMessageHandler(message: string): string {

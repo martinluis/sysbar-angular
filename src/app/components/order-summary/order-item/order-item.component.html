@@ -1,0 +1,38 @@
+<div class="order-item-container">
+  <div class="row">
+    <div class="col-1 text-center">
+      <span class="fw-bold">{{orderItem().quantity}}</span>
+    </div>
+    <div class="col-8">
+      {{orderItem().productName}}
+    </div>
+    <div class="col-3 text-end">
+      {{orderItem().total | currency: 'USD'}}
+    </div>
+  </div>
+  <div class="row item-actions">
+    <button class="col-1 btn btn-sm btn-outline-primary">-</button>
+    <button class="col-1 btn btn-sm btn-outline-primary offset-1">+</button>
+    <button class="edit col-1 btn btn-sm btn-outline-primary offset-3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
+          <path d="M472 605 l-37 -34 68 -68 68 -68 34 37 c46 50 45 78 -5 128 -50 50 -78 51 -128 5z"/>
+          <path d="M214 348 l-180 -183 -18 -78 c-10 -43 -16 -81 -13 -84 3 -3 41 3 84 13 l78 18 183 180 182 181 -68 68 -68 67 -180 -182z"/>
+        </g>
+      </svg>
+    </button>
+    <button class="delete col-1 btn btn-sm btn-outline-danger offset-3">
+      <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
+          <path d="M220 560 c0 -19 7 -20 100 -20 93 0 100 1 100 20 0 19 -7 20 -100 20 -93 0 -100 -1 -100 -20z"/>
+          <path d="M83 464 c-7 -18 4 -31 32 -36 19 -3 20 -13 25 -162 l5 -158 28 -24 c26 -22 36
+                  -24 147 -24 111 0 121 2 147 24 l28 24 5 158 c5 149 6 159 25 162
+                  30 6 40 19 25 37 -19 23 -458 23 -467 -1z m201 -100 c12 -11 16 -36 16 -97 0
+                  -90 -8 -111 -36 -105 -17 3 -19 15 -22 102 -2 73 1 102 10 108 17 10 14 11 32
+                  -8z m114 -98 c-3 -89 -5 -101 -22 -104 -28 -6 -36 15 -36 105 0 85 14 118 46
+                  106 12 -4 14 -24 12 -107z"/>
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>

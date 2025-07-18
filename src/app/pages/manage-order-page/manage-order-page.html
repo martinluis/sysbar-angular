@@ -1,0 +1,25 @@
+<app-header />
+
+<div class="manage-order-container d-flex flex-wrap">
+  <div class="manage-order-left-container d-flex flex-column col-8">
+    @if (order()?.orderType === OrderType.LOCAL) {
+      <div class="manage-order-user-info-container col-12">
+
+      </div>
+    }
+    <div class="manage-order-product-container col-12">
+
+    </div>
+    @if (order()?.orderType === OrderType.LOCAL) {
+      <div class="manage-order-actions-container col-12">
+
+      </div>
+    }
+  </div>
+  <div class="manage-order-summary-container col-4">
+    @if (order()) {
+      <app-order-summary [order]="order()!"/>
+    }
+  </div>
+</div>
+
