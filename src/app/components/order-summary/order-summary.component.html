@@ -5,7 +5,7 @@
 
   <div class="content-summary">
     @for (orderItem of order().items; track orderItem.itemId) {
-      <app-order-item [orderItem]="orderItem"/>
+      <app-order-item [orderItem]="orderItem" [order]="order()"/>
     }
   </div>
 
@@ -15,7 +15,7 @@
         <span>Total:</span>
       </div>
       <div class="col-8 text-end px-2">
-        <span class="fw-bold">{{order().total | currency: 'USD'}}</span>
+        <span class="fw-bold">{{order().total| currency: 'USD'}}</span>
       </div>
     </div>
     <div class="actions-container d-flex">

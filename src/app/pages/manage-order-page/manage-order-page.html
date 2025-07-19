@@ -8,7 +8,7 @@
       </div>
     }
     <div class="manage-order-product-container col-12">
-
+      <app-search-products (onAddProduct)="onAddProduct($event)"/>
     </div>
     @if (order()?.orderType === OrderType.LOCAL) {
       <div class="manage-order-actions-container col-12">

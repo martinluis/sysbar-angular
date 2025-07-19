@@ -7,19 +7,23 @@ import {HeaderComponent} from '../../components/header/header.component';
 import {OrderSummaryComponent} from '../../components/order-summary/order-summary.component';
 import {NgIf} from '@angular/common';
 import {OrderType} from '../../models/order-type.enum';
+import {SearchProductsComponent} from '../../components/search-products/search-products.component';
+import {ProductService} from '../../services/product.service';
+import {Product} from '../../models/product';
 
 @Component({
   selector: 'app-manage-order-page',
   imports: [
     HeaderComponent,
     OrderSummaryComponent,
-    NgIf
+    SearchProductsComponent
   ],
   templateUrl: './manage-order-page.html',
   styleUrl: './manage-order-page.scss'
 })
 export class ManageOrderPage implements OnInit{
 
+  protected readonly OrderType = OrderType;
   order = signal<Order|null>(null)
 
   constructor(private route: ActivatedRoute,
@@ -60,5 +64,31 @@ export class ManageOrderPage implements OnInit{
 
   }
 
-  protected readonly OrderType = OrderType;
+  /**
+   *
+   * @param product
+   */
+  onAddProduct(product: Product) {
+    let productAdded = this.order()?.items.find(it => {
+      return it.itemId===null && it.productId===product.id && it.comment===''
+    })
+
+    if (productAdded) {
+      productAdded.quantity = productAdded.quantity + 1;
+      productAdded.total = productAdded.quantity * productAdded.productPrice;
+    }
+    else {
+      this.order()?.items.push({
+        itemId: null,
+        productId: product.id,
+        productName: product.name,
+        productPrice: product.price,
+        quantity: 1,
+        comment: '',
+        total: product.price
+      })
+    }
+    this.order()!.total = this.order()?.items.reduce((acc, item) => acc + item.total, 0) ?? 0;
+  }
+
 }

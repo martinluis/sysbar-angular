@@ -1,8 +1,9 @@
-import {Component, input} from '@angular/core';
+import {Component, computed, input, OnInit, signal} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderItemComponent} from './order-item/order-item.component';
 import {CurrencyPipe} from '@angular/common';
+import {OrderItem} from '../../models/order-item';
 
 @Component({
   selector: 'app-order-summary',
@@ -13,9 +14,10 @@ import {CurrencyPipe} from '@angular/common';
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss'
 })
-export class OrderSummaryComponent {
+export class OrderSummaryComponent{
 
   order = input.required<Order>();
+
 
   /**
    *
