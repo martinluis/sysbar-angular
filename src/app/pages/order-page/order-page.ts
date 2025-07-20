@@ -1,16 +1,13 @@
-import {Component, OnInit, output, signal, ViewChild} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {HeaderComponent} from '../../components/header/header.component';
 import {OrderSummaryComponent} from '../../components/order-summary/order-summary.component';
-import {NgIf} from '@angular/common';
 import {OrderType} from '../../models/order-type.enum';
 import {SearchProductsComponent} from '../../components/search-products/search-products.component';
-import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product';
-import {InfoModal} from '../../components/commons/info-modal/info.modal';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -71,7 +68,7 @@ export class OrderPage implements OnInit{
    */
   onAddProduct(product: Product) {
     let productAdded = this.order()?.items.find(it => {
-      return it.itemId===null && it.productId===product.id && it.comment===''
+      return it.itemId===null && it.productId===product.id && it.comment===""
     })
 
     if (productAdded) {
@@ -91,7 +88,11 @@ export class OrderPage implements OnInit{
         isUpdated: false
       })
     }
-    this.order()!.total = this.order()?.items.reduce((acc, item) => acc + item.total, 0) ?? 0;
+    this.order.update( o => {
+      if (!o) return o; // or null
+      const total = o.items.reduce((acc, item) => acc + item.total, 0);
+      return { ...o, total };
+    })
   }
 
 }

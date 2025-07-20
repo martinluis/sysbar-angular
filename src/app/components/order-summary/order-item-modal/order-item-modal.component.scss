@@ -1,0 +1,15 @@
+@use "../../commons/info-modal/info.modal";
+
+.actions-container {
+  height: 3rem;
+
+  .btn {
+    font-size: 20px;
+  }
+
+  span {
+    font-size: 36px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

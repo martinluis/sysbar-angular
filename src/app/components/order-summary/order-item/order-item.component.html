@@ -14,7 +14,7 @@
     <div class="row item-actions">
       <button class="col-1 btn btn-sm btn-outline-primary" (click)="onSubtract()">-</button>
       <button class="col-1 btn btn-sm btn-outline-primary offset-1" (click)="onAdd()">+</button>
-      <button class="edit col-1 btn btn-sm btn-outline-primary offset-3">
+      <button class="edit col-1 btn btn-sm btn-outline-primary offset-3" (click)="onEdit()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
           <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
             <path d="M472 605 l-37 -34 68 -68 68 -68 34 37 c46 50 45 78 -5 128 -50 50 -78 51 -128 5z"/>
@@ -38,3 +38,4 @@
     </div>
   }
 </div>
+<app-order-item-modal/>

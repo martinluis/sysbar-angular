@@ -5,7 +5,7 @@
 
   <div class="content-summary">
     @for (orderItem of order().items; track trackByItemId($index, orderItem)) {
-      <app-order-item [orderItem]="orderItem" [order]="order()"/>
+      <app-order-item [orderItem]="orderItem" [order]="order()" (onUpdateItem)="isItemsModified = true"/>
     }
   </div>
 

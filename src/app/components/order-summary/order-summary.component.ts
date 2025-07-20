@@ -1,4 +1,4 @@
-import {Component, input, ViewChild} from '@angular/core';
+import {Component, effect, input, ViewChild} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderItemComponent} from './order-item/order-item.component';
@@ -27,7 +27,14 @@ export class OrderSummaryComponent{
   isItemsModified = false;
 
 
+  /**
+   *
+   * @param orderService
+   */
   constructor(private orderService: OrderService) {
+    effect(() => {
+      this.isItemsModified = this.order().items.some(item => item.itemId === null);
+    });
   }
 
   /**
