@@ -10,18 +10,26 @@
       {{orderItem().total | currency: 'USD'}}
     </div>
   </div>
+  @if (orderItem().comment.trim() !== "") {
+    <p class="comments">{{orderItem().comment}}</p>
+  }
   @if (true) {
     <div class="row item-actions">
       <button class="col-1 btn btn-sm btn-outline-primary" (click)="onSubtract()">-</button>
       <button class="col-1 btn btn-sm btn-outline-primary offset-1" (click)="onAdd()">+</button>
-      <button class="edit col-1 btn btn-sm btn-outline-primary offset-3" (click)="onEdit()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
-          <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
-            <path d="M472 605 l-37 -34 68 -68 68 -68 34 37 c46 50 45 78 -5 128 -50 50 -78 51 -128 5z"/>
-            <path d="M214 348 l-180 -183 -18 -78 c-10 -43 -16 -81 -13 -84 3 -3 41 3 84 13 l78 18 183 180 182 181 -68 68 -68 67 -180 -182z"/>
-          </g>
-        </svg>
-      </button>
+      @if (!orderItem().itemId) {
+        <button class="edit col-1 btn btn-sm btn-outline-primary offset-3" (click)="onEdit()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">
+              <path d="M472 605 l-37 -34 68 -68 68 -68 34 37 c46 50 45 78 -5 128 -50 50 -78 51 -128 5z"/>
+              <path d="M214 348 l-180 -183 -18 -78 c-10 -43 -16 -81 -13 -84 3 -3 41 3 84 13 l78 18 183 180 182 181 -68 68 -68 67 -180 -182z"/>
+            </g>
+          </svg>
+        </button>
+      }
+      @else {
+        <div class="col-1 offset-3"></div>
+      }
       <button class="delete col-1 btn btn-sm btn-outline-danger offset-3" (click)="onDelete()">
         <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.000000 64.000000" preserveAspectRatio="xMidYMid meet">
           <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" stroke="none">

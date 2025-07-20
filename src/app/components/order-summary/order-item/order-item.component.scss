@@ -5,6 +5,12 @@
   border-right: solid 0.5rem green;
   padding: 0.5rem;
 
+  .comments {
+    font-size: 0.9rem;
+    color: gray;
+    margin-bottom: 0;
+  }
+
   &.not-process {
     border-right: solid 0.5rem orange;
   }
