@@ -4,7 +4,7 @@
   </div>
 
   <div class="content-summary">
-    @for (orderItem of order().items; track orderItem.itemId) {
+    @for (orderItem of order().items; track trackByItemId($index, orderItem)) {
       <app-order-item [orderItem]="orderItem" [order]="order()"/>
     }
   </div>
@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="actions-container d-flex">
-      <button class="btn btn-danger col-6">Cancelar</button>
-      <button class="btn btn-success col-6">Confirmar</button>
+      <button class="btn btn-danger col-6" (click)="onCancel()">Cancelar</button>
+      <button class="btn btn-success col-6" (click)="onConfirm()">Confirmar</button>
     </div>
   </div>
 

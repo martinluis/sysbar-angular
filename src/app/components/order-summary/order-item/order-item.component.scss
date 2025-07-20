@@ -2,7 +2,19 @@
 
 .order-item-container {
   border-bottom: 1px solid lightgray;
+  border-right: solid 0.5rem green;
   padding: 0.5rem;
+
+  &.not-process {
+    border-right: solid 0.5rem orange;
+  }
+
+  &.delete {
+    border-right: solid 0.5rem $error-color;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.6;
+  }
 
   .item-actions {
     margin-top: 0.5rem;
@@ -22,8 +34,8 @@
       }
       .delete {
         svg {
-          width: 1.2rem;
-          height: 1.2rem;
+          width: 1rem;
+          height: 1rem;
           fill: $error-color;
         }
         &:hover {

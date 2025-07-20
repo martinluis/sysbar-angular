@@ -1,4 +1,4 @@
-<div class="order-item-container">
+<div class="order-item-container" [class.not-process]="isModified" [class.delete]="isDeleted">
   <div class="row">
     <div class="col-1 text-center">
       <span class="fw-bold">{{orderItem().quantity}}</span>
@@ -10,7 +10,7 @@
       {{orderItem().total | currency: 'USD'}}
     </div>
   </div>
-  @if (!orderItem().itemId) {
+  @if (true) {
     <div class="row item-actions">
       <button class="col-1 btn btn-sm btn-outline-primary" (click)="onSubtract()">-</button>
       <button class="col-1 btn btn-sm btn-outline-primary offset-1" (click)="onAdd()">+</button>

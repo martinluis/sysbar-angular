@@ -10,18 +10,9 @@ import {RouterLink} from '@angular/router';
   templateUrl: './dashboard-item.component.html',
   styleUrl: './dashboard-item.component.scss'
 })
-export class DashboardItemComponent implements OnInit {
+export class DashboardItemComponent {
 
   section = input.required<AppSection>();
-
-
-  /**
-   *
-   */
-  ngOnInit(): void {
-    console.log(this.section());
-  }
-
 
 
 }

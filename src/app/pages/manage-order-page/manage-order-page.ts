@@ -85,7 +85,9 @@ export class ManageOrderPage implements OnInit{
         productPrice: product.price,
         quantity: 1,
         comment: '',
-        total: product.price
+        total: product.price,
+        isDeleted: false,
+        isUpdated: false
       })
     }
     this.order()!.total = this.order()?.items.reduce((acc, item) => acc + item.total, 0) ?? 0;

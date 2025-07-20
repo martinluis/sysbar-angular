@@ -28,7 +28,6 @@ export class SearchProductsComponent implements OnInit{
    */
   ngOnInit(): void {
     this.products$ = this.productService.getAll();
-    console.log( this.products$)
   }
 
 

@@ -7,4 +7,6 @@ export interface OrderItem {
   quantity: number;
   comment: string;
   total: number;
+  isDeleted: boolean;
+  isUpdated: boolean;
 }
