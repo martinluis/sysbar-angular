@@ -1,16 +1,20 @@
-import {Component, computed, input, OnInit, signal} from '@angular/core';
+import {Component, input, ViewChild} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderItemComponent} from './order-item/order-item.component';
 import {CurrencyPipe} from '@angular/common';
 import {OrderItem} from '../../models/order-item';
 import {OrderService} from '../../services/order.service';
+import {InfoModal} from '../commons/info-modal/info.modal';
+import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
 
 @Component({
   selector: 'app-order-summary',
   imports: [
     OrderItemComponent,
-    CurrencyPipe
+    CurrencyPipe,
+    InfoModal,
+    ConfirmModal
   ],
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss'
@@ -18,6 +22,9 @@ import {OrderService} from '../../services/order.service';
 export class OrderSummaryComponent{
 
   order = input.required<Order>();
+  @ViewChild(InfoModal) infoModal!: InfoModal;
+  @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
+  isItemsModified = false;
 
 
   constructor(private orderService: OrderService) {
@@ -30,6 +37,8 @@ export class OrderSummaryComponent{
     this.orderService.confirm(this.order()).subscribe({
       next: (order) => {
         this.order().items = order.items;
+        this.infoModal.open("Order Confirmada!");
+        this.isItemsModified = false;
       },
       error: (error) => {
         console.log(error)
@@ -40,23 +49,33 @@ export class OrderSummaryComponent{
   /**
    *
    */
-  onCancel(){
+  async onCancel(){
+    const confirmed = await this.confirmModal.open('Desea cancelar los cambios en la orden?');
+    if (confirmed) {
+      this.cancelOrder();
+      this.isItemsModified = false;
+    }
+  }
 
+  /**
+   *
+   * @private
+   */
+  private cancelOrder (){
     // To be sure that the items are the originals from the DB only if the order exists
     if (this.order().id) {
       this.orderService.get(this.order().id).subscribe({
-          next: (order) => {
-            this.order().items = order.items;
-          },
-          error: (error) => {
-            console.log(error)
-          }
+        next: (order) => {
+          this.order().items = order.items;
+        },
+        error: (error) => {
+          console.log(error)
+        }
       });
     }
     else {
       this.order().items = []
     }
-
   }
 
   /**

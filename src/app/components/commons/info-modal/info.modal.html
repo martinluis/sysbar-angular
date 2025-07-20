@@ -1,0 +1,11 @@
+@if (show) {
+  <div class="modal-backdrop" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="btn btn-outline-danger col-2 offset-10" (click)="onClose()">X</span>
+      <br>
+      <p>{{ message }}</p>
+      <br>
+    </div>
+  </div>
+}
+

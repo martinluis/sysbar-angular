@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import {OrderItem} from '../../../models/order-item';
 import {CurrencyPipe} from '@angular/common';
 import {Order} from '../../../models/order';
@@ -15,6 +15,7 @@ export class OrderItemComponent {
 
   orderItem = input.required<OrderItem>()
   order = input.required<Order>()
+  onUpdateItem = output()
 
 
   /**
@@ -24,7 +25,7 @@ export class OrderItemComponent {
     this.orderItem().quantity++;
     this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
     this.orderItem().isUpdated = true;
-    this.updateTotal()
+    this.updateTotal();
   }
 
   /**
@@ -56,6 +57,7 @@ export class OrderItemComponent {
 
    */
   private updateTotal() {
+    this.onUpdateItem.emit();
     this.order().total = this.order().items.reduce((acc, item) => acc + item.total, 0)
   }
 

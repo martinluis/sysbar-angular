@@ -1,0 +1,13 @@
+@if (show) {
+  <div class="modal-backdrop">
+    <div class="modal-content">
+      <br>
+      <p>{{ message }}</p>
+      <br>
+      <div class="row justify-content-center">
+        <button class="btn btn-primary col-5" (click)="confirm(true)">Aceptar</button>
+        <button class="btn btn-primary col-5 offset-1" (click)="confirm(false)">Cancelar</button>
+      </div>
+    </div>
+  </div>
+}

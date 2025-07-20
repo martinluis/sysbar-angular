@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, output, signal, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
@@ -10,6 +10,7 @@ import {OrderType} from '../../models/order-type.enum';
 import {SearchProductsComponent} from '../../components/search-products/search-products.component';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product';
+import {InfoModal} from '../../components/commons/info-modal/info.modal';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -18,10 +19,10 @@ import {Product} from '../../models/product';
     OrderSummaryComponent,
     SearchProductsComponent
   ],
-  templateUrl: './manage-order-page.html',
-  styleUrl: './manage-order-page.scss'
+  templateUrl: './order-page.html',
+  styleUrl: './order-page.scss'
 })
-export class ManageOrderPage implements OnInit{
+export class OrderPage implements OnInit{
 
   protected readonly OrderType = OrderType;
   order = signal<Order|null>(null)

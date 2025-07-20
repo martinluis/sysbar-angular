@@ -4,7 +4,7 @@ import {DashboardPage} from './pages/dashboard-page/dashboard.page';
 import {WaiterDashboardPage} from './pages/waiter-dashboard-page/waiter-dashboard.page';
 import {RoleGuard} from './config/role.guard';
 import {Role} from './models/role.enum';
-import {ManageOrderPage} from './pages/manage-order-page/manage-order-page';
+import {OrderPage} from './pages/order-page/order-page';
 
 export const routes: Routes = [
   { path: '', component: AccessPage, },
@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'waiter/order/:tableId',
-    component: ManageOrderPage,
+    component: OrderPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN, Role.WAITER] }
   },
