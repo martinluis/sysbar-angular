@@ -87,7 +87,7 @@ export class OrderSummaryComponent implements AfterViewInit {
   private cancelOrder (){
     // To be sure that the items are the originals from the DB only if the order exists
     if (this.order().id) {
-      this.orderService.get(this.order().id).subscribe({
+      this.orderService.get(this.order().id!).subscribe({
         next: (order) => {
           this.order().items = order.items;
         },
@@ -108,13 +108,13 @@ export class OrderSummaryComponent implements AfterViewInit {
     let headerTitle = "";
     switch (this.order()?.orderType) {
       case OrderType.LOCAL:
-        headerTitle = this.order().table.name
+        headerTitle = this.order().table!.name
         break;
       case OrderType.DELIVERY:
         headerTitle = "A domicilio"
         break;
       case OrderType.PERSONAL:
-        this.order().user.name
+        headerTitle = "Personal"
         break;
     }
     return headerTitle;

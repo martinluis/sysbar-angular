@@ -8,6 +8,10 @@ import {OrderSummaryComponent} from '../../components/order-summary/order-summar
 import {OrderType} from '../../models/order-type.enum';
 import {SearchProductsComponent} from '../../components/search-products/search-products.component';
 import {Product} from '../../models/product';
+import {OrderStatus} from '../../models/order-status.enum';
+import {Table} from '../../models/table';
+import {TableService} from '../../services/table.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -26,6 +30,8 @@ export class OrderPage implements OnInit{
 
   constructor(private route: ActivatedRoute,
               private orderService: OrderService,
+              private tableService: TableService,
+              private authService: AuthService,
               private errorHandler: ErrorHandlerService) {
   }
 
@@ -34,7 +40,7 @@ export class OrderPage implements OnInit{
    */
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('tableId');
-    this.initOrder(Number(id))
+    this.initOrder(Number(id));
   }
 
   /**
@@ -49,17 +55,41 @@ export class OrderPage implements OnInit{
       },
       error: (error) => {
         console.log(this.errorHandler.parseError(error))
-        this.initDefaultOrder()
+        this.initDefaultLocalOrder(tableId)
+      }
+    })
+  }
+
+
+  /**
+   *
+   * @private
+   */
+  private initDefaultLocalOrder(tableId: number){
+    this.tableService.get(tableId).subscribe({
+      next: (table) => {
+        this.order.set( this.createOrder(table, OrderType.LOCAL) )
       }
     })
   }
 
   /**
    *
+   * @param table
+   * @param type
    * @private
    */
-  private initDefaultOrder(){
-
+  private createOrder(table: Table | null, type: OrderType) : Order{
+    const user = this.authService.getUser();
+    return {
+      id: null,
+      items: [],
+      table: table,
+      user: user,
+      orderType: type,
+      total: 0,
+      status: OrderStatus.ACTIVE
+    };
   }
 
   /**

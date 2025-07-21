@@ -5,9 +5,9 @@ import {OrderItem} from './order-item';
 import {User} from './user';
 
 export interface Order {
-  id: number;
+  id: number | null;
   items: OrderItem[];
-  table: Table;
+  table: Table | null;
   user: User;
   orderType: OrderType;
   total: number;
