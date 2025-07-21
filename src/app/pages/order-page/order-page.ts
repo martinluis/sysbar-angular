@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
@@ -35,6 +35,7 @@ export class OrderPage implements OnInit{
               private orderService: OrderService,
               private tableService: TableService,
               private authService: AuthService,
+              private router: Router,
               private errorHandler: ErrorHandlerService) {
   }
 
@@ -45,12 +46,19 @@ export class OrderPage implements OnInit{
     this.route.queryParamMap.subscribe(params => {
       const tableId = params.get('tableId');
       const orderType = params.get('orderType');
+      const orderId = params.get('orderId');
+      if (orderId) {
+        this.initOrderById(Number(orderId))
+        return
+      }
       if (tableId) {
         this.initOrderByTable(Number(tableId));
+        return
       }
       if (orderType) {
         const type = OrderType[orderType as keyof typeof OrderType]
         this.initOrderByType(type);
+        return
       }
     });
   }
@@ -82,6 +90,23 @@ export class OrderPage implements OnInit{
     this.order.set(order);
   }
 
+  /**
+   *
+   * @param id
+   * @private
+   */
+  private initOrderById(id: number){
+    this.orderService.get(id).subscribe({
+      next: order => {
+        this.order.set(order);
+      },
+      error: err => {
+        console.log(this.errorHandler.parseError(err));
+        this.router.navigate(['dashboard']);
+      }
+    })
+
+  }
 
   /**
    *
@@ -90,7 +115,15 @@ export class OrderPage implements OnInit{
   private initDefaultLocalOrder(tableId: number){
     this.tableService.get(tableId).subscribe({
       next: (table) => {
+        if (!table) {
+          this.router.navigate(['dashboard']);
+          return
+        }
         this.order.set( this.createOrder(table, OrderType.LOCAL) )
+      },
+      error: err => {
+        console.log(this.errorHandler.parseError(err));
+        this.router.navigate(['dashboard']);
       }
     })
   }

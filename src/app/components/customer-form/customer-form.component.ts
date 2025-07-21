@@ -67,6 +67,7 @@ export class CustomerFormComponent implements OnInit {
     this.customerService.findByPhone(phone).subscribe({
       next: customer => {
         this.populateForm(customer);
+        this.onCustomerSave();
       }
     })
   }

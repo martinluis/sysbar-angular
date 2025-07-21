@@ -10,7 +10,6 @@ export class InfoModal {
 
   message = 'Default modal message';
   show = false;
-  @Input() timer = 0
 
   /**
    *
@@ -23,14 +22,15 @@ export class InfoModal {
   /**
    *
    * @param message
+   * @param timer
    */
-  open(message: string) {
+  open(message: string, timer: number | null) {
     this.message = message;
     this.show = true;
-    if (this.timer > 0) {
+    if (timer && timer > 0) {
       setTimeout(() => {
         this.onClose();
-      }, this.timer);
+      }, timer * 1000);
     }
   }
 

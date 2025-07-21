@@ -1,8 +1,9 @@
-import {Injectable, input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AppProperties} from '../config/app.properties';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {concat, Observable} from 'rxjs';
 import {Order} from '../models/order';
+import {OrderType} from '../models/order-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,6 @@ export class OrderService {
     if (!order.id) {
       return this.create(order)
     }
-    console.log(order);
     const observables = [];
     if (order.items.some(it => it.itemId && it.isUpdated) ){
       observables.push( this.updateItems(order) );
@@ -59,6 +59,39 @@ export class OrderService {
    * @param order
    */
   create(order: Order): Observable<Order> {
+   switch (order.orderType) {
+     case OrderType.LOCAL:
+       return this.createToTable(order);
+     case OrderType.DELIVERY:
+       return this.createToDelivery(order);
+     case OrderType.PERSONAL:
+       return this.createToPersonal(order);
+   }
+  }
+
+  /**
+   *
+   * @param order
+   * @private
+   */
+  private createToTable(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl, order);
+  }
+
+  /**
+   *
+   * @param order
+   * @private
+   */
+  private createToDelivery(order: Order): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl.concat("delivery"), order);
+  }
+  /**
+   *
+   * @param order
+   * @private
+   */
+  private createToPersonal(order: Order): Observable<Order> {
     return this.http.post<Order>(this.apiUrl, order);
   }
 

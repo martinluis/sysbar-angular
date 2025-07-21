@@ -50,10 +50,12 @@ export class OrderSummaryComponent implements AfterViewInit {
    *
    */
   onConfirm(){
+    if (!this.validateOrder()) return;
     this.orderService.confirm(this.order()).subscribe({
       next: (order) => {
         this.order().items = order.items;
-        this.infoModal.open("Order Confirmada!");
+        this.order().id = order.id
+        this.infoModal.open("Order Confirmada!" , 2);
         this.isItemsModified = false;
       },
       error: (error) => {
@@ -99,6 +101,30 @@ export class OrderSummaryComponent implements AfterViewInit {
     else {
       this.order().items = []
     }
+  }
+
+  /**
+   *
+   * @private
+   */
+  private validateOrder(): boolean{
+    if (this.order().items.length === 0) {
+      this.infoModal.open("La orden no puede estar vacia", 5);
+      return false;
+    }
+    if (this.order().orderType && this.order().orderType===OrderType.DELIVERY) {
+      if (!this.order().customer) {
+        this.infoModal.open("Debe ingresar informacion del cliente", 5);
+        return false;
+      }
+    }
+    if (this.order().orderType && this.order().orderType===OrderType.PERSONAL) {
+      if (!this.order().customer) {
+        this.infoModal.open("Debe ingresar informacion del cliente", 5);
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
