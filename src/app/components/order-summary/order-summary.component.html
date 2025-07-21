@@ -3,10 +3,11 @@
     <span>{{headerTitle}}</span>
   </div>
 
-  <div class="content-summary">
+  <div #contentSummary class="content-summary">
     @for (orderItem of order().items; track trackByItemId($index, orderItem)) {
-      <app-order-item [orderItem]="orderItem" [order]="order()" (onUpdateItem)="isItemsModified = true"/>
+      <app-order-item [orderItem]="orderItem" [order]="order()" (onUpdateItem)="onUpdateItems()"/>
     }
+    <br>
   </div>
 
   <div class="footer-summary">

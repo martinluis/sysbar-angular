@@ -19,7 +19,12 @@
   .content-summary {
     flex: 1;
     overflow: auto;
+    scrollbar-width: none; /* Firefox */
     border: 1px solid $lightgray;
+  }
+
+  .content-summary::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge (new) */
   }
 
   .footer-summary {

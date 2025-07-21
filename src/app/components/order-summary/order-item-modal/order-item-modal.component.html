@@ -4,13 +4,13 @@
       <br>
       <div class="actions-container row justify-content-center">
         <button class="btn btn-outline-primary col-2" (click)="onSubtract()">-</button>
-        <span class="col-4">{{item?.quantity}}</span>
+        <span class="col-4">{{item.quantity}}</span>
         <button class="btn btn-outline-primary col-2" (click)="onAdd()">+</button>
       </div>
       <br><br>
       <div class="mb-3">
-        <textarea class="form-control" rows="4" [(ngModel)]="item!.comment">
-          {{item?.comment}}
+        <textarea class="form-control" rows="4" [(ngModel)]="item.comment">
+          {{item.comment}}
         </textarea>
       </div>
       <hr class="mb-4 mt-4">

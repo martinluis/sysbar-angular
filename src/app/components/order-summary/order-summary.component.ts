@@ -1,4 +1,4 @@
-import {Component, effect, input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, effect, ElementRef, input, ViewChild} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderItemComponent} from './order-item/order-item.component';
@@ -19,11 +19,12 @@ import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss'
 })
-export class OrderSummaryComponent{
+export class OrderSummaryComponent implements AfterViewInit {
 
   order = input.required<Order>();
   @ViewChild(InfoModal) infoModal!: InfoModal;
   @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
+  @ViewChild('contentSummary') private contentSummary!: ElementRef<HTMLDivElement>;
   isItemsModified = false;
 
 
@@ -34,7 +35,15 @@ export class OrderSummaryComponent{
   constructor(private orderService: OrderService) {
     effect(() => {
       this.isItemsModified = this.order().items.some(item => item.itemId === null);
+      setTimeout(() => this.scrollToBottom(), 100);
     });
+  }
+
+  /**
+   *
+   */
+  ngAfterViewInit() {
+    this.scrollToBottom();
   }
 
   /**
@@ -51,6 +60,13 @@ export class OrderSummaryComponent{
         console.log(error)
       }
     });
+  }
+
+  /**
+   *
+   */
+  onUpdateItems() {
+    this.isItemsModified = true;
   }
 
   /**
@@ -112,5 +128,14 @@ export class OrderSummaryComponent{
    */
   trackByItemId(index: number, item: OrderItem): number {
     return item.itemId !== null ? item.itemId : index;
+  }
+
+  /**
+   *
+   * @private
+   */
+  private scrollToBottom() {
+    const el = this.contentSummary.nativeElement;
+    el.scrollTop = el.scrollHeight;
   }
 }
