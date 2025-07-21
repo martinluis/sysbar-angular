@@ -1,0 +1,29 @@
+<form [formGroup]="customerForm" (ngSubmit)="onCustomerSave()">
+  <div class="customer-container px-2">
+    <div class="row">
+      <div class="col-4">
+        <input class="form-control" formControlName="phone" type="text"
+               (keydown)="allowOnlyNumbers($event)"
+               (input)="sanitizePhoneInput($event)"
+               (blur)="onPhoneBlur()"
+               size="10" placeholder="Teléfono">
+      </div>
+      <div class="col-4">
+        <input class="form-control" formControlName="firstName" type="text" placeholder="Nombre">
+      </div>
+      <div class="col-4">
+        <input class="form-control" formControlName="lastName" type="text" placeholder="Apellido">
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-10">
+        <input class="form-control" formControlName="address" type="text" placeholder="Direccion">
+      </div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-primary w-100">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</form>
+<br>
+

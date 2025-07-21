@@ -2,9 +2,9 @@
 
 <div class="manage-order-container d-flex flex-wrap">
   <div class="manage-order-left-container d-flex flex-column col-8">
-    @if (order()?.orderType === OrderType.LOCAL) {
+    @if (order()?.orderType === OrderType.DELIVERY) {
       <div class="manage-order-user-info-container col-12">
-
+        <app-customer-form (onSaveCustomer)="onSaveCustomer($event)"/>
       </div>
     }
     <div class="manage-order-product-container col-12">

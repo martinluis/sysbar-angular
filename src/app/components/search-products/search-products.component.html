@@ -1,6 +1,6 @@
 <div class="row filter-container">
     <div class="col-5">
-      <input class="input-group" [(ngModel)]="keyword" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
+      <input class="form-control" type="text" [(ngModel)]="keyword" placeholder="Buscar">
     </div>
     <div class="btn-group col-5 offset-2" role="group" aria-label="Basic example">
       <button type="button" (click)="onFilterAll()" [class.active]="filterType()===null" class="btn btn-outline-secondary active">Todo</button>

@@ -10,12 +10,12 @@ $base-height: 90vh;
   height: 100%;
 
   .manage-order-user-info-container {
-    background-color: #c53c49;
-    height: 10rem;
+
   }
 
   .manage-order-product-container {
     flex: 1;
+    border: solid 1px lightgray;
   }
 
   .manage-order-actions-container {

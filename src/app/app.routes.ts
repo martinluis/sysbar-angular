@@ -19,7 +19,7 @@ export const routes: Routes = [
     data: { roles: [Role.ADMIN, Role.WAITER] }
   },
   {
-    path: 'waiter/order/:tableId',
+    path: 'waiter/order',
     component: OrderPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN, Role.WAITER] }

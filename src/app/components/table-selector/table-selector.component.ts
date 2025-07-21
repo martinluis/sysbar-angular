@@ -4,7 +4,6 @@ import {TableService} from '../../services/table.service';
 import {Observable} from 'rxjs';
 import {Table} from '../../models/table';
 import {AsyncPipe} from '@angular/common';
-import {OrderService} from '../../services/order.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -20,7 +19,7 @@ export class TableSelectorComponent implements OnInit {
 
   tables$!: Observable<Table[]>;
 
-  constructor(private tableService: TableService, private orderService: OrderService, private router: Router ) {
+  constructor(private tableService: TableService, private router: Router ) {
   }
 
   /**
@@ -34,9 +33,12 @@ export class TableSelectorComponent implements OnInit {
   /**
    *
    * @param tableId
+   * @param orderType
    */
   goToOrder(tableId: number){
-    this.router.navigate(['waiter/order', tableId])
+    this.router.navigate(['waiter/order'], {
+      queryParams: { tableId: tableId }
+    })
   }
 
 }

@@ -12,13 +12,16 @@ import {OrderStatus} from '../../models/order-status.enum';
 import {Table} from '../../models/table';
 import {TableService} from '../../services/table.service';
 import {AuthService} from '../../services/auth.service';
+import {CustomerFormComponent} from '../../components/customer-form/customer-form.component';
+import {Customer} from '../../models/customer';
 
 @Component({
   selector: 'app-manage-order-page',
   imports: [
     HeaderComponent,
     OrderSummaryComponent,
-    SearchProductsComponent
+    SearchProductsComponent,
+    CustomerFormComponent
   ],
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
@@ -39,8 +42,17 @@ export class OrderPage implements OnInit{
    *
    */
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('tableId');
-    this.initOrder(Number(id));
+    this.route.queryParamMap.subscribe(params => {
+      const tableId = params.get('tableId');
+      const orderType = params.get('orderType');
+      if (tableId) {
+        this.initOrderByTable(Number(tableId));
+      }
+      if (orderType) {
+        const type = OrderType[orderType as keyof typeof OrderType]
+        this.initOrderByType(type);
+      }
+    });
   }
 
   /**
@@ -48,7 +60,7 @@ export class OrderPage implements OnInit{
    * @param tableId
    * @private
    */
-  private initOrder(tableId: number) {
+  private initOrderByTable(tableId: number) {
     this.orderService.getByTable(tableId).subscribe({
       next: (order) => {
         this.order.set(order)
@@ -58,6 +70,16 @@ export class OrderPage implements OnInit{
         this.initDefaultLocalOrder(tableId)
       }
     })
+  }
+
+  /**
+   *
+   * @param type
+   * @private
+   */
+  private initOrderByType(type: OrderType){
+    const order = this.createOrder(null, type)
+    this.order.set(order);
   }
 
 
@@ -79,7 +101,7 @@ export class OrderPage implements OnInit{
    * @param type
    * @private
    */
-  private createOrder(table: Table | null, type: OrderType) : Order{
+  private createOrder(table: Table | null, type: OrderType){
     const user = this.authService.getUser();
     return {
       id: null,
@@ -88,7 +110,8 @@ export class OrderPage implements OnInit{
       user: user,
       orderType: type,
       total: 0,
-      status: OrderStatus.ACTIVE
+      status: OrderStatus.ACTIVE,
+      customer: null,
     };
   }
 
@@ -123,6 +146,18 @@ export class OrderPage implements OnInit{
       const total = o.items.reduce((acc, item) => acc + item.total, 0);
       return { ...o, total };
     })
+  }
+
+  /**
+   *
+   * @param customer
+   */
+  onSaveCustomer(customer: Customer) {
+    this.order.update( o => {
+      if (!o) return o; // or null
+      return { ...o, customer };
+    })
+    console.log( this.order());
   }
 
 }

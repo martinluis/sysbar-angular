@@ -9,6 +9,13 @@ import {AppProperties} from '../config/app.properties';
 })
 export class UserService {
 
+
+  private apiUrl = AppProperties['apiUrl'] + '/user';
+
+  /**
+   *
+   * @param http
+   */
   constructor(private http: HttpClient) {}
 
   /**
@@ -16,8 +23,7 @@ export class UserService {
    * @param code
    */
   requestAccess(code: string): Observable<User> {
-    const apiUrl = AppProperties['apiUrl'] + '/user';
-    let url = apiUrl + `/requestAccess?code=${code}`;
+    let url = this.apiUrl + `/requestAccess?code=${code}`;
     return this.http.get<User>(url);
   }
 }
