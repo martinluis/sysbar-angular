@@ -1,5 +1,16 @@
+<div class="row filter-container">
+    <div class="col-5">
+      <input class="input-group" [(ngModel)]="keyword" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
+    </div>
+    <div class="btn-group col-5 offset-2" role="group" aria-label="Basic example">
+      <button type="button" (click)="onFilterAll()" [class.active]="filterType()===null" class="btn btn-outline-secondary active">Todo</button>
+      <button type="button" (click)="onFilterFood()"  [class.active]="filterType()===ProductType.FOOD" class="btn btn-outline-secondary">Comida</button>
+      <button type="button" (click)="onFilterDrink()"  [class.active]="filterType()===ProductType.DRINK" class="btn btn-outline-secondary">Bebidas</button>
+    </div>
+</div>
+<hr class="mb-2 mt-0">
 <div class="d-flex flex-wrap justify-content-center">
-  @for (product of products$ | async; track product.id) {
+  @for (product of products; track product.id) {
     <app-product-item [product]="product" (click)="addProduct(product)"/>
   }
 </div>

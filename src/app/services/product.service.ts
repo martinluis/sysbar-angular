@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AppProperties} from '../config/app.properties';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Product} from '../models/product';
 
 @Injectable({
@@ -11,6 +11,11 @@ export class ProductService {
 
   private apiUrl = AppProperties['apiUrl'] + '/product/';
 
+
+  /**
+   *
+   * @param http
+   */
   constructor(private http: HttpClient) {}
 
   /**
