@@ -22,6 +22,7 @@ import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
 export class OrderSummaryComponent implements AfterViewInit {
 
   order = input.required<Order>();
+  isEditable = input<boolean>(true);
   @ViewChild(InfoModal) infoModal!: InfoModal;
   @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
   @ViewChild('contentSummary') private contentSummary!: ElementRef<HTMLDivElement>;

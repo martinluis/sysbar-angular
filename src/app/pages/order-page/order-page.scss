@@ -19,8 +19,13 @@ $base-height: 90vh;
   }
 
   .manage-order-actions-container {
-    background-color: #c53c49;
-    height: 5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: solid 1px lightgray;
+
+    .btn {
+      margin-right: 1rem;
+    }
   }
 
 }

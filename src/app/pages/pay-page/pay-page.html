@@ -1,0 +1,38 @@
+<app-header/>
+
+<div class="pay-container d-flex flex-wrap">
+  <div class="manage-order-left-container d-flex flex-column col-8 align-items-center">
+    <br>
+    @if (order.customer) {
+      <div class="col-10">
+        <h4>Cliente: {{order.customer.firstName}} {{order.customer.lastName}}</h4>
+      </div>
+      <div class="col-10">
+        <h4>Direccion: {{order.customer.address}}</h4>
+      </div>
+      <br>
+    }
+    <div class="actions-container col-3">
+      <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
+        <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
+        <input class="form-control" formControlName="discount" type="number" placeholder="Descuento">
+        <br>
+        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid">Pagar</button>
+        <button class="btn btn-outline-danger col-12">Cancelar</button>
+      </form>
+    </div>
+    <br>
+    <br>
+    <h3 class="sub-label">Subtotal: {{this.totalAmount | currency: "USD"}}</h3>
+    <h3 class="total-label">Descuento: {{order.discount ?? 0}}%</h3>
+    <br>
+    <h2>Total: {{this.finalTotal | currency: "USD"}}</h2>
+  </div>
+  <div class="order-summary-container col-4">
+    @if (order) {
+      <app-order-summary [order]="order" [isEditable]="false"/>
+    }
+  </div>
+</div>
+
+<app-confirm-modal [onlyAcceptButton]="true"/>

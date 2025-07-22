@@ -5,23 +5,30 @@ import {WaiterDashboardPage} from './pages/waiter-dashboard-page/waiter-dashboar
 import {RoleGuard} from './config/role.guard';
 import {Role} from './models/role.enum';
 import {OrderPage} from './pages/order-page/order-page';
+import {PayPage} from './pages/pay-page/pay-page';
 
 export const routes: Routes = [
   { path: '', component: AccessPage, },
   { path: 'dashboard',
     component: DashboardPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER] } },
+    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] } },
   {
     path: 'waiter/dashboard',
     component: WaiterDashboardPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER] }
+    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] }
   },
   {
-    path: 'waiter/order',
+    path: 'order',
     component: OrderPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER] }
+    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] }
+  },
+  {
+    path: 'pay',
+    component: PayPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN, Role.CASHIER] }
   },
 ];

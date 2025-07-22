@@ -1,0 +1,41 @@
+
+$base-height: 90vh;
+
+.pay-container {
+  height: $base-height;
+  padding: 1rem 2rem;
+}
+
+.manage-order-left-container {
+  height: 100%;
+
+  .sub-label {
+    color: gray;
+  }
+
+  .total-label {
+    color: gray
+  }
+}
+
+.order-summary-container {
+  padding-left: 0.5rem;
+  height: 100%
+}
+
+.actions-container {
+  padding: 2rem;
+  border: solid 1px lightgray;
+  border-radius: 0.5rem;
+  input {
+    margin-bottom: 1rem;
+  }
+  button{
+    margin-bottom: 1rem;
+  }
+}
+
+
+input.ng-invalid.ng-touched {
+  border-color: red;
+}

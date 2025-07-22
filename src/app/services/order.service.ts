@@ -69,6 +69,14 @@ export class OrderService {
    }
   }
 
+
+  pay(order: Order, discount: number, cash: number): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl.concat(order.id!.toString()).concat("/pay"), {
+      "amount": cash,
+      "discount": discount
+    });
+  }
+
   /**
    *
    * @param order

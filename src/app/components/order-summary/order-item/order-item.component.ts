@@ -3,6 +3,8 @@ import {OrderItem} from '../../../models/order-item';
 import {CurrencyPipe} from '@angular/common';
 import {Order} from '../../../models/order';
 import {OrderItemModalComponent} from '../order-item-modal/order-item-modal.component';
+import {AuthService} from '../../../services/auth.service';
+import {Role} from '../../../models/role.enum';
 
 @Component({
   selector: 'app-order-item',
@@ -17,9 +19,12 @@ export class OrderItemComponent {
 
   orderItem = input.required<OrderItem>()
   order = input.required<Order>()
+  isEditable = input<boolean>(true)
   onUpdateItem = output()
   @ViewChild(OrderItemModalComponent) editModal!: OrderItemModalComponent;
 
+  constructor(private authService: AuthService) {
+  }
 
   /**
    *
@@ -91,4 +96,13 @@ export class OrderItemComponent {
   get isModified(): boolean {
     return !this.orderItem().itemId || this.orderItem().isUpdated;
   }
+
+  /**
+   *
+   */
+  hasPermissions(roles: Role[]): boolean {
+    return this.authService.hasAnyRole(roles);
+  }
+
+  protected readonly Role = Role;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, input, signal} from '@angular/core';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './confirm.modal.scss'
 })
 export class ConfirmModal {
+
+  onlyAcceptButton = input<boolean>(false)
 
   message = '';
   show = false;

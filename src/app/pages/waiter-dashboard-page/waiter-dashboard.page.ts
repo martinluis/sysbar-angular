@@ -27,7 +27,7 @@ export class WaiterDashboardPage {
    *
    */
   createDeliveryOrder(){
-    this.router.navigate(['waiter/order'], {
+    this.router.navigate(['order'], {
       queryParams: { orderType: OrderType.DELIVERY }
     })
   }

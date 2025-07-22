@@ -36,7 +36,7 @@ export class TableSelectorComponent implements OnInit {
    * @param orderType
    */
   goToOrder(tableId: number){
-    this.router.navigate(['waiter/order'], {
+    this.router.navigate(['order'], {
       queryParams: { tableId: tableId }
     })
   }

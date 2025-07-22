@@ -14,4 +14,6 @@ export interface Order {
   total: number;
   status: OrderStatus;
   customer: Customer | null;
+  discount: number | null;
+  subtotal: number;
 }

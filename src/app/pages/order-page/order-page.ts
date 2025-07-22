@@ -26,7 +26,7 @@ import {Customer} from '../../models/customer';
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
 })
-export class OrderPage implements OnInit{
+export class OrderPage implements OnInit {
 
   protected readonly OrderType = OrderType;
   order = signal<Order|null>(null)
@@ -145,6 +145,8 @@ export class OrderPage implements OnInit{
       total: 0,
       status: OrderStatus.ACTIVE,
       customer: null,
+      discount: null,
+      subtotal: 0
     };
   }
 
@@ -191,6 +193,18 @@ export class OrderPage implements OnInit{
       return { ...o, customer };
     })
     console.log( this.order());
+  }
+
+  /**
+   *
+   */
+  onPay() {
+    if (!this.order()) {
+      return
+    }
+    this.router.navigate(['pay'], {
+      queryParams: { orderId: this.order()?.id }
+    })
   }
 
 }

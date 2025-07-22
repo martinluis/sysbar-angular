@@ -5,7 +5,7 @@
 
   <div #contentSummary class="content-summary">
     @for (orderItem of order().items; track trackByItemId($index, orderItem)) {
-      <app-order-item [orderItem]="orderItem" [order]="order()" (onUpdateItem)="onUpdateItems()"/>
+      <app-order-item [orderItem]="orderItem" [order]="order()" (onUpdateItem)="onUpdateItems()" [isEditable]="isEditable()"/>
     }
     <br>
   </div>
@@ -19,10 +19,12 @@
         <span class="fw-bold">{{order().total| currency: 'USD'}}</span>
       </div>
     </div>
-    <div class="actions-container d-flex">
-      <button class="btn btn-danger col-6" [class.disabled]="!isItemsModified" (click)="onCancel()">Cancelar</button>
-      <button class="btn btn-success col-6" [class.disabled]="!isItemsModified" (click)="onConfirm()">Confirmar</button>
-    </div>
+    @if (isEditable()) {
+      <div class="actions-container d-flex">
+        <button class="btn btn-danger col-6" [class.disabled]="!isItemsModified" (click)="onCancel()">Cancelar</button>
+        <button class="btn btn-success col-6" [class.disabled]="!isItemsModified" (click)="onConfirm()">Confirmar</button>
+      </div>
+    }
   </div>
 
 </div>
