@@ -10,7 +10,7 @@
       {{orderItem().total | currency: 'USD'}}
     </div>
   </div>
-  @if (orderItem().comment.trim() !== "") {
+  @if (orderItem().comment?.trim() !== "") {
     <p class="comments">{{orderItem().comment}}</p>
   }
   @if ( (!orderItem().itemId || hasPermissions([Role.ADMIN, Role.CASHIER])) && isEditable()) {

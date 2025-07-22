@@ -31,4 +31,13 @@ export class WaiterDashboardPage {
       queryParams: { orderType: OrderType.DELIVERY }
     })
   }
+
+  /**
+   *
+   */
+  createPersonalOrder(){
+    this.router.navigate(['order'], {
+      queryParams: { orderType: OrderType.PERSONAL }
+    })
+  }
 }

@@ -15,7 +15,7 @@ import {AuthService} from '../../services/auth.service';
 import {CustomerFormComponent} from '../../components/customer-form/customer-form.component';
 import {Customer} from '../../models/customer';
 import {MoveTableModal} from '../../components/move-table-modal/move-table.modal';
-import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -24,7 +24,9 @@ import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal
     OrderSummaryComponent,
     SearchProductsComponent,
     CustomerFormComponent,
-    MoveTableModal
+    MoveTableModal,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
@@ -102,6 +104,10 @@ export class OrderPage implements OnInit {
   private initOrderById(id: number){
     this.orderService.get(id).subscribe({
       next: order => {
+        if (order.status != OrderStatus.ACTIVE) {
+          console.error("Order not active");
+          this.router.navigate(['dashboard']);
+        }
         this.order.set(order);
       },
       error: err => {
@@ -149,8 +155,9 @@ export class OrderPage implements OnInit {
       total: 0,
       status: OrderStatus.ACTIVE,
       customer: null,
-      discount: null,
-      subtotal: 0
+      discount: 0,
+      subtotal: 0,
+      reference: ""
     };
   }
 
@@ -196,7 +203,6 @@ export class OrderPage implements OnInit {
       if (!o) return o; // or null
       return { ...o, customer };
     })
-    console.log( this.order());
   }
 
   /**

@@ -7,6 +7,16 @@
         <app-customer-form (onSaveCustomer)="onSaveCustomer($event)"/>
       </div>
     }
+    @if (order() && order()?.orderType === OrderType.PERSONAL) {
+      <div class="manage-order-personal-info-container col-12">
+        <div class="row">
+          <div class="col-12">
+            <input class="form-control" type="text" placeholder="Nombre o Referencia" [(ngModel)]="order()!.reference">
+          </div>
+        </div>
+      </div>
+      <br>
+    }
     <div class="manage-order-product-container col-12">
       <app-search-products (onAddProduct)="onAddProduct($event)"/>
     </div>

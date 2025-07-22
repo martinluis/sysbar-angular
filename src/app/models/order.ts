@@ -16,4 +16,5 @@ export interface Order {
   customer: Customer | null;
   discount: number | null;
   subtotal: number;
+  reference: string;
 }

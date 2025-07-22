@@ -120,8 +120,8 @@ export class OrderSummaryComponent implements AfterViewInit {
       }
     }
     if (this.order().orderType && this.order().orderType===OrderType.PERSONAL) {
-      if (!this.order().customer) {
-        this.infoModal.open("Debe ingresar informacion del cliente", 5);
+      if (!this.order().reference || this.order().reference === "") {
+        this.infoModal.open("Debe ingresar el nombre o referencia", 5);
         return false;
       }
     }

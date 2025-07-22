@@ -100,7 +100,7 @@ export class OrderService {
    * @private
    */
   private createToPersonal(order: Order): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl, order);
+    return this.http.post<Order>(this.apiUrl.concat("personal"), order);
   }
 
   /**
