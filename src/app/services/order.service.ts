@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {concat, Observable} from 'rxjs';
 import {Order} from '../models/order';
 import {OrderType} from '../models/order-type.enum';
+import {OrderStatus} from '../models/order-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,27 @@ export class OrderService {
     let params = new HttpParams();
     params = params.set('tableId', tableId);
     return this.http.get<Order>(this.apiUrl.concat("findByTable"), {params});
+  }
+
+  /**
+   *
+   * @param order
+   */
+  update(order: Order): Observable<Order> {
+    const url = `${this.apiUrl}${order.id}`
+    return this.http.put<Order>(url, order);
+  }
+
+  /**
+   *
+   * @param type
+   * @param status
+   */
+  getByTypeAndStatus(type: OrderType, status: OrderStatus): Observable<Order[]> {
+    let params = new HttpParams();
+    params = params.set('type', type);
+    params = params.set('status', status);
+    return this.http.get<Order[]>(this.apiUrl.concat("findByTypeAndStatus"), {params});
   }
 
 

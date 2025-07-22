@@ -33,7 +33,6 @@ export class TableSelectorComponent implements OnInit {
   /**
    *
    * @param tableId
-   * @param orderType
    */
   goToOrder(tableId: number){
     this.router.navigate(['order'], {

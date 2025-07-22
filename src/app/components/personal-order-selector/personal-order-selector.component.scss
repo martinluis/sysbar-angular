@@ -1,0 +1,19 @@
+@use 'variables' as *;
+
+.order-personal-item-container {
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  background-color: $success-color;
+  color: white;
+  margin: 0.5rem;
+  padding: 0.5rem;
+
+  span {
+    text-align: center;
+    margin: auto;
+    font-size: 1.1rem;
+  }
+}

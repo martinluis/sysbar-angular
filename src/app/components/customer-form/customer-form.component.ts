@@ -1,4 +1,4 @@
-import {Component, OnInit, output} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Customer} from '../../models/customer';
 import {CustomerService} from '../../services/customer.service';
@@ -15,6 +15,7 @@ export class CustomerFormComponent implements OnInit {
 
   customerForm!: FormGroup;
   onSaveCustomer = output<Customer>();
+  customer = input.required<Customer>()
 
 
   /**
@@ -27,11 +28,11 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerForm = this.fb.group({
-      id: [null],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]]
+      id: [this.customer().id],
+      firstName: [this.customer().firstName, Validators.required],
+      lastName: [this.customer().lastName, Validators.required],
+      address: [this.customer().address, Validators.required],
+      phone: [this.customer().phone, [Validators.required, Validators.pattern(/^\d{10}$/)]]
     });
   }
 

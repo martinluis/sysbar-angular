@@ -3,12 +3,16 @@ import {HeaderComponent} from '../../components/header/header.component';
 import {TableSelectorComponent} from '../../components/table-selector/table-selector.component';
 import {Router} from '@angular/router';
 import {OrderType} from '../../models/order-type.enum';
+import {
+  PersonalOrderSelectorComponent
+} from '../../components/personal-order-selector/personal-order-selector.component';
 
 @Component({
   selector: 'app-waiter-dashboard-page',
   imports: [
     HeaderComponent,
-    TableSelectorComponent
+    TableSelectorComponent,
+    PersonalOrderSelectorComponent
   ],
   templateUrl: './waiter-dashboard.page.html',
   styleUrl: './waiter-dashboard.page.scss'
