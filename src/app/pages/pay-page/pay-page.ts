@@ -174,6 +174,9 @@ export class PayPage implements OnInit {
   }
 
 
+  /**
+   *
+   */
   async confirmCashBack(){
     const cashBack = this.paymentForm.get('cash')?.value - this.finalTotal;
     const cashBackFormated = new Intl.NumberFormat('en-US', {

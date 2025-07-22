@@ -1,0 +1,21 @@
+
+@if (show) {
+  <div class="modal-backdrop" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Seleccione la mesa a donde se movera la orden</h3>
+      <div class="table-container d-flex flex-wrap p-4 justify-content-center">
+        @for (table of tables$ | async ; track table.id) {
+          @if (!table.isBusy) {
+            <div class="table-item-container col-2" [class.active]="this.selectedTableId==table.id" (click)="onSelectTable(table.id)" >
+              <span>{{table.name}}</span>
+            </div>
+          }
+        }
+      </div>
+      <div class="actions-container row p-2 pt-4 justify-content-center ">
+          <button class="btn btn-outline-danger col-3"  (click)="onClose()">Cancelar</button>
+          <button class="btn btn-outline-success col-3 offset-1" (click)="onConfirm()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
@@ -14,6 +14,8 @@ import {TableService} from '../../services/table.service';
 import {AuthService} from '../../services/auth.service';
 import {CustomerFormComponent} from '../../components/customer-form/customer-form.component';
 import {Customer} from '../../models/customer';
+import {MoveTableModal} from '../../components/move-table-modal/move-table.modal';
+import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -21,7 +23,8 @@ import {Customer} from '../../models/customer';
     HeaderComponent,
     OrderSummaryComponent,
     SearchProductsComponent,
-    CustomerFormComponent
+    CustomerFormComponent,
+    MoveTableModal
   ],
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
@@ -30,6 +33,7 @@ export class OrderPage implements OnInit {
 
   protected readonly OrderType = OrderType;
   order = signal<Order|null>(null)
+  @ViewChild(MoveTableModal) moveTableModal!: MoveTableModal;
 
   constructor(private route: ActivatedRoute,
               private orderService: OrderService,
@@ -204,6 +208,26 @@ export class OrderPage implements OnInit {
     }
     this.router.navigate(['pay'], {
       queryParams: { orderId: this.order()?.id }
+    })
+  }
+
+  /**
+   *
+   */
+  onMoveTable() {
+    this.moveTableModal.open();
+  }
+
+  /**
+   *
+   */
+  onConfirmMoveTable(tableId: number) {
+    this.orderService.changeTable(this.order()!, tableId).subscribe({
+      next: (order) => {
+      },
+      error: err => {
+
+      }
     })
   }
 

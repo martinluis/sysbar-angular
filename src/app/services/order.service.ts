@@ -117,7 +117,7 @@ export class OrderService {
    *
    * @param order
    */
-  deleteItems(order: Order, ) {
+  deleteItems(order: Order) {
     const url = `${this.apiUrl}${order.id}/deleteItems`
     let params = new HttpParams();
     order.items.forEach(it => {
@@ -141,5 +141,17 @@ export class OrderService {
       }
     });
     return this.http.put<Order>(url,  params);
+  }
+
+  /**
+   *
+   * @param order
+   * @param newTableId
+   */
+  changeTable(order: Order, newTableId: number): Observable<Order> {
+    const url = `${this.apiUrl}${order.id}/changeTable`
+    return this.http.patch<Order>(url,  {
+      id: newTableId
+    });
   }
 }
