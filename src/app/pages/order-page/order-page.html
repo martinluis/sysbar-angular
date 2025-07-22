@@ -3,26 +3,18 @@
 <div class="manage-order-container d-flex flex-wrap">
   <div class="manage-order-left-container d-flex flex-column col-8">
     @if (order()!== null && order()?.orderType === OrderType.DELIVERY) {
-      <div class="manage-order-user-info-container col-12">
-        <app-customer-form (onSaveCustomer)="onSaveCustomer($event)" [customer]="order()!.customer!"/>
-      </div>
+      <app-customer-form (onSaveCustomer)="onSaveCustomer($event)" [customer]="order()!.customer!"/>
     }
     @if (order() && order()?.orderType === OrderType.PERSONAL) {
-      <div class="manage-order-personal-info-container col-12">
-        <div class="row">
-          <div class="col-12">
-            <input class="form-control" [disabled]="order()?.id!==null" type="text" placeholder="Nombre o Referencia" [(ngModel)]="order()!.reference">
-          </div>
-        </div>
-      </div>
+      <input class="form-control" [disabled]="order()?.id!==null" type="text" placeholder="Nombre o Referencia" [(ngModel)]="order()!.reference">
       <br>
     }
-    <div class="manage-order-product-container col-12">
+    <div class="manage-order-product-container">
       <app-search-products (onAddProduct)="onAddProduct($event)"/>
     </div>
 
     @if (order()?.id) {
-      <div class="manage-order-actions-container d-flex flex-row col-12 justify-content-center ">
+      <div class="manage-order-actions-container d-flex flex-row justify-content-center ">
         @if (order()?.orderType === OrderType.LOCAL) {
           <button class="btn btn-outline-primary col-2" (click)="onMoveTable()">Mover Mesa</button>
         }
