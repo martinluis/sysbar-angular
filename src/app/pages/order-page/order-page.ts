@@ -238,9 +238,10 @@ export class OrderPage implements OnInit {
   onConfirmMoveTable(tableId: number) {
     this.orderService.changeTable(this.order()!, tableId).subscribe({
       next: (order) => {
+        this.router.navigate(['waiter/dashboard']);
       },
       error: err => {
-
+        console.error(err);
       }
     })
   }
