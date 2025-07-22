@@ -1,4 +1,5 @@
-<div class="row filter-container">
+<div class="search-product-container d-flex flex-column">
+  <div class="filter-container d-flex flex-row">
     <div class="col-5">
       <input class="form-control" type="text" [(ngModel)]="keyword" placeholder="Buscar">
     </div>
@@ -7,10 +8,11 @@
       <button type="button" (click)="onFilterFood()"  [class.active]="filterType()===ProductType.FOOD" class="btn btn-outline-secondary">Comida</button>
       <button type="button" (click)="onFilterDrink()"  [class.active]="filterType()===ProductType.DRINK" class="btn btn-outline-secondary">Bebidas</button>
     </div>
-</div>
-<hr class="mb-2 mt-0">
-<div class="d-flex flex-wrap justify-content-center">
-  @for (product of products; track product.id) {
-    <app-product-item [product]="product" (click)="addProduct(product)"/>
-  }
+  </div>
+  <div class="search-product-items-container d-flex flex-wrap justify-content-center ">
+    @for (product of products; track product.id) {
+      <app-product-item [product]="product" (click)="addProduct(product)"/>
+    }
+  </div>
+
 </div>

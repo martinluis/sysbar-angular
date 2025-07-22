@@ -1,6 +1,19 @@
-.filter-container {
-  padding: 1rem;
-  input {
-    height: 2.5rem;
+.search-product-container {
+
+  .filter-container {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 1rem;
+    border-bottom: solid 1px lightgray;
+    input {
+      height: 2.5rem;
+    }
   }
+
+  .search-product-items-container {
+
+  }
+
 }
