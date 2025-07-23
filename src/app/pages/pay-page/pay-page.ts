@@ -143,6 +143,13 @@ export class PayPage implements OnInit {
 
   /**
    *
+   */
+  cancel() {
+    this.router.navigate(['dashboard']);
+  }
+
+  /**
+   *
    * @param discount
    * @private
    */

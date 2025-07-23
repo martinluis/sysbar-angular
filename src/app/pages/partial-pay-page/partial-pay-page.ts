@@ -164,6 +164,12 @@ export class PartialPayPage implements OnInit {
     }
   }
 
+  /**
+   *
+   */
+  cancel() {
+    this.router.navigate(['dashboard']);
+  }
 
   /**
    *
