@@ -5,6 +5,7 @@ import {concat, Observable} from 'rxjs';
 import {Order} from '../models/order';
 import {OrderType} from '../models/order-type.enum';
 import {OrderStatus} from '../models/order-status.enum';
+import {OrderItem} from '../models/order-item';
 
 @Injectable({
   providedIn: 'root'
@@ -92,10 +93,29 @@ export class OrderService {
   }
 
 
+  /**
+   *
+   * @param order
+   * @param discount
+   * @param cash
+   */
   pay(order: Order, discount: number, cash: number): Observable<Order> {
     return this.http.post<Order>(this.apiUrl.concat(order.id!.toString()).concat("/pay"), {
       "amount": cash,
       "discount": discount
+    });
+  }
+
+  /**
+   *
+   * @param order
+   * @param items
+   */
+  partialPay(order: Order, items: OrderItem[], cash: number): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl.concat(order.id!.toString()).concat("/partialPay"), {
+      "amount": cash,
+      "orderItems": items
+
     });
   }
 

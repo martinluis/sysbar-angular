@@ -1,0 +1,45 @@
+.partial-pay-container {
+
+  .manage-move-items-container {
+
+
+  }
+  .partial-pay-info-container {
+  }
+
+  .header-title {
+    background: slategray;
+  }
+
+  .actions-container {
+    padding: 2rem;
+    border: solid 1px lightgray;
+    border-radius: 0.5rem;
+
+    input {
+      margin-bottom: 1rem;
+    }
+
+    button {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.item {
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: red;
+}
+

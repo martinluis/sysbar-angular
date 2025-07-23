@@ -225,6 +225,19 @@ export class OrderPage implements OnInit {
     })
   }
 
+
+  /**
+   *
+   */
+  onPartialPay() {
+    if (!this.order()) {
+      return
+    }
+    this.router.navigate(['partial-pay'], {
+      queryParams: { orderId: this.order()?.id }
+    })
+  }
+
   /**
    *
    */

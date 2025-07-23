@@ -1,57 +1,50 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrderService} from '../../services/order.service';
-import {ErrorHandlerService} from '../../services/error-handler.service';
-import {HeaderComponent} from '../../components/header/header.component';
-import {OrderSummaryComponent} from '../../components/order-summary/order-summary.component';
-import {Order} from '../../models/order';
-import {CurrencyPipe} from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
-import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
 import {OrderStatus} from '../../models/order-status.enum';
+import {Order} from '../../models/order';
+import {ErrorHandlerService} from '../../services/error-handler.service';
+import {OrderItem} from '../../models/order-item';
+import {HeaderComponent} from '../../components/header/header.component';
+import {CurrencyPipe} from '@angular/common';
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
 
 @Component({
-  selector: 'app-pay-page',
+  selector: 'app-partial-pay-page',
   imports: [
     HeaderComponent,
-    OrderSummaryComponent,
     CurrencyPipe,
-    FormsModule,
     ReactiveFormsModule,
-    ConfirmModal,
+    ConfirmModal
   ],
-  templateUrl: './pay-page.html',
-  styleUrl: './pay-page.scss'
+  templateUrl: './partial-pay-page.html',
+  styleUrl: './partial-pay-page.scss'
 })
-export class PayPage implements OnInit {
-
-  @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
+export class PartialPayPage implements OnInit {
 
   order!: Order;
+  originalItems: OrderItem[] = [];
+  partialItems: OrderItem[] = [];
   paymentForm!: FormGroup;
-  totalAmount: number = 0; // Example base total
-  finalTotal: number = 0;  // Will be updated live
+  total: number = 0; // Example base total
+  isLoading = false;
+  @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
+
+
 
   /**
    *
    * @param route
    * @param orderService
    * @param router
-   * @param fb
+   * @param formBuilder
    * @param errorHandler
    */
   constructor(private route: ActivatedRoute,
               private orderService: OrderService,
               private router: Router,
-              private fb: FormBuilder,
+              private formBuilder: FormBuilder,
               private errorHandler: ErrorHandlerService) {
 
   }
@@ -73,6 +66,7 @@ export class PayPage implements OnInit {
     this.initFormControl();
   }
 
+
   /**
    *
    * @param id
@@ -86,9 +80,7 @@ export class PayPage implements OnInit {
           this.router.navigate(['dashboard']);
         }
         this.order = order;
-        this.finalTotal = this.order.total;
-        this.totalAmount =  this.order.total;
-        this.updateCashValidator();
+        this.originalItems = order.items;
       },
       error: err => {
         console.log(this.errorHandler.parseError(err));
@@ -97,58 +89,81 @@ export class PayPage implements OnInit {
     })
   }
 
+
   /**
    *
    * @private
    */
   private initFormControl() {
-    this.paymentForm = this.fb.group({
-      discount: [null, [Validators.min(1), Validators.max(20)]],
-      cash: [null, [Validators.min(1), this.cashEnoughValidator(this.finalTotal)]]
+    this.paymentForm = this.formBuilder.group({
+      cash: [null, [Validators.min(1), this.cashEnoughValidator(this.total)]]
     });
 
-    this.paymentForm.get('discount')?.valueChanges.subscribe(value => {
-      if (this.paymentForm.get('discount')?.valid) {
-        const discountValue = Number(value);
-        this.finalTotal = this.calculateTotalWithDiscount(discountValue);
-
-      } else {
-        this.finalTotal = this.totalAmount; // Reset if invalid
-      }
-      this.updateCashValidator();
-    });
   }
+
+  /**
+   *
+   * @param item
+   * @param direction
+   */
+  moveItem(item: OrderItem, direction: 'leftToRight' | 'rightToLeft') {
+    const toList = direction === 'leftToRight' ? this.partialItems : this.originalItems;
+
+    if (item.quantity > 0) {
+      item.quantity -= 1;
+      const existing = toList.find(i => i.itemId === item.itemId);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        toList.push({ ...item, quantity: 1 });
+      }
+    }
+    this.partialItems = this.partialItems.filter(i => i.quantity > 0);
+    this.updateTotal();
+  }
+
+  /**
+   *
+   * @param item
+   * @private
+   */
+  calculateTotal(item: OrderItem): number {
+    return item.quantity * item.productPrice;
+  }
+
+  /**
+   *
+   */
+  updateTotal() {
+    this.total = this.partialItems.reduce((acc, item) => acc + this.calculateTotal(item), 0);
+    this.updateCashValidator();
+  }
+
 
   /**
    *
    */
   onPay() {
     if (this.paymentForm.valid) {
-      this.orderService.pay(this.order,this.paymentForm.get('discount')?.value, this.paymentForm.get('cash')?.value).subscribe({
+      this.isLoading = true;
+      this.orderService.partialPay(this.order, this.partialItems, this.paymentForm.get('cash')?.value).subscribe({
         next: order => {
+          this.isLoading = true;
           this.confirmCashBack().then(
             () => this.router.navigate(['dashboard'])
           )
         },
         error: err => {
+          this.isLoading = true;
           console.log(this.errorHandler.parseError(err));
         }
       });
     }
     else {
       this.paymentForm.markAllAsTouched();
-
     }
   }
 
-  /**
-   *
-   * @param discount
-   * @private
-   */
-  private calculateTotalWithDiscount(discount: number): number {
-    return this.totalAmount - (this.totalAmount * (discount / 100));
-  }
 
   /**
    *
@@ -168,7 +183,7 @@ export class PayPage implements OnInit {
   updateCashValidator() {
     this.paymentForm.get('cash')?.setValidators([
       Validators.required,
-      this.cashEnoughValidator(this.finalTotal)
+      this.cashEnoughValidator(this.total)
     ]);
     this.paymentForm.get('cash')?.updateValueAndValidity();
   }
@@ -178,7 +193,7 @@ export class PayPage implements OnInit {
    *
    */
   async confirmCashBack(){
-    const cashBack = this.paymentForm.get('cash')?.value - this.finalTotal;
+    const cashBack = this.paymentForm.get('cash')?.value - this.total;
     const cashBackFormated = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -188,8 +203,4 @@ export class PayPage implements OnInit {
     await this.confirmModal.open(`Cambio: ${cashBackFormated} `);
   }
 
-
 }
-
-
-

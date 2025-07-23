@@ -6,6 +6,7 @@ import {RoleGuard} from './config/role.guard';
 import {Role} from './models/role.enum';
 import {OrderPage} from './pages/order-page/order-page';
 import {PayPage} from './pages/pay-page/pay-page';
+import {PartialPayPage} from './pages/partial-pay-page/partial-pay-page';
 
 export const routes: Routes = [
   { path: '', component: AccessPage, },
@@ -28,6 +29,12 @@ export const routes: Routes = [
   {
     path: 'pay',
     component: PayPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN, Role.CASHIER] }
+  },
+  {
+    path: 'partial-pay',
+    component: PartialPayPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN, Role.CASHIER] }
   },

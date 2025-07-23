@@ -1,0 +1,66 @@
+<app-header/>
+
+<br>
+<div class="container partial-pay-container d-flex justify-content-center">
+  <div class="manage-move-items-container col-7">
+
+    <div class="d-flex justify-content-between gap-4">
+      <!-- Left container -->
+      <div class="col-6 border">
+        <div class="header-title d-flex justify-content-center align-items-center pt-2 text-white">
+          <h5>Available Items</h5>
+        </div>
+        <div class="p-3">
+          @for (item of originalItems; track item.itemId) {
+            <div class="item border mb-2 p-2 bg-light d-flex flex-row"
+                 (click)="moveItem(item, 'leftToRight')"
+                 [class.disabled]="item.quantity === 0">
+              <span class="col-9"> <span class="fw-bold me-2">{{ item.quantity }} </span>  {{ item.productName }} </span>
+              <span class="col-3 text-end">{{ calculateTotal(item) | currency: "USD"}}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Right container -->
+        <div class="col-6 border">
+          <div class="header-title d-flex justify-content-center align-items-center pt-2 text-white">
+            <h5>Selected Items</h5>
+          </div>
+          <div class="p-3">
+            @for (item of partialItems; track item.itemId) {
+              <div class="item border mb-2 p-2 bg-light d-flex flex-row"
+                   (click)="moveItem(item, 'rightToLeft')"
+                   [class.disabled]="item.quantity === 0">
+                <span class="col-9"> <span class="fw-bold me-2">{{ item.quantity }} </span>  {{ item.productName }} </span>
+                <span class="col-3 text-end">{{ calculateTotal(item) | currency: "USD"}}</span>
+              </div>
+            }
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="partial-pay-info-container col-5 d-flex flex-column align-items-center">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3>Total Parcial a Pagar</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center ">
+        <h2 class="fw-bold">{{total | currency: "USD"}}</h2>
+      </div>
+    </div>
+    <br>
+    <div class="actions-container col-5">
+      <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
+        <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
+        <br>
+        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
+        <button class="btn btn-outline-danger col-12">Cancelar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal [onlyAcceptButton]="true"/>
