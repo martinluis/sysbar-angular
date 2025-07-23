@@ -10,25 +10,25 @@ export interface AppSection {
 export const APP_SECTION: AppSection[] = [
   {
     name: 'Mesero',
-    path: '/waiter/dashboard',
+    path: '/waiter',
     image: 'img/waiter-icon.svg',
     roles: [Role.ADMIN, Role.WAITER]
   },
   {
     name: 'Cajero',
-    path: '/',
+    path: '/cashier',
     image: 'img/cashier-icon.svg',
     roles: [Role.ADMIN, Role.CASHIER]
   },
   {
     name: 'Cocinero',
-    path: '/',
+    path: '/preparation',
     image: 'img/food-icon.svg',
     roles: [Role.ADMIN, Role.KITCHENER]
   },
   {
     name: 'Bartender',
-    path: '/',
+    path: '/preparation',
     image: 'img/drink-icon.svg',
     roles: [Role.ADMIN, Role.BARTENDER]
   }

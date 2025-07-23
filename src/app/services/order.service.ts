@@ -57,6 +57,14 @@ export class OrderService {
 
   /**
    *
+   */
+  getAllActives(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.apiUrl.concat("actives"));
+  }
+
+
+  /**
+   *
    * @param order
    */
   confirm(order: Order): Observable<Order> {

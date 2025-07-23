@@ -28,11 +28,11 @@ export class CustomerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerForm = this.fb.group({
-      id: [this.customer().id],
-      firstName: [this.customer().firstName, Validators.required],
-      lastName: [this.customer().lastName, Validators.required],
-      address: [this.customer().address, Validators.required],
-      phone: [this.customer().phone, [Validators.required, Validators.pattern(/^\d{10}$/)]]
+      id: [this.customer()?.id],
+      firstName: [this.customer()?.firstName, Validators.required],
+      lastName: [this.customer()?.lastName, Validators.required],
+      address: [this.customer()?.address, Validators.required],
+      phone: [this.customer()?.phone, [Validators.required, Validators.pattern(/^\d{10}$/)]]
     });
   }
 

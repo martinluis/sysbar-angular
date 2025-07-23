@@ -1,5 +1,5 @@
 @if (orders && orders.length > 0) {
-  <h3> Ordenes Personale</h3>
+  <h3> Ordenes Personales</h3>
   <div class="d-flex flex-wrap">
     @for (order of orders ; track order.id) {
       <div class="order-personal-item-container" (click)="goToOrder(order.id!)">

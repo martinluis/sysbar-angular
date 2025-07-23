@@ -1,0 +1,57 @@
+.cashier-container {
+
+  .orders-list-container {
+    height: 90vh;
+    padding: 1rem;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+
+    .orders-items-container {
+
+      .order-item {
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border-left: solid 1px lightgray;
+        border-right: solid 1px lightgray;
+        border-bottom: solid 1px lightgray;
+
+        &:hover {
+          background: rgba(237, 243, 237, 0.5);
+        }
+
+        &.active {
+          background: rgba(237, 243, 237, 0.5);
+          color: darkgreen;
+        }
+
+        .order-item-sub {
+          font-size: 1.0rem;
+          color: gray;
+        }
+      }
+    }
+  }
+
+  .orders-detail-container {
+    height: 90vh;
+    padding: 1rem;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    .orders-item-detail-container {
+      border: solid 1px lightgray;
+
+      .order-item-sub {
+        font-size: 1.2rem;
+        color: gray;
+      }
+
+      .order-item-detail{
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        border: solid 1px lightgray;
+        margin-bottom: 0.2rem;
+        border-radius: 0.2rem;
+      }
+    }
+  }
+}

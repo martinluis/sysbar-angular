@@ -14,10 +14,10 @@ import {
     TableSelectorComponent,
     PersonalOrderSelectorComponent
   ],
-  templateUrl: './waiter-dashboard.page.html',
-  styleUrl: './waiter-dashboard.page.scss'
+  templateUrl: './waiter.page.html',
+  styleUrl: './waiter.page.scss'
 })
-export class WaiterDashboardPage {
+export class WaiterPage {
 
 
   /**

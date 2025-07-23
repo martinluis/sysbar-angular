@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AsyncPipe} from "@angular/common";
-import {Observable} from 'rxjs';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
 import {OrderType} from '../../models/order-type.enum';
@@ -10,7 +8,6 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-personal-order-selector',
     imports: [
-        AsyncPipe,
     ],
   templateUrl: './personal-order-selector.component.html',
   styleUrl: './personal-order-selector.component.scss'

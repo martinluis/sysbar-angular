@@ -157,7 +157,8 @@ export class OrderPage implements OnInit {
       customer: null,
       discount: 0,
       subtotal: 0,
-      reference: ""
+      reference: "",
+      createdAt: null
     };
   }
 
@@ -251,7 +252,7 @@ export class OrderPage implements OnInit {
   onConfirmMoveTable(tableId: number) {
     this.orderService.changeTable(this.order()!, tableId).subscribe({
       next: (order) => {
-        this.router.navigate(['waiter/dashboard']);
+        this.router.navigate(['waiter']);
       },
       error: err => {
         console.error(err);

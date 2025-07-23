@@ -1,0 +1,25 @@
+<app-header/>
+<div class="cashier-container d-flex flex-row">
+
+  <!-- Left panel -->
+  <div class="orders-list-container col-5 d-flex flex-column">
+    <div class="orders-items-container">
+      <div class="col-12 text-center pt-2 pb-1 text-white dark-color">
+        <h4> Ordenes Activas</h4>
+      </div>
+      @for (order of orders$ | async; track order.id) {
+        <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected && orderSelected === order" >
+          <span>{{getTypeDescription(order)}}</span>
+          <span class="order-item-sub">{{order.createdAt | date: 'yyyy-MM-dd   HH:mm'}}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="orders-detail-container col-7 d-flex flex-column">
+    @if (orderSelected) {
+      <app-order-summary [isEditable]="false" [order]="orderSelected"/>
+    }
+  </div>
+</div>

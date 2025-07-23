@@ -25,7 +25,6 @@ export class AuthService {
    *
    */
   constructor(private router: Router) {
-    this.getUser()
   }
 
   /**
@@ -43,7 +42,7 @@ export class AuthService {
   deleteUser() {
     localStorage.removeItem(this.USER_TOKEN)
     this.currentUserSubject.next(null);
-    this.router.navigate(['/access']); // Or wherever your login page is
+    this.router.navigate(['']); // Or wherever your login page is
   }
 
   /**
@@ -52,7 +51,7 @@ export class AuthService {
   getUser(): User {
     const user = this.getUserOrNull();
     if (!user) {
-      this.router.navigate(['/access']);
+      this.router.navigate(['access']);
       throw new Error('Unauthenticated');
     }
     return user;

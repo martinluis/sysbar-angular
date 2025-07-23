@@ -17,4 +17,5 @@ export interface Order {
   discount: number | null;
   subtotal: number;
   reference: string;
+  createdAt: string | null;
 }

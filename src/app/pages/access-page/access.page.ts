@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
@@ -12,7 +12,7 @@ import {AuthService} from '../../services/auth.service';
   standalone: true,
   styleUrl: './access.page.scss'
 })
-export class AccessPage {
+export class AccessPage implements OnInit {
 
   accessCode: string = '';
   errorMessage: string = ''
@@ -22,6 +22,11 @@ export class AccessPage {
               private errorHandler: ErrorHandlerService,
               private authService: AuthService) {
   }
+
+  ngOnInit(): void {
+        throw new Error('Method not implemented.');
+    }
+
 
   /**
    *
