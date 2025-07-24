@@ -7,6 +7,10 @@ import {PreparationService} from '../../services/preparation.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 
 import {Preparation} from '../../models/preparation';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProductType} from '../../models/product-type.enum';
+import {AuthService} from '../../services/auth.service';
+import {Role} from '../../models/role.enum';
 
 @Component({
   selector: 'app-cashier-page',
@@ -22,23 +26,43 @@ export class PreparationPage implements OnInit{
 
   orders: Preparation[] = [];
   orderSelected!: Preparation
+  productType!: ProductType
 
   constructor(private preparationService: PreparationService,
-              private errorHandler: ErrorHandlerService, ) {
+              private errorHandler: ErrorHandlerService,
+              private route: ActivatedRoute,
+              private authService: AuthService,
+              private router: Router) {
   }
 
   /**
    *
    */
   ngOnInit(): void {
-     this.preparationService.findActive().subscribe({
-       next: items => {
-         this.orders = this.generatePreparationOrder(items);
-       },
-       error: err => {
-         console.log(this.errorHandler.parseError(err));
-       }
-     })
+    this.route.queryParamMap.subscribe(params => {
+      const productType = params.get('type');
+      this.productType = ProductType[productType as keyof typeof ProductType];
+      this.validateRole();
+      this.initView();
+    });
+
+  }
+
+  /**
+   *
+   */
+  initView(){
+    this.preparationService.findActive().subscribe({
+      next: items => {
+        if (this.productType) {
+          items = items.filter(it=> it.productType === this.productType)
+        }
+        this.orders = this.generatePreparationOrder(items);
+      },
+      error: err => {
+        console.log(this.errorHandler.parseError(err));
+      }
+    })
   }
 
   /**
@@ -57,8 +81,10 @@ export class PreparationPage implements OnInit{
       next: value => {
         this.orderSelected.items = this.orderSelected.items.filter(it => it.id !== itemId);
         if (this.orderSelected.items.length === 0) {
-          console.log(this.orderSelected.items.length);
           this.orders = this.orders.filter(or => or.id !== this.orderSelected.id)
+          if (this.orders.length > 0 ) {
+            this.orderSelected = this.orders[0];
+          }
         }
       },
       error: err => {
@@ -112,6 +138,33 @@ export class PreparationPage implements OnInit{
       tableName: item.tableName,
       userName: item.userName
     };
+  }
+
+  /**
+   *
+   * @param productType
+   * @private
+   */
+  private validateRole(){
+    if (this.productType === ProductType.DRINK) {
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.BARTENDER])){
+          this.router.navigate(['access']);
+          throw new Error('Unauthenticated');
+      }
+    }
+    if (this.productType === ProductType.FOOD) {
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.KITCHENER])){
+        this.router.navigate(['access']);
+        throw new Error('Unauthenticated');
+      }
+    }
+
+    if (!this.productType) {
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.KITCHENER, Role.BARTENDER])){
+        this.router.navigate(['access']);
+        throw new Error('Unauthenticated');
+      }
+    }
   }
 
 

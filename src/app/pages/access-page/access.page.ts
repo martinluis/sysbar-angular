@@ -12,7 +12,7 @@ import {AuthService} from '../../services/auth.service';
   standalone: true,
   styleUrl: './access.page.scss'
 })
-export class AccessPage implements OnInit {
+export class AccessPage {
 
   accessCode: string = '';
   errorMessage: string = ''
@@ -22,10 +22,6 @@ export class AccessPage implements OnInit {
               private errorHandler: ErrorHandlerService,
               private authService: AuthService) {
   }
-
-  ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
 
 
   /**
