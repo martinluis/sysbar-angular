@@ -1,15 +1,22 @@
 <app-header/>
-<div class="cashier-container d-flex flex-row">
+<div class="cashier-container d-flex flex-row bg-light">
 
   <!-- Left panel -->
   <div class="orders-list-container col-5 d-flex flex-column">
-    <div class="orders-items-container">
+    <div class="orders-items-container bg-white">
       <div class="col-12 text-center pt-2 pb-1 text-white dark-color">
-        <h4> Ordenes Activas</h4>
+        <h5> Ordenes Activas</h5>
       </div>
       @for (order of orders$ | async; track order.id) {
         <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected && orderSelected === order" >
-          <span>{{getTypeDescription(order)}}</span>
+          <div class="d-flex flex-row">
+            <div class="col-9">
+              <span>{{getTypeDescription(order)}}</span>
+            </div>
+            <div class="col-3 text-end text-success-emphasis">
+              <span>{{order.total | currency: "USD"}}</span>
+            </div>
+          </div>
           <span class="order-item-sub">{{order.createdAt | date: 'yyyy-MM-dd   HH:mm'}}</span>
         </div>
       }
@@ -19,7 +26,54 @@
   <!-- Right panel -->
   <div class="orders-detail-container col-7 d-flex flex-column">
     @if (orderSelected) {
-      <app-order-summary [isEditable]="false" [order]="orderSelected"/>
+      <div class="orders-item-detail-container bg-white">
+        <div class="d-flex flex-column p-2">
+          <div class="d-flex flex-row">
+            <div class="col-10">
+              <h4>{{getTypeDescription(orderSelected)}}</h4>
+            </div>
+            <div class="col-2 text-end">
+              <h3>{{orderSelected.total | currency: "USD"}}</h3>
+            </div>
+          </div>
+          @switch (orderSelected.orderType) {
+            @case (OrderType.PERSONAL) {
+              <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+            }
+            @case (OrderType.LOCAL) {
+              <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+            }
+            @case (OrderType.DELIVERY) {
+              <span class="order-item-sub">
+                {{orderSelected.customer?.firstName}}
+                {{orderSelected.customer?.lastName}}
+              </span>
+              <span class="order-item-sub"> {{orderSelected.customer?.address}}</span>
+            }
+          }
+          <br>
+          <div class="actions-container d-flex flex-row justify-content-end">
+            <button class="btn btn-outline-success col-4" (click)="onPay()">Pagar</button>
+          </div>
+          <br>
+          <div class="items-container">
+            @for (item of orderSelected.items; track item.itemId) {
+              <div class="order-item-detail d-flex flex-column">
+                <div class="col-12">
+                  <div class="d-flex flex-row">
+                    <span class="col-1 text-center">{{item.quantity}}</span>
+                    <span class="col-9">{{item.productName}}</span>
+                    <span class="col-2 text-end">{{item.productPrice | currency: "USD"}}</span>
+                  </div>
+                  <div class="d-flex flex-row">
+                    <span class="col-11 offset-1 order-item-sub">{{item.comment}}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
     }
   </div>
 </div>

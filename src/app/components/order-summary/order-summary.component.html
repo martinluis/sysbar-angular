@@ -11,15 +11,15 @@
   </div>
 
   <div class="footer-summary">
-    <div class="total-container d-flex align-items-center ">
-      <div class="col-4 text-start px-2">
-        <span>Total:</span>
-      </div>
-      <div class="col-8 text-end px-2">
-        <span class="fw-bold">{{order().total| currency: 'USD'}}</span>
-      </div>
-    </div>
     @if (isEditable()) {
+      <div class="total-container d-flex align-items-center ">
+        <div class="col-4 text-start px-2">
+          <span>Total:</span>
+        </div>
+        <div class="col-8 text-end px-2">
+          <span class="fw-bold">{{order().total| currency: 'USD'}}</span>
+        </div>
+      </div>
       <div class="actions-container d-flex">
         <button class="btn btn-danger col-6" [class.disabled]="!isItemsModified" (click)="onCancel()">Cancelar</button>
         <button class="btn btn-success col-6" [class.disabled]="!isItemsModified" (click)="onConfirm()">Confirmar</button>
