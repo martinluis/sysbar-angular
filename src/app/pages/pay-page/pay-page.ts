@@ -39,6 +39,7 @@ export class PayPage implements OnInit {
   paymentForm!: FormGroup;
   totalAmount: number = 0; // Example base total
   finalTotal: number = 0;  // Will be updated live
+  isLoading = false;
 
   /**
    *
@@ -124,20 +125,22 @@ export class PayPage implements OnInit {
    */
   onPay() {
     if (this.paymentForm.valid) {
+      this.isLoading = true
       this.orderService.pay(this.order,this.paymentForm.get('discount')?.value, this.paymentForm.get('cash')?.value).subscribe({
         next: order => {
+          this.isLoading = false
           this.confirmCashBack().then(
             () => this.router.navigate(['dashboard'])
           )
         },
         error: err => {
+          this.isLoading = false
           console.log(this.errorHandler.parseError(err));
         }
       });
     }
     else {
       this.paymentForm.markAllAsTouched();
-
     }
   }
 

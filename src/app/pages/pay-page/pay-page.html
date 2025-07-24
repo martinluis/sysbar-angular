@@ -17,7 +17,7 @@
         <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
         <input class="form-control" formControlName="discount" type="number" placeholder="Descuento">
         <br>
-        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid">Pagar</button>
+        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
         <button class="btn btn-outline-danger col-12" (click)="cancel()">Cancelar</button>
       </form>
     </div>
