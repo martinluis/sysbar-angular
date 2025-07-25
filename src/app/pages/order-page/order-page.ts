@@ -178,7 +178,7 @@ export class OrderPage implements OnInit {
     else {
       this.order()?.items.push({
         itemId: null,
-        productId: product.id,
+        productId: product.id!,
         productName: product.name,
         productPrice: product.price,
         quantity: 1,

@@ -6,7 +6,7 @@
       <div class="table-container d-flex flex-wrap p-4 justify-content-center">
         @for (table of tables$ | async ; track table.id) {
           @if (!table.isBusy) {
-            <div class="table-item-container col-2" [class.active]="this.selectedTableId==table.id" (click)="onSelectTable(table.id)" >
+            <div class="table-item-container col-2" [class.active]="this.selectedTableId==table.id" (click)="onSelectTable(table.id!)" >
               <span>{{table.name}}</span>
             </div>
           }

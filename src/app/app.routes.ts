@@ -10,6 +10,7 @@ import {PartialPayPage} from './pages/partial-pay-page/partial-pay-page';
 import {CashierPage} from './pages/cashier-page/cashier-page';
 import {PreparationPage} from './pages/preparation-page/preparation-page';
 import {TablesPage} from './pages/tables-page/tables-page';
+import {ProductsPage} from './pages/products-page/products-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -57,5 +58,9 @@ export const routes: Routes = [
   {
     path: 'tables',
     component: TablesPage,
+  },
+  {
+    path: 'products',
+    component: ProductsPage,
   },
 ];

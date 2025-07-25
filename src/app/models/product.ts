@@ -1,10 +1,9 @@
 import {ProductType} from './product-type.enum';
 
 export interface Product {
-  id: number,
+  id: number | null,
   name: string,
   price: number,
   type: ProductType,
-  stock: number,
-  active: boolean
+  stock: number
 }

@@ -34,7 +34,7 @@
         </div>
       </div>
       @for (table of tablesFiltered(); track table.id) {
-        <div class=" d-flex flex-row">
+        <div class=" d-flex flex-row" [class.selected]="table.id===selected()?.id">
           <div class="col-8 pt-2 px-3 border">
             <span>{{table.name}}</span>
           </div>

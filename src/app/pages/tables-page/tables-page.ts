@@ -21,7 +21,7 @@ export class TablesPage implements OnInit {
 
   formGroup!: FormGroup;
   tables = signal<Table[]>([])
-  selectedTable = signal<Table | null>(null);
+  selected = signal<Table | null>(null);
   searchText = signal('');
   isEditing = signal(false);
   tablesFiltered = computed(() => {
@@ -73,7 +73,7 @@ export class TablesPage implements OnInit {
    * Reset the form
    */
   resetForm(): void {
-    this.selectedTable.set(null);
+    this.selected.set(null);
     this.isEditing.set(false);
     this.searchText.set("");
     const emptyTable: Table = {id: null, isBusy: false, name: ''}
@@ -103,7 +103,7 @@ export class TablesPage implements OnInit {
    * @param table
    */
   edit(table: Table): void {
-    this.selectedTable.set(table);
+    this.selected.set(table);
     this.isEditing.set(true);
     this.formGroup.patchValue(table);
   }
