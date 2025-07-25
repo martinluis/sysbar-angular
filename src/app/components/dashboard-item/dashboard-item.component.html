@@ -1,5 +1,5 @@
 
-<div class="item-container" [routerLink]="section().path">
+<div class="item-container" [routerLink]="section().path" [queryParams]="section().queryParams">
   <img class="icon" [src]="section().image" alt="">
   <span>{{section().name}}</span>
 </div>

@@ -53,6 +53,15 @@ export class CashierPage implements OnInit{
 
   /**
    *
+   */
+  onUpdateOrder() {
+    this.router.navigate(['order'], {
+      queryParams: { orderId: this.orderSelected.id }
+    })
+  }
+
+  /**
+   *
    * @param order
    */
   getTypeDescription(order: Order): string {

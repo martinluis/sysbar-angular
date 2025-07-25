@@ -27,7 +27,7 @@ export class PartialPayPage implements OnInit {
   originalItems: OrderItem[] = [];
   partialItems: OrderItem[] = [];
   paymentForm!: FormGroup;
-  total: number = 0; // Example base total
+  total: number = 0.01; // Example base total
   isLoading = false;
   @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
 

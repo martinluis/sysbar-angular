@@ -204,14 +204,17 @@ export class OrderPage implements OnInit {
       if (!o) return o; // or null
       return { ...o, customer };
     })
-    this.orderService.update(this.order()!).subscribe({
-      next: (order) => {
-        console.info(order)
-      },
-      error: err => {
-        console.error(err);
-      }
-    })
+    // To update the customer info in order
+    if (this.order()?.id) {
+      this.orderService.update(this.order()!).subscribe({
+        next: (order) => {
+          console.info(order)
+        },
+        error: err => {
+          console.error(err);
+        }
+      })
+    }
   }
 
   /**

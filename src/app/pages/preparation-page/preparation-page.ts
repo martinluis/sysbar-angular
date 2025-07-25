@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {DatePipe} from '@angular/common';
 import {OrderType} from '../../models/order-type.enum';
@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ProductType} from '../../models/product-type.enum';
 import {AuthService} from '../../services/auth.service';
 import {Role} from '../../models/role.enum';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-cashier-page',
@@ -21,12 +22,13 @@ import {Role} from '../../models/role.enum';
   templateUrl: './preparation-page.html',
   styleUrl: './preparation-page.scss'
 })
-export class PreparationPage implements OnInit{
+export class PreparationPage implements OnInit, OnDestroy {
 
 
   orders: Preparation[] = [];
   orderSelected!: Preparation
   productType!: ProductType
+  private destroy$ = new Subject<void>();
 
   constructor(private preparationService: PreparationService,
               private errorHandler: ErrorHandlerService,
@@ -52,8 +54,9 @@ export class PreparationPage implements OnInit{
    *
    */
   initView(){
-    this.preparationService.findActive().subscribe({
+    this.preparationService.getLiveData().pipe(takeUntil(this.destroy$)).subscribe({
       next: items => {
+        console.log("Getting ...")
         if (this.productType) {
           items = items.filter(it=> it.productType === this.productType)
         }
@@ -181,6 +184,15 @@ export class PreparationPage implements OnInit{
         case OrderType.DELIVERY:
           return "A domicilio";
       }
+  }
+
+  /**
+   *
+   */
+  ngOnDestroy() {
+    // Trigger unsubscription
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

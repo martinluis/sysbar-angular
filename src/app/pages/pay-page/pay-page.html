@@ -3,12 +3,12 @@
 <div class="pay-container d-flex flex-wrap">
   <div class="manage-order-left-container d-flex flex-column col-8 align-items-center">
     <br>
-    @if (order.customer) {
+    @if (order?.customer) {
       <div class="col-10">
-        <h4>Cliente: {{order.customer.firstName}} {{order.customer.lastName}}</h4>
+        <h4>Cliente: {{order?.customer?.firstName}} {{order?.customer?.lastName}}</h4>
       </div>
       <div class="col-10">
-        <h4>Direccion: {{order.customer.address}}</h4>
+        <h4>Direccion: {{order?.customer?.address}}</h4>
       </div>
       <br>
     }
@@ -24,7 +24,7 @@
     <br>
     <br>
     <h3 class="sub-label">Subtotal: {{this.totalAmount | currency: "USD"}}</h3>
-    <h3 class="total-label">Descuento: {{order.discount ?? 0}}%</h3>
+    <h3 class="total-label">Descuento: {{order?.discount ?? 0}}%</h3>
     <br>
     <h2 class="fw-bold">Total: {{this.finalTotal | currency: "USD"}}</h2>
   </div>

@@ -56,7 +56,7 @@ export class OrderSummaryComponent implements AfterViewInit {
       next: (order) => {
         this.order().items = order.items;
         this.order().id = order.id
-        this.infoModal.open("Order Confirmada!" , 2);
+        this.infoModal.open("Order Confirmada!" , 1);
         this.isItemsModified = false;
       },
       error: (error) => {
