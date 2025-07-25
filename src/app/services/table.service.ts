@@ -26,5 +26,21 @@ export class TableService {
   get(id: number): Observable<Table> {
     return this.http.get<Table>(this.apiUrl.concat(id.toString()));
   }
+
+  /**
+   *
+   * @param table
+   */
+  save(table: Table): Observable<Table> {
+    return this.http.post<Table>(this.apiUrl, table);
+  }
+
+  /**
+   *
+   * @param id
+   */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
+  }
 }
 

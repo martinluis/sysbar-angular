@@ -1,5 +1,5 @@
 export interface Table {
-  id: number,
+  id: number |  null,
   name: string,
   isBusy: boolean
 }
