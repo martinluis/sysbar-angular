@@ -18,42 +18,42 @@ export const routes: Routes = [
   { path: 'dashboard',
     component: DashboardPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] } },
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER, Role.CASHIER] } },
   {
     path: 'waiter',
     component: WaiterPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER] }
   },
   {
     path: 'cashier',
     component: CashierPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER] }
   },
   {
     path: 'preparation',
     component: PreparationPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.KITCHENER, Role.BARTENDER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.KITCHENER, Role.BARTENDER] }
   },
   {
     path: 'order',
     component: OrderPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.WAITER, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER] }
   },
   {
     path: 'pay',
     component: PayPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER] }
   },
   {
     path: 'partial-pay',
     component: PartialPayPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER] }
   },
   {
     path: 'tables',

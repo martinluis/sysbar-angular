@@ -13,7 +13,7 @@
       <app-search-products (onAddProduct)="onAddProduct($event)"/>
     </div>
 
-    @if (order()?.id) {
+    @if (order()?.id && hasPermissions([Role.ADMIN, Role.CASHIER, Role.MANAGER])){
       <div class="manage-order-actions-container d-flex flex-row justify-content-center ">
         @if (order()?.orderType === OrderType.LOCAL) {
           <button class="btn btn-outline-primary col-2" (click)="onMoveTable()">Mover Mesa</button>
@@ -25,7 +25,6 @@
         <button class="btn btn-outline-success col-2" (click)="onPay()">Pagar</button>
       </div>
     }
-
   </div>
   <div class="manage-order-summary-container col-4">
     @if (order()) {

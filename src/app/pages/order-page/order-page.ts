@@ -16,6 +16,7 @@ import {CustomerFormComponent} from '../../components/customer-form/customer-for
 import {Customer} from '../../models/customer';
 import {MoveTableModal} from '../../components/move-table-modal/move-table.modal';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Role} from '../../models/role.enum';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -263,4 +264,12 @@ export class OrderPage implements OnInit {
     })
   }
 
+  /**
+   *
+   */
+  hasPermissions(roles: Role[]): boolean {
+    return this.authService.hasAnyRole(roles);
+  }
+
+  protected readonly Role = Role;
 }

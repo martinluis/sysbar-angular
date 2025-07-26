@@ -6,6 +6,8 @@ import {Order} from '../../models/order';
 import {AsyncPipe, CurrencyPipe, DatePipe} from '@angular/common';
 import {OrderType} from '../../models/order-type.enum';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {Role} from '../../models/role.enum';
 
 @Component({
   selector: 'app-cashier-page',
@@ -24,7 +26,9 @@ export class CashierPage implements OnInit{
   orders$!: Observable<Order[]>;
   orderSelected!: Order
 
-  constructor(private orderServices: OrderService, private router: Router) {
+  constructor(private orderServices: OrderService,
+              private router: Router,
+              private authService: AuthService) {
   }
 
   /**
@@ -86,5 +90,14 @@ export class CashierPage implements OnInit{
   }
 
 
+  /**
+   *
+   */
+  hasPermissions(roles: Role[]): boolean {
+    return this.authService.hasAnyRole(roles);
+  }
+
+
   protected readonly OrderType = OrderType;
+  protected readonly Role = Role;
 }
