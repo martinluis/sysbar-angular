@@ -16,12 +16,13 @@ import {ProductType, ProductTypeLabels} from '../../models/product-type.enum';
   styleUrl: './products-page.scss'
 })
 export class ProductsPage {
+
   formGroup!: FormGroup;
   products = signal<Product[]>([])
   selected = signal<Product | null>(null);
   searchText = signal('');
   isEditing = signal(false);
-  tablesFiltered = computed(() => {
+  productsFiltered = computed(() => {
     const term = this.searchText().toLowerCase();
     return this.products().filter(item =>
       item.name.toLowerCase().includes(term)

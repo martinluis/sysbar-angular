@@ -11,6 +11,7 @@ import {CashierPage} from './pages/cashier-page/cashier-page';
 import {PreparationPage} from './pages/preparation-page/preparation-page';
 import {TablesPage} from './pages/tables-page/tables-page';
 import {ProductsPage} from './pages/products-page/products-page';
+import {ExpensesPage} from './pages/expenses-page/expenses-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -52,6 +53,12 @@ export const routes: Routes = [
   {
     path: 'partial-pay',
     component: PartialPayPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER] }
+  },
+  {
+    path: 'expenses',
+    component: ExpensesPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER] }
   },

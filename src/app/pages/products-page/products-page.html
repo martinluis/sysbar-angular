@@ -70,7 +70,7 @@
     </div>
 
     <!-- Table Content -->
-    @for (product of tablesFiltered(); track product.id) {
+    @for (product of productsFiltered(); track product.id) {
       <div class=" d-flex flex-row" [class.selected]="product.id===selected()?.id">
         <div class="col-6 pt-1 px-3 border">
           <span>{{product.name}}</span>

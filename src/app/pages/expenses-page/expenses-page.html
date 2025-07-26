@@ -1,0 +1,68 @@
+<app-header />
+<div class="container expenses-container py-4">
+  <h2 class="mb-4">Administración de Productos</h2>
+
+  <form [formGroup]="formGroup" (ngSubmit)="isEditing() ? update() : add()">
+    <div class="d-flex flex-row">
+      <div class="col-6">
+        <div class="form-floating mb-3">
+          <input type="text" formControlName="description" name="name" class="form-control"  placeholder="Descripcion del gasto"/>
+          <label>Descripcion del gasto</label>
+        </div>
+      </div>
+      <div class="col-2 ms-2">
+        <div class="form-floating mb-3">
+          <input type="number" formControlName="amount" name="name"  class="form-control" placeholder="Cantidad"/>
+          <label>Cantidad</label>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end py-2 pb-4">
+        @if (isEditing()) {
+          <button type="button" class="btn btn-outline-danger col-5 offset-1" (click)="resetForm()">Cancel</button>
+        }
+        <button type="submit" class="btn btn-outline-success col-5 ms-2" [class.disabled]="!formGroup.valid">
+          {{ isEditing() ? 'Actualizar' : 'Agregar' }}
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <hr class="my-4" />
+
+  <div class="expense-content-container">
+    <div class="d-flex flex-row">
+      <div class="col-4 mb-2">
+        <input class="form-control" placeholder="Buscar" (input)="searchText.set($any($event.target).value)" [value]="searchText()" >
+      </div>
+    </div>
+    <!-- Table Header -->
+    <div class="d-flex flex-row dark-color text-white">
+      <div class="col-6 d-flex border px-4 pt-2">
+        <h6>Descripcion del gasto</h6>
+      </div>
+      <div class="col-3 d-flex border justify-content-center px-4 pt-2">
+        <h6>Cantidad</h6>
+      </div>
+      <div class="col-3 d-flex border px-4 pt-2 justify-content-center">
+        <h6>Acciones</h6>
+      </div>
+    </div>
+
+    <!-- Table Content -->
+    @for (expense of expensesFiltered(); track expense.id) {
+      <div class=" d-flex flex-row" [class.selected]="expense.id===selected()?.id">
+        <div class="col-6 pt-1 px-3 border">
+          <span>{{expense.description}}</span>
+        </div>
+        <div class="col-3 pt-1 px-3 border d-flex justify-content-center">
+          <span>{{expense.amount | currency: "USD"}}</span>
+        </div>
+        <div class="col-3 p-1 px-3 border d-flex flex-row justify-content-center">
+          <button class="btn btn-sm btn-outline-primary col-5" (click)="edit(expense)">Editar</button>
+          <button class="btn btn-sm btn-outline-danger col-5 offset-1" (click)="delete(expense.id!)">Eliminar</button>
+        </div>
+      </div>
+    }
+  </div>
+
+</div>
