@@ -1,15 +1,29 @@
 @use "../../commons/info-modal/info.modal";
 
-.actions-container {
-  height: 3rem;
 
-  .btn {
-    font-size: 1.2rem;
+
+.modal-content {
+
+  .actions-container {
+    height: 3rem;
+
+    .btn {
+      font-size: 1.2rem;
+    }
+
+    span {
+      font-size: 2rem;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
   }
 
-  span {
-    font-size: 2rem;
-    margin-top: auto;
-    margin-bottom: auto;
+  .form-floating {
+    textarea {
+      height: 6rem;
+    }
   }
+
 }
+
+

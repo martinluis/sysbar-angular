@@ -14,8 +14,14 @@
     }
     <div class="actions-container col-3">
       <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
-        <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
-        <input class="form-control" formControlName="discount" type="number" maxlength="2" placeholder="Descuento">
+        <div class="form-floating">
+          <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
+          <label>Importe</label>
+        </div>
+        <div class="form-floating">
+          <input class="form-control" formControlName="discount" type="number" maxlength="2" placeholder="Descuento %">
+          <label>Descuento %</label>
+        </div>
         <br>
         <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
         <button class="btn btn-outline-danger col-12" (click)="cancel()">Cancelar</button>

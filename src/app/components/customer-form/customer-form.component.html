@@ -2,24 +2,36 @@
   <div class="customer-container px-2">
     <div class="row">
       <div class="col-4">
-        <input class="form-control" formControlName="phone" type="text"
-               (keydown)="allowOnlyNumbers($event)"
-               (input)="sanitizePhoneInput($event)"
-               (blur)="onPhoneBlur()"
-               size="10" placeholder="Teléfono">
+        <div class="form-floating">
+          <input class="form-control" formControlName="phone" type="text"
+                 (keydown)="allowOnlyNumbers($event)"
+                 (input)="sanitizePhoneInput($event)"
+                 (blur)="onPhoneBlur()"
+                 size="10" placeholder="Teléfono">
+          <label>Teléfono</label>
+        </div>
       </div>
       <div class="col-4">
-        <input class="form-control" formControlName="firstName" type="text" placeholder="Nombre">
+        <div class="form-floating">
+          <input class="form-control" formControlName="firstName" type="text" placeholder="Nombre">
+          <label>Nombre</label>
+        </div>
       </div>
       <div class="col-4">
-        <input class="form-control" formControlName="lastName" type="text" placeholder="Apellido">
+        <div class="form-floating">
+          <input class="form-control" formControlName="lastName" type="text" placeholder="Apellido">
+          <label>Nombre</label>
+        </div>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-10">
-        <input class="form-control" formControlName="address" type="text" placeholder="Direccion">
+        <div class="form-floating">
+          <input class="form-control" formControlName="address" type="text" placeholder="Direccion">
+          <label>Nombre</label>
+        </div>
       </div>
-      <div class="col-2">
+      <div class="col-2 d-flex ">
         <button type="submit" class="btn btn-outline-primary w-100">Aceptar</button>
       </div>
     </div>

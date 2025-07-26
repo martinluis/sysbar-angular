@@ -51,6 +51,16 @@ export class CashierPage implements OnInit{
     })
   }
 
+
+  /**
+   *
+   */
+  onPartialPay() {
+    this.router.navigate(['partial-pay'], {
+      queryParams: { orderId: this.orderSelected.id }
+    })
+  }
+
   /**
    *
    */

@@ -104,7 +104,7 @@ export class PayPage implements OnInit {
    */
   private initFormControl() {
     this.paymentForm = this.fb.group({
-      discount: [null, [Validators.min(1), Validators.max(20)]],
+      discount: [null, [Validators.min(1), Validators.max(90)]],
       cash: [null, [Validators.min(1), this.cashEnoughValidator(this.finalTotal)]]
     });
 

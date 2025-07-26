@@ -54,7 +54,10 @@
     <br>
     <div class="actions-container col-5">
       <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
-        <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
+        <div class="form-floating">
+          <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
+          <label>Importe</label>
+        </div>
         <br>
         <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
         <button class="btn btn-outline-danger col-12" (click)="cancel()">Cancelar</button>

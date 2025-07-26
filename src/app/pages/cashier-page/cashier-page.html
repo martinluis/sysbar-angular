@@ -53,8 +53,11 @@
           }
           <br>
           <div class="actions-container d-flex flex-row justify-content-between">
-            <button class="btn btn-outline-primary col-4" (click)="onUpdateOrder()">Modificar</button>
-            <button class="btn btn-outline-success col-4" (click)="onPay()">Pagar</button>
+            <button class="btn btn-outline-primary col-3" (click)="onUpdateOrder()">Modificar</button>
+            @if (orderSelected.orderType === OrderType.LOCAL) {
+              <button class="btn btn-outline-success col-3" (click)="onPartialPay()">Pago Parcial</button>
+            }
+            <button class="btn btn-outline-success col-3" (click)="onPay()">Pagar</button>
           </div>
           <br>
           <div class="items-container">
