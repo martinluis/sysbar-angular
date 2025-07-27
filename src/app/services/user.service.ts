@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {User} from '../models/user';
 import {AppProperties} from '../config/app.properties';
@@ -10,7 +10,7 @@ import {AppProperties} from '../config/app.properties';
 export class UserService {
 
 
-  private apiUrl = AppProperties['apiUrl'] + '/user';
+  private apiUrl = AppProperties['apiUrl'] + '/user/';
 
   /**
    *
@@ -23,8 +23,33 @@ export class UserService {
    * @param code
    */
   requestAccess(code: string): Observable<User> {
-    let url = this.apiUrl + `/requestAccess?code=${code}`;
+    let url = this.apiUrl + `requestAccess?code=${code}`;
     return this.http.get<User>(url);
+  }
+
+
+  /**
+   *
+   */
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
+  }
+
+
+  /**
+   *
+   * @param user
+   */
+  save(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user);
+  }
+
+  /**
+   *
+   * @param id
+   */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
   }
 }
 

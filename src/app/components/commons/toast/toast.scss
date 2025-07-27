@@ -1,0 +1,27 @@
+@use 'variables' as *;
+
+.toast {
+  display: block;
+  position: fixed;
+  top: 1rem;
+  left: 35%;
+  background-color: $dark-color;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  z-index: 9999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: opacity 0.3s ease;
+
+  &.success {
+    background-color: $success-color;
+  }
+
+  &.error {
+    background-color: $error-color;
+  }
+
+  &.warning {
+    background-color: $warning-color;
+  }
+}

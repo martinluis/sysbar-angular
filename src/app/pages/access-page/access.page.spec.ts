@@ -57,7 +57,7 @@ describe('AccessPage', () => {
   });
 
   it('should not show error if code is correct', () => {
-    const user: User = {id: 1, name: "Luis", roles: [Role.ADMIN]}
+    const user: User = {id: 1, name: "Luis", roles: [Role.ADMIN], token: ""}
     const loginResponse = of(user);
     userServiceMock.requestAccess.and.returnValue(loginResponse);
 

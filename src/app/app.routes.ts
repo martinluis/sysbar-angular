@@ -13,6 +13,7 @@ import {TablesPage} from './pages/tables-page/tables-page';
 import {ProductsPage} from './pages/products-page/products-page';
 import {ExpensesPage} from './pages/expenses-page/expenses-page';
 import {AdminPage} from './pages/admin-page/admin-page';
+import {UsersPage} from './pages/users-page/users-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -78,6 +79,12 @@ export const routes: Routes = [
   {
     path: 'products',
     component: ProductsPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
+  },
+  {
+    path: 'users',
+    component: UsersPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN] }
   },
