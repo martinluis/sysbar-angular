@@ -43,7 +43,14 @@ export const APP_SECTION: AppSection[] = [
     queryParams: {},
     image: 'img/expenses-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER]
-  }
+  },
+  {
+    name: 'Admin',
+    path: '/admin',
+    queryParams: {},
+    image: 'img/admin-icon.svg',
+    roles: [Role.ADMIN]
+  },
 ];
 
 
@@ -52,7 +59,14 @@ export const ADMIN_SECTION: AppSection[] = [
     name: 'Mesas',
     path: '/tables',
     queryParams: {},
-    image: 'img/waiter-icon.svg',
-    roles: [Role.ADMIN, Role.MANAGER, Role.WAITER]
+    image: 'img/tables-icon.svg',
+    roles: [Role.ADMIN]
+  },
+  {
+    name: 'Productos',
+    path: '/products',
+    queryParams: {},
+    image: 'img/products-icon.svg',
+    roles: [Role.ADMIN]
   }
 ];

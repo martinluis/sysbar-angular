@@ -12,6 +12,7 @@ import {PreparationPage} from './pages/preparation-page/preparation-page';
 import {TablesPage} from './pages/tables-page/tables-page';
 import {ProductsPage} from './pages/products-page/products-page';
 import {ExpensesPage} from './pages/expenses-page/expenses-page';
+import {AdminPage} from './pages/admin-page/admin-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -19,7 +20,13 @@ export const routes: Routes = [
   { path: 'dashboard',
     component: DashboardPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER, Role.CASHIER] } },
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER, Role.CASHIER] }
+  },
+  { path: 'admin',
+    component: AdminPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
+  },
   {
     path: 'waiter',
     component: WaiterPage,
@@ -65,9 +72,13 @@ export const routes: Routes = [
   {
     path: 'tables',
     component: TablesPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
   },
   {
     path: 'products',
     component: ProductsPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
   },
 ];
