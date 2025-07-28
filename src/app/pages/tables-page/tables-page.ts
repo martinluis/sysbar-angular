@@ -1,4 +1,4 @@
-import {Component, computed, input, OnInit, signal} from '@angular/core';
+import {Component, computed, OnInit, signal} from '@angular/core';
 import {Table} from '../../models/table';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -137,7 +137,7 @@ export class TablesPage implements OnInit {
    */
   delete(id: number): void {
     this.tableService.delete(id).subscribe({
-      next: result => {
+      next: () => {
         const tables = this.tables().filter(it => it.id !== id);
         this.tables.set(tables);
       },

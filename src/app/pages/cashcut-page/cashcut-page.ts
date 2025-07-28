@@ -1,13 +1,8 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {CurrencyPipe, DatePipe} from "@angular/common";
 import {HeaderComponent} from "../../components/header/header.component";
-import {Preparation} from '../../models/preparation';
-import {ProductType} from '../../models/product-type.enum';
-import {PreparationService} from '../../services/preparation.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Cashcut} from '../../models/cashcut';
 import {CashcutService} from '../../services/cashcut.service';
 import {ToastService} from '../../services/toast.service';
