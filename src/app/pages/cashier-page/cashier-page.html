@@ -1,5 +1,5 @@
 <app-header/>
-<div class="cashier-container d-flex flex-row bg-light">
+<div class="cashier-container d-flex flex-row">
 
   <!-- Left panel -->
   <div class="orders-list-container col-5 d-flex flex-column">
@@ -17,7 +17,7 @@
               <span>{{order.total | currency: "USD"}}</span>
             </div>
           </div>
-          <span class="order-item-sub">{{order.createdAt | date: 'yyyy-MM-dd   HH:mm'}}</span>
+          <span class="order-item-sub">{{order.createdAt | date: 'dd-MM-yyyy HH:mm'}}</span>
         </div>
       }
     </div>

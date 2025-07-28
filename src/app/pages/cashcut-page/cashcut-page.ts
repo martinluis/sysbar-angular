@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {Cashcut} from '../../models/cashcut';
 import {CashcutService} from '../../services/cashcut.service';
 import {ToastService} from '../../services/toast.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-cashcut-page',
@@ -13,16 +14,17 @@ import {ToastService} from '../../services/toast.service';
     HeaderComponent,
     ReactiveFormsModule,
     CurrencyPipe,
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './cashcut-page.html',
   styleUrl: './cashcut-page.scss'
 })
 export class CashcutPage implements OnInit{
 
-  cashcuts: Cashcut[] = [];
-  cashcutActive = signal<Cashcut | null>(null);
-  cashcutSelected!: Cashcut;
+  cashcuts = signal<Cashcut[]>([])
+  cashcutActive = signal<Cashcut|null>(null);
+  cashcutSelected = signal<Cashcut|null>(null);
   cashcutForm!: FormGroup;
   isLoading = false;
 
@@ -45,6 +47,23 @@ export class CashcutPage implements OnInit{
         console.error(this.errorHandler.parseError(err));
       }
     })
+
+    this.cashcutService.getAll().subscribe({
+      next: cashcuts => {
+        this.cashcuts.set(cashcuts);
+      },
+      error: err => {
+        console.error(this.errorHandler.parseError(err));
+      }
+    })
+
+    this.initFormGroup();
+  }
+
+  /**
+   *
+   */
+  initFormGroup() {
     this.cashcutForm = this.formBuilder.group({
       initialAmount: [null, [Validators.required, Validators.min(0)]]
     });
@@ -59,8 +78,10 @@ export class CashcutPage implements OnInit{
     this.cashcutService.finish(cashcut).subscribe({
       next: cashcut => {
         this.cashcutActive.set(cashcut);
+        this.cashcuts.set([...this.cashcuts(), cashcut]);
         this.cashcutForm.reset();
         this.toastService.show('Se genero el corte', 2000, "success");
+
       },
       error: err => {
         this.toastService.show('Error al crear el corte de caja', 2000, "error");

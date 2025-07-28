@@ -1,0 +1,80 @@
+.cashcut-details-container {
+  font-size: 1.0rem;
+
+  .sub-header {
+    font-size: 1.2rem;
+  }
+
+  .orders-list-container {
+    max-height: 58vh;
+    border-bottom: solid 1px lightgray;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .orders-items-container {
+
+      .order-item {
+        padding: 0.5rem;
+        border-left: solid 1px lightgray;
+        border-right: solid 1px lightgray;
+        border-bottom: solid 1px lightgray;
+
+        &:hover {
+          background: rgba(237, 243, 237, 0.5);
+        }
+
+        &.active {
+          background: rgba(237, 243, 237, 0.5);
+          color: darkgreen;
+        }
+
+        .order-item-sub {
+          color: gray;
+        }
+      }
+    }
+  }
+
+  .orders-detail-container {
+
+    max-height: 60vh;
+    margin-left: 1rem;
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    .orders-item-detail-container {
+      padding: 1rem;
+      max-height: 58vh;
+      border: solid 1px lightgray;
+
+      .order-item-sub {
+        color: gray;
+      }
+
+      .items-container {
+        height: 42vh;
+        overflow: auto;
+        scrollbar-width: none; /* Firefox */
+
+        .order-item-detail{
+          padding: 0.5rem;
+          border: solid 1px lightgray;
+          margin-bottom: 0.2rem;
+          border-radius: 0.2rem;
+
+          .order-item-sub {
+            font-size: 0.9rem;
+            color: gray;
+          }
+        }
+      }
+
+    }
+  }
+
+}

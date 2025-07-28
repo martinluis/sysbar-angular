@@ -5,7 +5,7 @@
   <div class="d-flex flex-column mt-4">
     <h2>Corte Activo</h2>
     @if (cashcutActive()) {
-      <div class="d-flex flex-row mt-4">
+      <div class="d-flex flex-row mt-2">
         <div class="d-flex flex-column col-5">
           <div class="d-flex flex-row">
             <div class="col-6">
@@ -17,7 +17,7 @@
           </div>
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4>Saldo Inicial de Caja:</h4>
+              <h4>Saldo Inicial:</h4>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <h4>{{cashcutActive()!.initialAmount | currency:"USD"}}</h4>
@@ -47,6 +47,9 @@
               <h4 class="fw-bold success">{{cashcutActive()!.total | currency:"USD"}}</h4>
             </div>
           </div>
+          <div class="d-flex flex-row justify-content-center mt-4">
+              <button class="btn btn-outline-primary col-6" [routerLink]="['/cashcut/details', cashcutActive()!.id]">Ver Detalle</button>
+          </div>
         </div>
         <div class="d-flex flex-column col-5 offset-2">
           <div class="actions-container">
@@ -64,8 +67,32 @@
       </div>
     }
   </div>
+
+  <hr>
+
   <!-- Bottom panel -->
   <div class="d-flex flex-column">
+    <h2>Lista de Cortes</h2>
+    <div class="cashcut-list-container">
+      <div class="d-flex flex-row dark-color text-white p-2 text-center">
+        <div class="col-2"> <span>Fecha Inicio</span> </div>
+        <div class="col-2"> <span>Fecha Termino</span> </div>
+        <div class="col-2">Ventas</div>
+        <div class="col-2">Gastos</div>
+        <div class="col-2">Total</div>
+        <div class="col-2"></div>
+      </div>
+      @for (cashcut of cashcuts(); track cashcut.id) {
+        <div class="d-flex flex-row text-center pt-2 p-1 border">
+          <div class="col-2"><span>{{cashcut.initialDate | date: 'dd-MM-yyyy HH:mm' }}</span> </div>
+          <div class="col-2"><span>{{cashcut.finalDate | date: 'dd-MM-yyyy HH:mm' }}</span> </div>
+          <div class="col-2"><span>{{cashcut.totalOrders | currency: "USD" }}</span></div>
+          <div class="col-2"><span>{{cashcut.totalExpenses | currency: "USD" }}</span></div>
+          <div class="col-2"><span>{{cashcut.total | currency: "USD" }}</span></div>
+          <div class="col-2"> <button class="btn btn-outline-primary" [routerLink]="['/cashcut/details', cashcut.id]"> Ver Detalle</button> </div>
+        </div>
+      }
+    </div>
 
   </div>
 </div>

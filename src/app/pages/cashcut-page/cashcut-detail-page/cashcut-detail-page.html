@@ -1,0 +1,143 @@
+<app-header/>
+<div class="container cashcut-details-container">
+  <br>
+  <div class="d-flex flex-row">
+    <h3 class="col-6">Detalle de Corte</h3>
+    <h3 class="col-6 d-flex justify-content-end fw-bold">Total: {{cashcut()?.total | currency: "USD"}}</h3>
+  </div>
+  <div class="d-flex flex-row mt-2 sub-header">
+    <div class="col-4 d-flex flex-row">
+      <div class="col-5">
+        <span>Inicio de corte:</span>
+      </div>
+      <div class="col-7 font-light">
+        <span>{{cashcut()?.initialDate | date: 'dd-MM-yyyy HH:mm'}}</span>
+      </div>
+    </div>
+    <div class="col-4 d-flex flex-row">
+      <div class="col-5">
+        <span>Fin de corte:</span>
+      </div>
+      <div class="col-7 font-light">
+        <span>{{cashcut()?.finalDate | date: 'dd-MM-yyyy HH:mm'}}</span>
+      </div>
+    </div>
+    <div class="col-4 d-flex flex-row">
+      <div class="col-5">
+        <span>Saldo inicial:</span>
+      </div>
+      <div class="col-7 font-light">
+        <span>{{cashcut()?.initialAmount | currency: "USD"}}</span>
+      </div>
+    </div>
+  </div>
+  <br> <br>
+  <!-- Order list container-->
+  <h4>Lista de Ordernes del Corte  -  {{cashcut()?.totalOrders | currency: "USD"}}</h4>
+  <div class="d-flex flex-row">
+    <!-- Left panel -->
+    <div class="orders-list-container col-5 d-flex flex-column">
+      <div class="orders-items-container bg-white">
+        <div class="col-12 text-center pt-2 pb-1 text-white dark-color sticky-header">
+          <h5> Ordenes</h5>
+        </div>
+        @for (order of cashcut()?.orders ; track order.id) {
+          <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected && orderSelected === order" >
+            <div class="d-flex flex-row">
+              <div class="col-9">
+                <span>{{getTypeDescription(order)}}</span>
+              </div>
+              <div class="col-3 text-end text-success-emphasis">
+                <span>{{order.total | currency: "USD"}}</span>
+              </div>
+            </div>
+            <span class="order-item-sub">{{order.createdAt | date: 'dd-MM-yyyy HH:mm'}}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right panel -->
+    <div class="orders-detail-container col-7 d-flex flex-column">
+      @if (orderSelected) {
+        <div class="orders-item-detail-container bg-white">
+          <div class="d-flex flex-column p-2">
+            <div class="d-flex flex-row">
+              <div class="col-10">
+                <h5>{{getTypeDescription(orderSelected)}}</h5>
+              </div>
+              <div class="col-2 text-end">
+                <h4>{{orderSelected.total | currency: "USD"}}</h4>
+              </div>
+            </div>
+            @switch (orderSelected.orderType) {
+              @case (OrderType.PERSONAL) {
+                <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+              }
+              @case (OrderType.LOCAL) {
+                <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+              }
+              @case (OrderType.DELIVERY) {
+                <span class="order-item-sub">
+                {{orderSelected.customer?.firstName}}
+                  {{orderSelected.customer?.lastName}}
+              </span>
+                <span class="order-item-sub"> {{orderSelected.customer?.address}}</span>
+              }
+            }
+            <br>
+            <div class="items-container">
+              @for (item of orderSelected.items; track item.itemId) {
+                <div class="order-item-detail d-flex flex-column">
+                  <div class="col-12">
+                    <div class="d-flex flex-row">
+                      <span class="col-1 text-center">{{item.quantity}}</span>
+                      <span class="col-9">{{item.productName}}</span>
+                      <span class="col-2 text-end">{{item.productPrice | currency: "USD"}}</span>
+                    </div>
+                    <div class="d-flex flex-row">
+                      <span class="col-11 offset-1 order-item-sub">{{item.comment}}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <br> <br>
+  <h4>Lista de Gastos del Corte  -  {{cashcut()?.totalExpenses | currency: "USD"}}</h4>
+  <!-- Expenses list container -->
+  <div class="expense-content-container">
+    <!-- Table Header -->
+    <div class="d-flex flex-row dark-color text-white">
+      <div class="col-6 d-flex border p-2 px-3">
+        <span>Descripcion del gasto</span>
+      </div>
+      <div class="col-3 d-flex border justify-content-center px-4 pt-2">
+        <span>Cantidad</span>
+      </div>
+      <div class="col-3 d-flex border px-4 pt-2 justify-content-center">
+        <span>Usuario</span>
+      </div>
+    </div>
+
+    <!-- Table Content -->
+    @for (expense of cashcut()?.expenses; track expense.id) {
+      <div class=" d-flex flex-row">
+        <div class="col-6 pt-1 px-3 border">
+          <span>{{expense.description}}</span>
+        </div>
+        <div class="col-3 pt-1 px-3 border d-flex justify-content-center">
+          <span>{{expense.amount | currency: "USD"}}</span>
+        </div>
+        <div class="col-3 p-1 px-3 border d-flex flex-row justify-content-center">
+          <span>{{expense.user.name}}</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+<br><br><br><br><br>

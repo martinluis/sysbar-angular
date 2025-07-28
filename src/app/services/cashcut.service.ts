@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AppProperties} from '../config/app.properties';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Cashcut} from '../models/cashcut';
 
@@ -23,8 +23,10 @@ export class CashcutService {
   /**
    *
    */
-  get(id: number): Observable<Cashcut> {
-    return this.http.get<Cashcut>(this.apiUrl.concat(id.toString()));
+  get(id: number, retrieveType = ""): Observable<Cashcut> {
+    let params = new HttpParams()
+      .set('mode', retrieveType);
+    return this.http.get<Cashcut>(this.apiUrl.concat(id.toString()), {params} );
   }
 
 

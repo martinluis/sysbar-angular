@@ -15,6 +15,7 @@ import {ExpensesPage} from './pages/expenses-page/expenses-page';
 import {AdminPage} from './pages/admin-page/admin-page';
 import {UsersPage} from './pages/users-page/users-page';
 import {CashcutPage} from './pages/cashcut-page/cashcut-page';
+import {CashcutDetailPage} from './pages/cashcut-page/cashcut-detail-page/cashcut-detail-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -92,6 +93,12 @@ export const routes: Routes = [
   {
     path: 'cashcut',
     component: CashcutPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
+  },
+  {
+    path: 'cashcut/details/:id',
+    component: CashcutDetailPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN] }
   },
