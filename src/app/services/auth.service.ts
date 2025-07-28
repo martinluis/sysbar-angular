@@ -33,7 +33,7 @@ export class AuthService {
    */
   setUser(user: User) {
     localStorage.setItem(this.USER_TOKEN, user.token);
-    this.currentUserSubject.next();
+    this.currentUserSubject.next(user);
   }
 
   /**
@@ -41,7 +41,7 @@ export class AuthService {
    */
   deleteUser() {
     localStorage.removeItem(this.USER_TOKEN)
-    this.currentUserSubject.next();
+    this.currentUserSubject.next(null);
     this.router.navigate(['']); // Or wherever your login page is
   }
 
@@ -67,7 +67,7 @@ export class AuthService {
     if (!token) return null;
     try {
       const decodedToken = jwtDecode<DecodedToken>(token);
-      this.currentUserSubject.next();
+      this.currentUserSubject.next(decodedToken.user);
       return this.currentUserSubject.getValue();
     } catch {
       this.deleteUser();
