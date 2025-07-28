@@ -68,5 +68,26 @@ export const ADMIN_SECTION: AppSection[] = [
     queryParams: {},
     image: 'img/products-icon.svg',
     roles: [Role.ADMIN]
+  },
+  {
+    name: 'Usuarios',
+    path: '/users',
+    queryParams: {},
+    image: 'img/users-icon.svg',
+    roles: [Role.ADMIN]
+  },
+  {
+    name: 'Corte de Caja',
+    path: '/cashcut',
+    queryParams: {},
+    image: 'img/cashcut-icon.svg',
+    roles: [Role.ADMIN]
+  },
+  {
+    name: 'Reporte de Ventas',
+    path: '/resports',
+    queryParams: {},
+    image: 'img/report-icon.svg',
+    roles: [Role.ADMIN]
   }
 ];

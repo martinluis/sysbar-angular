@@ -78,6 +78,7 @@ export class TablesPage implements OnInit {
     this.searchText.set("");
     const emptyTable: Table = {id: null, isBusy: false, name: ''}
     this.formGroup.patchValue(emptyTable);
+    this.formGroup.reset();
   }
 
   /**

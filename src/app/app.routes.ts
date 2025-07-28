@@ -14,6 +14,7 @@ import {ProductsPage} from './pages/products-page/products-page';
 import {ExpensesPage} from './pages/expenses-page/expenses-page';
 import {AdminPage} from './pages/admin-page/admin-page';
 import {UsersPage} from './pages/users-page/users-page';
+import {CashcutPage} from './pages/cashcut-page/cashcut-page';
 
 export const routes: Routes = [
   { path: 'access', component: AccessPage, },
@@ -85,6 +86,12 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersPage,
+    canActivate: [RoleGuard],
+    data: { roles: [Role.ADMIN] }
+  },
+  {
+    path: 'cashcut',
+    component: CashcutPage,
     canActivate: [RoleGuard],
     data: { roles: [Role.ADMIN] }
   },

@@ -73,7 +73,7 @@ export class UsersPage {
       code: ["", [Validators.required]],
       roles: [[], [Validators.required]],
     });
-
+    this.resetForm();
   }
 
 
@@ -109,11 +109,11 @@ export class UsersPage {
       this.userService.save(newTable).subscribe({
         next: user => {
           this.users.set([...this.users(), user]);
-          this.toastService.showSuccess('Usuario creado', 2000, "success");
+          this.toastService.show('Usuario creado', 2000, "success");
 
         },
         error: err => {
-          this.toastService.showSuccess('Error al crear el usuario', 2000, "error");
+          this.toastService.show('Error al crear el usuario', 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -143,10 +143,10 @@ export class UsersPage {
             t.id === user.id ? { ...user } : t
           );
           this.users.set(updatedTables);
-          this.toastService.showSuccess('Usuario actualizado', 2000, "success");
+          this.toastService.show('Usuario actualizado', 2000, "success");
         },
         error: err => {
-          this.toastService.showSuccess('Error al actualizar el usuario', 2000, "error");
+          this.toastService.show('Error al actualizar el usuario', 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -164,11 +164,11 @@ export class UsersPage {
       next: () => {
         const users = this.users().filter(it => it.id !== id);
         this.users.set(users);
-        this.toastService.showSuccess('Usuario eliminado', 2000, "success");
+        this.toastService.show('Usuario eliminado', 2000, "success");
 
       },
       error: err => {
-        this.toastService.showSuccess('Error al borrar el usuario', 2000, "error");
+        this.toastService.show('Error al borrar el usuario', 2000, "error");
         console.error(this.errorHandler.parseError(err));
       }
     });

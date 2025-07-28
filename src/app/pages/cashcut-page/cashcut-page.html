@@ -1,0 +1,71 @@
+<app-header/>
+<div class="container cashcut-container d-flex flex-column">
+
+  <!-- Top panel -->
+  <div class="d-flex flex-column mt-4">
+    <h2>Corte Activo</h2>
+    @if (cashcutActive()) {
+      <div class="d-flex flex-row mt-4">
+        <div class="d-flex flex-column col-5">
+          <div class="d-flex flex-row">
+            <div class="col-6">
+              <h4>Inicio de corte:</h4>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <h4>{{cashcutActive()!.initialDate | date:  'dd-MM-yyyy HH:mm'}}</h4>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="col-6">
+              <h4>Saldo Inicial de Caja:</h4>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <h4>{{cashcutActive()!.initialAmount | currency:"USD"}}</h4>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="col-6">
+              <h4>Ventas Totales:</h4>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <h4>{{cashcutActive()!.totalOrders | currency:"USD"}}</h4>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="col-6">
+              <h4>Gastos Totales:</h4>
+            </div>
+            <div class="d-flex col-6 justify-content-end">
+              <h4>{{cashcutActive()!.totalExpenses | currency:"USD"}}</h4>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="col-6">
+              <h4 class="fw-bold success">Total en Caja:</h4>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+              <h4 class="fw-bold success">{{cashcutActive()!.total | currency:"USD"}}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column col-5 offset-2">
+          <div class="actions-container">
+            <form [formGroup]="cashcutForm" (ngSubmit)="onCashCut()">
+              <div class="form-floating">
+                <input class="form-control" formControlName="initialAmount" type="number" placeholder="Saldo inicial de caja">
+                <label>Saldo inicial de caja</label>
+              </div>
+              <br>
+              <button class="btn btn-outline-primary col-12 mb-2" [class.disabled]="!cashcutForm.valid" [disabled]="isLoading">Realizar Corte</button>
+              <button class="btn btn-outline-danger col-12" (click)="onCancel()">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <!-- Bottom panel -->
+  <div class="d-flex flex-column">
+
+  </div>
+</div>

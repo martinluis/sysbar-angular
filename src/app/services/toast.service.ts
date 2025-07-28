@@ -13,7 +13,7 @@ export class ToastService {
     private injector: EnvironmentInjector
   ) {}
 
-  showSuccess(message: string, durationMs = 3000, style = "") {
+  show(message: string, durationMs = 3000, style = "") {
     if (!this.toastRef) {
       this.toastRef = createComponent(Toast, {
         environmentInjector: this.injector

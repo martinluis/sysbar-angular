@@ -5,6 +5,7 @@ import {ErrorHandlerService} from '../../services/error-handler.service';
 import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product';
 import {ProductType, ProductTypeLabels} from '../../models/product-type.enum';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-products-page',
@@ -36,10 +37,12 @@ export class ProductsPage {
    * @param productService
    * @param formBuilder
    * @param errorHandler
+   * @param toastService
    */
   constructor(private productService: ProductService,
               private formBuilder: FormBuilder,
-              private errorHandler: ErrorHandlerService) {
+              private errorHandler: ErrorHandlerService,
+              private toastService: ToastService) {
 
   }
 
@@ -79,6 +82,7 @@ export class ProductsPage {
     this.isEditing.set(false);
     this.searchText.set("");
     this.formGroup.patchValue({id: null, name: '', price: '', stock: '', type: ProductType.FOOD});
+    this.formGroup.reset();
   }
 
   /**
@@ -90,9 +94,11 @@ export class ProductsPage {
       this.productService.save(newTable).subscribe({
         next: table => {
           this.products.set([...this.products(), table]);
+          this.toastService.show('Producto creado', 2000, "success");
         },
         error: err => {
-          console.log(this.errorHandler.parseError(err));
+          this.toastService.show('Error al crear el productp', 2000, "error");
+          console.error(this.errorHandler.parseError(err));
         }
       });
     }
@@ -121,9 +127,11 @@ export class ProductsPage {
             t.id === product.id ? { ...product } : t
           );
           this.products.set(updatedTables);
+          this.toastService.show('Producto actualizado', 2000, "success");
         },
         error: err => {
-          console.log(this.errorHandler.parseError(err));
+          this.toastService.show('Error al crear el productp', 2000, "error");
+          console.error(this.errorHandler.parseError(err));
         }
       });
     }
@@ -140,9 +148,11 @@ export class ProductsPage {
       next: () => {
         const products = this.products().filter(it => it.id !== id);
         this.products.set(products);
+        this.toastService.show('Producto eliminado', 2000, "success");
       },
       error: err => {
-        console.log(this.errorHandler.parseError(err));
+        this.toastService.show('Error al crear el productp', 2000, "error");
+        console.error(this.errorHandler.parseError(err));
       }
     });
   }

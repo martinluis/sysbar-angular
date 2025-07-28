@@ -79,6 +79,7 @@ export class ExpensesPage {
     this.isEditing.set(false);
     this.searchText.set("");
     this.formGroup.patchValue({id: null, description: '', amount: ''});
+    this.formGroup.reset();
   }
 
   /**

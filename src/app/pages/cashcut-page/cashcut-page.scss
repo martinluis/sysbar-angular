@@ -1,0 +1,9 @@
+.actions-container {
+  padding: 2rem;
+  border: solid 1px lightgray;
+  border-radius: 0.5rem;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: red;
+}

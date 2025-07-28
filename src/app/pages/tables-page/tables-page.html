@@ -4,10 +4,12 @@
 
   <form [formGroup]="formGroup" (ngSubmit)="isEditing() ? update() : add()" class="d-flex flex-row">
     <div class="col-6">
-      <input type="text" formControlName="name" name="name" class="form-control"  placeholder="Nombre de Mesa"/>
+      <div class="form-floating">
+        <input type="text" formControlName="name" name="name" class="form-control"  placeholder="Nombre de Mesa"/>
+        <label>Nombre de Mesa</label>
+      </div>
     </div>
-
-    <div class="col-6 d-flex align-items-end justify-content-end">
+    <div class="col-6 d-flex justify-content-end p-2">
       @if (isEditing()) {
         <button type="button" class="btn btn-outline-danger col-3" (click)="resetForm()">Cancel</button>
       }
