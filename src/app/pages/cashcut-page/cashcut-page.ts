@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {Cashcut} from '../../models/cashcut';
 import {CashcutService} from '../../services/cashcut.service';
 import {ToastService} from '../../services/toast.service';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -31,10 +31,20 @@ export class CashcutPage implements OnInit{
   cashcutForm!: FormGroup;
   isLoading = false;
   initDate: { year: number, month: number, day: number} | null = null;
-  endDate = { year: 0, month: 0, day: 0};
+  endDate: { year: number, month: number, day: number} | null = null;
 
 
+  /**
+   *
+   * @param toastService
+   * @param router
+   * @param formBuilder
+   * @param cashcutService
+   * @param datePipe
+   * @param errorHandler
+   */
   constructor(private toastService: ToastService,
+              private router: Router,
               private formBuilder: FormBuilder,
               private cashcutService: CashcutService,
               private datePipe: DatePipe,
@@ -123,8 +133,11 @@ export class CashcutPage implements OnInit{
     })
   }
 
+  /**
+   *
+   */
   onCancel(){
-
+    this.router.navigate(['admin']);
   }
 
 

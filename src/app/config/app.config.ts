@@ -85,7 +85,7 @@ export const ADMIN_SECTION: AppSection[] = [
   },
   {
     name: 'Reporte de Ventas',
-    path: '/resports',
+    path: '/reports',
     queryParams: {},
     image: 'img/report-icon.svg',
     roles: [Role.ADMIN]
