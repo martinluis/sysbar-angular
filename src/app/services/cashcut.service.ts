@@ -16,7 +16,13 @@ export class CashcutService {
   /**
    *
    */
-  getAll(): Observable<Cashcut[]> {
+  getAll(startDate = "", endDate = ""): Observable<Cashcut[]> {
+    if (startDate !== "" && endDate !== "") {
+      let params = new HttpParams()
+        .set('startDate', startDate)
+        .set('endDate', endDate);
+      return this.http.get<Cashcut[]>(this.apiUrl, { params });
+    }
     return this.http.get<Cashcut[]>(this.apiUrl);
   }
 
