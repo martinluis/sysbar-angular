@@ -4,6 +4,7 @@ import { routes } from './app.routes';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import { authInterceptor} from './services/auth-interceptor.service'
 import {provideAnimations} from '@angular/platform-browser/animations';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,8 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    provideHttpClient(
-      withInterceptors([authInterceptor])
-    )
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideCharts(withDefaultRegisterables())
   ]
 };
