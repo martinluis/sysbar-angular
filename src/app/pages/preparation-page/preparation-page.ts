@@ -56,7 +56,6 @@ export class PreparationPage implements OnInit, OnDestroy {
   initView(){
     this.preparationService.getLiveData().pipe(takeUntil(this.destroy$)).subscribe({
       next: items => {
-        console.log("Getting ...")
         if (this.productType) {
           items = items.filter(it=> it.productType === this.productType)
         }

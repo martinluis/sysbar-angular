@@ -8,6 +8,7 @@ import {OrderType} from '../../models/order-type.enum';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {Role} from '../../models/role.enum';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-cashier-page',
@@ -26,8 +27,9 @@ export class CashierPage implements OnInit{
   orders$!: Observable<Order[]>;
   orderSelected!: Order
 
-  constructor(private orderServices: OrderService,
+  constructor(private orderService: OrderService,
               private router: Router,
+              private toastService: ToastService,
               private authService: AuthService) {
   }
 
@@ -35,7 +37,7 @@ export class CashierPage implements OnInit{
    *
    */
   ngOnInit(): void {
-     this.orders$ = this.orderServices.getAllActives();
+     this.orders$ = this.orderService.getAllActives();
   }
 
   /**
@@ -72,6 +74,23 @@ export class CashierPage implements OnInit{
     this.router.navigate(['order'], {
       queryParams: { orderId: this.orderSelected.id }
     })
+  }
+
+
+  /**
+   *
+   */
+  onPrintTicket() {
+    this.orderService.printTicket(this.orderSelected.id!).subscribe({
+      next: () => {
+        this.toastService.show("Se imprimió el ticket", 1000, "success");
+      },
+      error: err => {
+        this.toastService.show("Error al imprimir el ticket", 2000, "error");
+        console.error(err);
+      }
+    })
+
   }
 
   /**

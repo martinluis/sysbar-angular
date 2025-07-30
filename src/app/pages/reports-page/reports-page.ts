@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {FormsModule} from '@angular/forms';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
@@ -122,7 +122,8 @@ export class ReportsPage implements OnInit {
   ngOnInit(): void {
     const initDate = new Date();
     const endDate = new Date();
-    initDate.setDate(initDate.getDate() - 30);
+    initDate.setDate(initDate.getDate() - 29);
+    endDate.setDate(endDate.getDate() + 1);
     this.initDate = {year: initDate.getFullYear(), month: initDate.getMonth() + 1, day: initDate.getDate()};
     this.endDate = {year: endDate.getFullYear(), month: endDate.getMonth() + 1, day: endDate.getDate()};
     const initDateString = this.createDateString(initDate.getFullYear(), initDate.getMonth(), initDate.getDate())

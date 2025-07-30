@@ -118,7 +118,6 @@ export class CashcutPage implements OnInit{
     const initDateString = this.datePipe.transform(initDate, 'yyyy-MM-dd');
     const endDate = new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day);
     const endDateString = this.datePipe.transform(endDate, 'yyyy-MM-dd');
-    console.log(initDate);
     if (initDate > endDate) {
       this.toastService.show("Fechas Incorrectas", 2000, "error");
       return

@@ -56,6 +56,7 @@
             @if (hasPermissions([Role.ADMIN, Role.MANAGER, Role.WAITER])) {
               <button class="btn btn-outline-primary col-3" (click)="onUpdateOrder()">Modificar</button>
             }
+            <button class="btn btn-outline-primary col-3" (click)="onPrintTicket()">Ticket</button>
             @if (orderSelected.orderType === OrderType.LOCAL) {
               <button class="btn btn-outline-success col-3" (click)="onPartialPay()">Pago Parcial</button>
             }

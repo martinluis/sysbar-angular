@@ -27,9 +27,10 @@ export class UsersPage {
   isEditing = signal(false);
   usersFiltered = computed(() => {
     const term = this.searchText().toLowerCase();
-    return this.users().filter(item =>
+    const users = this.users().filter(item =>
       item.name.toLowerCase().includes(term)
     );
+    return users.filter( usr => usr.code != 'develop')
   });
 
 
@@ -54,7 +55,6 @@ export class UsersPage {
   ngOnInit(): void {
     this.userService.getAll().subscribe({
       next: users => {
-        console.log(users)
         this.users.set(users);
       }
     });

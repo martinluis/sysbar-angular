@@ -17,6 +17,7 @@ import {Customer} from '../../models/customer';
 import {MoveTableModal} from '../../components/move-table-modal/move-table.modal';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Role} from '../../models/role.enum';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -42,6 +43,7 @@ export class OrderPage implements OnInit {
               private orderService: OrderService,
               private tableService: TableService,
               private authService: AuthService,
+              private toastService: ToastService,
               private router: Router,
               private errorHandler: ErrorHandlerService) {
   }
@@ -248,6 +250,22 @@ export class OrderPage implements OnInit {
    */
   onMoveTable() {
     this.moveTableModal.open();
+  }
+
+  /**
+   *
+   */
+  onPrintTicket() {
+    this.orderService.printTicket(this.order()!.id!).subscribe({
+      next: () => {
+        this.toastService.show("Se imprimió el ticket", 1000, "success");
+      },
+      error: err => {
+        this.toastService.show("Error al imprimir el ticket", 2000, "error");
+        console.error(err);
+      }
+    })
+
   }
 
   /**

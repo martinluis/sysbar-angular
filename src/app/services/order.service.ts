@@ -204,4 +204,11 @@ export class OrderService {
       id: newTableId
     });
   }
+
+  /**
+   *
+   */
+  printTicket(id: number): Observable<void> {
+    return this.http.get<void>(this.apiUrl.concat(`${id}`).concat("/printTicket"));
+  }
 }
