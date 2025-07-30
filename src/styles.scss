@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'variables' as *;
 
 /* styles.scss */
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 
 body {
   font-family: 'PT Sans', sans-serif;
@@ -15,4 +17,15 @@ body {
 
 .font-light {
   color: gray;
+}
+
+
+.btn-outline-primary {
+  border-color: $primary-color;
+  color: $primary-color;
+
+  &:hover {
+    background-color: $primary-color;
+    color: white;
+  }
 }

@@ -5,15 +5,14 @@ import {OrderItemComponent} from './order-item/order-item.component';
 import {CurrencyPipe} from '@angular/common';
 import {OrderItem} from '../../models/order-item';
 import {OrderService} from '../../services/order.service';
-import {InfoModal} from '../commons/info-modal/info.modal';
 import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-order-summary',
   imports: [
     OrderItemComponent,
     CurrencyPipe,
-    InfoModal,
     ConfirmModal
   ],
   templateUrl: './order-summary.component.html',
@@ -23,7 +22,6 @@ export class OrderSummaryComponent implements AfterViewInit {
 
   order = input.required<Order>();
   isEditable = input<boolean>(true);
-  @ViewChild(InfoModal) infoModal!: InfoModal;
   @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
   @ViewChild('contentSummary') private contentSummary!: ElementRef<HTMLDivElement>;
   isItemsModified = false;
@@ -32,8 +30,9 @@ export class OrderSummaryComponent implements AfterViewInit {
   /**
    *
    * @param orderService
+   * @param toastService
    */
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService, private toastService: ToastService) {
     effect(() => {
       this.isItemsModified = this.order().items.some(item => item.itemId === null);
       setTimeout(() => this.scrollToBottom(), 100);
@@ -56,7 +55,7 @@ export class OrderSummaryComponent implements AfterViewInit {
       next: (order) => {
         this.order().items = order.items;
         this.order().id = order.id
-        this.infoModal.open("Order Confirmada!" , 1);
+        this.toastService.show("Order Confirmada!", 2000, "success")
         this.isItemsModified = false;
       },
       error: (error) => {
@@ -110,18 +109,18 @@ export class OrderSummaryComponent implements AfterViewInit {
    */
   private validateOrder(): boolean{
     if (this.order().items.length === 0) {
-      this.infoModal.open("La orden no puede estar vacia", 5);
+      this.toastService.show("La orden no puede estar vacia", 5000, "warning")
       return false;
     }
     if (this.order().orderType && this.order().orderType===OrderType.DELIVERY) {
       if (!this.order().customer) {
-        this.infoModal.open("Debe ingresar informacion del cliente", 5);
+        this.toastService.show("Debe ingresar informacion del cliente", 5000, "warning")
         return false;
       }
     }
     if (this.order().orderType && this.order().orderType===OrderType.PERSONAL) {
       if (!this.order().reference || this.order().reference === "") {
-        this.infoModal.open("Debe ingresar el nombre o referencia", 5);
+        this.toastService.show("Debe ingresar el nombre o referencia", 5000, "warning")
         return false;
       }
     }

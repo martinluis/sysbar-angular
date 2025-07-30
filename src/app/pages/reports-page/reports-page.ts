@@ -75,7 +75,7 @@ export class ReportsPage implements OnInit {
         label: 'Ventas ($)',
         data: [],
         borderColor: 'rgb(141,190,229)',
-        backgroundColor: '#0d6efd',
+        backgroundColor: '#14578c',
         tension: 0.7
       },
     ],
@@ -107,10 +107,10 @@ export class ReportsPage implements OnInit {
     datasets: [
       {
         type: 'bar',
-        label: 'Ventas ($)',
+        label: 'Unidades Vendidas',
         data: [],
         borderColor: 'rgb(141,190,229)',
-        backgroundColor: '#0d6efd'
+        backgroundColor: '#14578c'
       },
     ],
   };
