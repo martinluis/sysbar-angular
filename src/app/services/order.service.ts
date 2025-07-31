@@ -12,7 +12,7 @@ import {OrderItem} from '../models/order-item';
 })
 export class OrderService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/order/';
+  private apiUrl = AppProperties['apiUrl'] + '/order';
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class OrderService {
    *
    */
   get(id: number): Observable<Order> {
-    return this.http.get<Order>(this.apiUrl.concat(`${id}`));
+    return this.http.get<Order>(this.apiUrl.concat(`/${id}`));
   }
 
   /**
@@ -30,7 +30,7 @@ export class OrderService {
   getByTable(tableId: number): Observable<Order> {
     let params = new HttpParams();
     params = params.set('tableId', tableId);
-    return this.http.get<Order>(this.apiUrl.concat("findByTable"), {params});
+    return this.http.get<Order>(this.apiUrl.concat("/findByTable"), {params});
   }
 
   /**
@@ -38,7 +38,7 @@ export class OrderService {
    * @param order
    */
   update(order: Order): Observable<Order> {
-    const url = `${this.apiUrl}${order.id}`
+    const url = `${this.apiUrl}/${order.id}`
     return this.http.put<Order>(url, order);
   }
 
@@ -51,7 +51,7 @@ export class OrderService {
     let params = new HttpParams();
     params = params.set('type', type);
     params = params.set('status', status);
-    return this.http.get<Order[]>(this.apiUrl.concat("findByTypeAndStatus"), {params});
+    return this.http.get<Order[]>(this.apiUrl.concat("/findBy"), {params});
   }
 
 
@@ -59,7 +59,9 @@ export class OrderService {
    *
    */
   getAllActives(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl.concat("actives"));
+    let params = new HttpParams();
+    params = params.set('status', OrderStatus.ACTIVE);
+    return this.http.get<Order[]>(this.apiUrl.concat("/findBy"), {params});
   }
 
 
@@ -108,7 +110,8 @@ export class OrderService {
    * @param cash
    */
   pay(order: Order, discount: number, cash: number): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl.concat(order.id!.toString()).concat("/pay"), {
+    const url = `${this.apiUrl}/${order.id}/pay`
+    return this.http.post<Order>(url, {
       "amount": cash,
       "discount": discount
     });
@@ -118,12 +121,13 @@ export class OrderService {
    *
    * @param order
    * @param items
+   * @param cash
    */
   partialPay(order: Order, items: OrderItem[], cash: number): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl.concat(order.id!.toString()).concat("/partialPay"), {
+    const url = `${this.apiUrl}/${order.id}/pay`
+    return this.http.post<Order>(url, {
       "amount": cash,
       "orderItems": items
-
     });
   }
 
@@ -142,7 +146,7 @@ export class OrderService {
    * @private
    */
   private createToDelivery(order: Order): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl.concat("delivery"), order);
+    return this.http.post<Order>(this.apiUrl.concat("/delivery"), order);
   }
   /**
    *
@@ -150,7 +154,7 @@ export class OrderService {
    * @private
    */
   private createToPersonal(order: Order): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl.concat("personal"), order);
+    return this.http.post<Order>(this.apiUrl.concat("/personal"), order);
   }
 
   /**
@@ -158,7 +162,7 @@ export class OrderService {
    * @param order
    */
   addItems(order: Order) {
-    const url = `${this.apiUrl}${order.id}/addItems`
+    const url = `${this.apiUrl}/${order.id}/items`
     const items = order.items.filter(it => it.itemId===null);
     return this.http.post<Order>(url, items);
   }
@@ -168,7 +172,7 @@ export class OrderService {
    * @param order
    */
   deleteItems(order: Order) {
-    const url = `${this.apiUrl}${order.id}/deleteItems`
+    const url = `${this.apiUrl}/${order.id}/items`
     let params = new HttpParams();
     order.items.forEach(it => {
       if (it.itemId && it.isDeleted) {
@@ -183,7 +187,7 @@ export class OrderService {
    * @param order
    */
   updateItems(order: Order, ) {
-    const url = `${this.apiUrl}${order.id}/updateItems`
+    const url = `${this.apiUrl}/${order.id}/items`
     let params: {itemId: number, quantity: number}[] = [];
     order.items.forEach(it => {
       if (it.itemId && it.isUpdated) {
@@ -199,7 +203,7 @@ export class OrderService {
    * @param newTableId
    */
   changeTable(order: Order, newTableId: number): Observable<Order> {
-    const url = `${this.apiUrl}${order.id}/changeTable`
+    const url = `${this.apiUrl}/${order.id}/changeTable`
     return this.http.patch<Order>(url,  {
       id: newTableId
     });
@@ -209,6 +213,6 @@ export class OrderService {
    *
    */
   printTicket(id: number): Observable<void> {
-    return this.http.get<void>(this.apiUrl.concat(`${id}`).concat("/printTicket"));
+    return this.http.get<void>(this.apiUrl.concat(`/${id}`).concat("/ticket"));
   }
 }
