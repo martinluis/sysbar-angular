@@ -9,7 +9,7 @@ import {Product} from '../models/product';
 })
 export class ProductService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/product/';
+  private apiUrl = AppProperties['apiUrl'] + '/product';
 
 
   /**
@@ -38,7 +38,7 @@ export class ProductService {
    * @param id
    */
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
+    return this.http.delete<void>(this.apiUrl.concat(`/${id}`));
   }
 
 }
