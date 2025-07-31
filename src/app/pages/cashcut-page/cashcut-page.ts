@@ -93,11 +93,17 @@ export class CashcutPage implements OnInit{
     const cashcut: Cashcut = this.cashcutForm.value;
     this.cashcutService.finish(cashcut).subscribe({
       next: cashcut => {
-        this.cashcutActive.set(cashcut);
         this.cashcuts.set([...this.cashcuts(), cashcut]);
         this.cashcutForm.reset();
         this.toastService.show('Se genero el corte', 2000, "success");
-
+        this.cashcutService.getActive().subscribe({
+          next: cashcut => {
+            this.cashcutActive.set(cashcut);
+          },
+          error: err => {
+            console.error(this.errorHandler.parseError(err));
+          }
+        })
       },
       error: err => {
         this.toastService.show('Error al crear el corte de caja', 2000, "error");
