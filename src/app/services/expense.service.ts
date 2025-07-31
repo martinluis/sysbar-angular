@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ExpenseService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/expense/';
+  private apiUrl = AppProperties['apiUrl'] + '/expense';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,7 @@ export class ExpenseService {
    *
    */
   findActives(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.apiUrl.concat("findActives"));
+    return this.http.get<Expense[]>(this.apiUrl.concat("/findActives"));
   }
 
   /**
@@ -41,6 +41,6 @@ export class ExpenseService {
    * @param id
    */
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
+    return this.http.delete<void>(this.apiUrl.concat(`/${id}`));
   }
 }
