@@ -91,12 +91,12 @@ export class CashcutPage implements OnInit{
    */
   onCashCut(){
     const cashcut: Cashcut = this.cashcutForm.value;
-    this.cashcutService.finish(cashcut).subscribe({
-      next: cashcut => {
-        this.cashcuts.set([...this.cashcuts(), cashcut]);
+    this.cashcutService.finish().subscribe({
+      next: finishedCashcut => {
+        this.cashcuts.set([...this.cashcuts(), finishedCashcut]);
         this.cashcutForm.reset();
         this.toastService.show('Se genero el corte', 2000, "success");
-        this.cashcutService.getActive().subscribe({
+        this.cashcutService.createActive(cashcut).subscribe({
           next: cashcut => {
             this.cashcutActive.set(cashcut);
           },

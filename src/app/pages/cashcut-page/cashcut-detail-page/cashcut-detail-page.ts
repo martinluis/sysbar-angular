@@ -44,7 +44,7 @@ export class CashcutDetailPage implements OnInit {
    */
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id');
-    this.cashcutService.get(Number(userId), "full").subscribe({
+    this.cashcutService.get(Number(userId), true).subscribe({
       next: response => {
         this.cashcut.set(response);
       },

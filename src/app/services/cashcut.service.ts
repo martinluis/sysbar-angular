@@ -29,9 +29,9 @@ export class CashcutService {
   /**
    *
    */
-  get(id: number, retrieveType = ""): Observable<Cashcut> {
+  get(id: number, includeDetails = false): Observable<Cashcut> {
     let params = new HttpParams()
-      .set('mode', retrieveType);
+      .set('includeDetails', includeDetails);
     return this.http.get<Cashcut>(this.apiUrl.concat(id.toString()), {params} );
   }
 
@@ -47,7 +47,15 @@ export class CashcutService {
    *
    * @param cashcut
    */
-  finish(cashcut: Cashcut): Observable<Cashcut> {
-    return this.http.put<Cashcut>(this.apiUrl.concat("finish"), cashcut);
+  finish(): Observable<Cashcut> {
+    return this.http.put<Cashcut>(this.apiUrl.concat("active/finish"), null);
+  }
+
+  /**
+   *
+   * @param cashcut
+   */
+  createActive(cashcut: Cashcut): Observable<Cashcut> {
+    return this.http.post<Cashcut>(this.apiUrl.concat("active"), cashcut);
   }
 }
