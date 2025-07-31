@@ -10,7 +10,7 @@ import {AppProperties} from '../config/app.properties';
 export class UserService {
 
 
-  private apiUrl = AppProperties['apiUrl'] + '/user/';
+  private apiUrl = AppProperties['apiUrl'] + '/user';
 
   /**
    *
@@ -23,7 +23,7 @@ export class UserService {
    * @param code
    */
   requestAccess(code: string): Observable<User> {
-    let url = this.apiUrl + `requestAccess?code=${code}`;
+    let url = this.apiUrl + `/requestAccess?code=${code}`;
     return this.http.get<User>(url);
   }
 
@@ -49,7 +49,7 @@ export class UserService {
    * @param id
    */
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
+    return this.http.delete<void>(this.apiUrl.concat(`/${id}`));
   }
 }
 
