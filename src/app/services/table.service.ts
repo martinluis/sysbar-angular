@@ -9,7 +9,7 @@ import {Table} from '../models/table';
 })
 export class TableService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/table/';
+  private apiUrl = AppProperties['apiUrl'] + '/table';
 
   constructor(private http: HttpClient) {}
 
@@ -24,15 +24,24 @@ export class TableService {
    *
    */
   get(id: number): Observable<Table> {
-    return this.http.get<Table>(this.apiUrl.concat(id.toString()));
+    return this.http.get<Table>(this.apiUrl.concat(`/${id}`));
   }
 
   /**
    *
    * @param table
    */
-  save(table: Table): Observable<Table> {
+  create(table: Table): Observable<Table> {
     return this.http.post<Table>(this.apiUrl, table);
+  }
+
+
+  /**
+   *
+   * @param table
+   */
+  update(table: Table): Observable<Table> {
+    return this.http.put<Table>(this.apiUrl.concat(`/${table.id}`), table);
   }
 
   /**
@@ -40,7 +49,7 @@ export class TableService {
    * @param id
    */
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl.concat(`${id}`));
+    return this.http.delete<void>(this.apiUrl.concat(`/${id}`));
   }
 }
 

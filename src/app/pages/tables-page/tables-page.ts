@@ -87,7 +87,7 @@ export class TablesPage implements OnInit {
   add(): void {
     if (this.formGroup.valid) {
       const newTable: Table = this.formGroup.value;
-      this.tableService.save(newTable).subscribe({
+      this.tableService.create(newTable).subscribe({
         next: table => {
           this.tables.set([...this.tables(), table]);
         },
@@ -115,7 +115,7 @@ export class TablesPage implements OnInit {
   update(): void {
     if (this.formGroup.valid) {
       const newTable: Table = this.formGroup.value;
-      this.tableService.save(newTable).subscribe({
+      this.tableService.update(newTable).subscribe({
         next: table => {
           const updatedTables = this.tables().map(t =>
             t.id === table.id ? { ...table } : t
