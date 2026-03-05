@@ -42,6 +42,14 @@ export class OrderService {
     return this.http.put<Order>(url, order);
   }
 
+
+  /**
+   *
+   */
+  delete(id: number): Observable<Order> {
+    return this.http.delete<Order>(this.apiUrl.concat(`/${id}`));
+  }
+
   /**
    *
    * @param type

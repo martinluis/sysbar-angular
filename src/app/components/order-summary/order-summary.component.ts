@@ -55,6 +55,7 @@ export class OrderSummaryComponent implements AfterViewInit {
       next: (order) => {
         this.order().items = order.items;
         this.order().id = order.id
+        this.removeEmptyItems();
         this.toastService.show("Order Confirmada!", 2000, "success")
         this.isItemsModified = false;
       },
@@ -125,6 +126,14 @@ export class OrderSummaryComponent implements AfterViewInit {
       }
     }
     return true;
+  }
+
+  /**
+   *
+   * @private
+   */
+  private removeEmptyItems() {
+    this.order().items = this.order().items.filter(item => item.itemId !== null && item.quantity > 0);
   }
 
   /**
