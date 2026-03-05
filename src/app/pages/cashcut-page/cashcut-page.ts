@@ -66,6 +66,7 @@ export class CashcutPage implements OnInit{
 
     this.cashcutService.getAll().subscribe({
       next: cashcuts => {
+        cashcuts.sort((a,b) => new Date(b.initialDate).getTime() - new Date(a.initialDate).getTime())
         this.cashcuts.set(cashcuts);
       },
       error: err => {

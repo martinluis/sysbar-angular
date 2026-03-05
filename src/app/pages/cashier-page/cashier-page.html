@@ -8,7 +8,7 @@
         <h5> Ordenes Activas</h5>
       </div>
       @for (order of orders$ | async; track order.id) {
-        <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected && orderSelected === order" >
+        <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected() && orderSelected() === order" >
           <div class="d-flex flex-row">
             <div class="col-9">
               <span>{{getTypeDescription(order)}}</span>
@@ -25,46 +25,49 @@
 
   <!-- Right panel -->
   <div class="orders-detail-container col-7 d-flex flex-column">
-    @if (orderSelected) {
+    @if (orderSelected()!==null) {
       <div class="orders-item-detail-container bg-white">
         <div class="d-flex flex-column p-2">
           <div class="d-flex flex-row">
             <div class="col-10">
-              <h4>{{getTypeDescription(orderSelected)}}</h4>
+              <h4>{{getTypeDescription(orderSelected()!)}}</h4>
             </div>
             <div class="col-2 text-end">
-              <h3>{{orderSelected.total | currency: "USD"}}</h3>
+              <h3>{{orderSelected()?.total | currency: "USD"}}</h3>
             </div>
           </div>
-          @switch (orderSelected.orderType) {
+          @switch (orderSelected()?.orderType) {
             @case (OrderType.PERSONAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+              <span class="order-item-sub">Mesero: {{orderSelected()?.user?.name}}</span>
             }
             @case (OrderType.LOCAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected.user.name}}</span>
+              <span class="order-item-sub">Mesero: {{orderSelected()?.user?.name}}</span>
             }
             @case (OrderType.DELIVERY) {
               <span class="order-item-sub">
-                {{orderSelected.customer?.firstName}}
-                {{orderSelected.customer?.lastName}}
+                {{orderSelected()?.customer?.firstName}}
+                {{orderSelected()?.customer?.lastName}}
               </span>
-              <span class="order-item-sub"> {{orderSelected.customer?.address}}</span>
+              <span class="order-item-sub"> {{orderSelected()?.customer?.address}}</span>
             }
           }
           <br>
           <div class="actions-container d-flex flex-row justify-content-between">
+            @if (hasPermissions([Role.ADMIN, Role.MANAGER])) {
+              <button class="btn btn-outline-danger col-2" (click)="onDeleteOrder()">Eliminar</button>
+            }
             @if (hasPermissions([Role.ADMIN, Role.MANAGER, Role.WAITER])) {
-              <button class="btn btn-outline-primary col-3" (click)="onUpdateOrder()">Modificar</button>
+              <button class="btn btn-outline-primary col-2" (click)="onUpdateOrder()">Modificar</button>
             }
-            <button class="btn btn-outline-primary col-3" (click)="onPrintTicket()">Ticket</button>
-            @if (orderSelected.orderType === OrderType.LOCAL) {
-              <button class="btn btn-outline-success col-3" (click)="onPartialPay()">Pago Parcial</button>
+            <button class="btn btn-outline-primary col-2" (click)="onPrintTicket()">Ticket</button>
+            @if (orderSelected()?.orderType === OrderType.LOCAL) {
+              <button class="btn btn-outline-success col-2" (click)="onPartialPay()">Pago Parcial</button>
             }
-            <button class="btn btn-outline-success col-3" (click)="onPay()">Pagar</button>
+            <button class="btn btn-outline-success col-2" (click)="onPay()">Pagar</button>
           </div>
           <br>
           <div class="items-container">
-            @for (item of orderSelected.items; track item.itemId) {
+            @for (item of orderSelected()?.items; track item.itemId) {
               <div class="order-item-detail d-flex flex-column">
                 <div class="col-12">
                   <div class="d-flex flex-row">

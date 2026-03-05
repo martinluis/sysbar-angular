@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {OrderService} from '../../services/order.service';
 import {Observable} from 'rxjs';
@@ -25,7 +25,7 @@ export class CashierPage implements OnInit{
 
 
   orders$!: Observable<Order[]>;
-  orderSelected!: Order
+  orderSelected = signal<Order|null>(null);
 
   constructor(private orderService: OrderService,
               private router: Router,
@@ -45,7 +45,7 @@ export class CashierPage implements OnInit{
    * @param order
    */
   onSelectOrder(order: Order) {
-    this.orderSelected = order;
+    this.orderSelected.set(order);
   }
 
   /**
@@ -53,7 +53,7 @@ export class CashierPage implements OnInit{
    */
   onPay() {
     this.router.navigate(['pay'], {
-      queryParams: { orderId: this.orderSelected.id }
+      queryParams: { orderId: this.orderSelected()?.id! }
     })
   }
 
@@ -63,7 +63,7 @@ export class CashierPage implements OnInit{
    */
   onPartialPay() {
     this.router.navigate(['partial-pay'], {
-      queryParams: { orderId: this.orderSelected.id }
+      queryParams: { orderId: this.orderSelected()?.id! }
     })
   }
 
@@ -72,16 +72,32 @@ export class CashierPage implements OnInit{
    */
   onUpdateOrder() {
     this.router.navigate(['order'], {
-      queryParams: { orderId: this.orderSelected.id }
+      queryParams: { orderId: this.orderSelected()?.id! }
     })
   }
 
+  /**
+   *
+   */
+  onDeleteOrder() {
+    this.orderService.delete(this.orderSelected()?.id!).subscribe({
+      next: () => {
+        this.toastService.show("Se eliminó la orden", 2000, "success");
+        this.orders$ = this.orderService.getAllActives();
+        this.orderSelected.set(null);
+      },
+      error: err => {
+        this.toastService.show("Error al eliminar la orden", 2000, "error");
+        console.error(err);
+      }
+    })
+  }
 
   /**
    *
    */
   onPrintTicket() {
-    this.orderService.printTicket(this.orderSelected.id!).subscribe({
+    this.orderService.printTicket(this.orderSelected()?.id!).subscribe({
       next: () => {
         this.toastService.show("Se imprimió el ticket", 1000, "success");
       },
