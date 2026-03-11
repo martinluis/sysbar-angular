@@ -104,7 +104,7 @@ export class PayPage implements OnInit {
    */
   private initFormControl() {
     this.paymentForm = this.fb.group({
-      discount: [null, [Validators.min(1), Validators.max(90)]],
+      discount: [null, [Validators.min(1), Validators.max(99)]],
       cash: [null, [Validators.min(1), this.cashEnoughValidator(this.finalTotal)]]
     });
 
@@ -112,7 +112,6 @@ export class PayPage implements OnInit {
       if (this.paymentForm.get('discount')?.valid) {
         const discountValue = Number(value);
         this.finalTotal = this.calculateTotalWithDiscount(discountValue);
-
       } else {
         this.finalTotal = this.totalAmount; // Reset if invalid
       }
@@ -198,6 +197,23 @@ export class PayPage implements OnInit {
     await this.confirmModal.open(`Cambio: ${cashBackFormated} `);
   }
 
+  /**
+   *
+   * @param event
+   */
+  limitDiscount(event: any): void {
+    let value = event.target.value;
+
+    if (value > 99) {
+      event.target.value = 99;
+      this.paymentForm.get('discount')?.setValue(99, { emitEvent: true });
+    }
+
+    if (value < 0) {
+      event.target.value = 0;
+      this.paymentForm.get('discount')?.setValue(0, { emitEvent: true });
+    }
+  }
 
 }
 

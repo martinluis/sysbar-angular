@@ -19,7 +19,7 @@
           <label>Importe</label>
         </div>
         <div class="form-floating">
-          <input class="form-control" formControlName="discount" type="number" maxlength="2" placeholder="Descuento %">
+          <input class="form-control" formControlName="discount" type="number" min="0" max="99" (input)="limitDiscount($event)" placeholder="Descuento %">
           <label>Descuento %</label>
         </div>
         <br>
@@ -41,4 +41,4 @@
   </div>
 </div>
 
-<app-confirm-modal [onlyAcceptButton]="true"/>
+<app-confirm-modal [showCancelButton]="false"/>
