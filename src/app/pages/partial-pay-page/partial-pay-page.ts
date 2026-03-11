@@ -107,6 +107,16 @@ export class PartialPayPage implements OnInit {
    * @param direction
    */
   moveItem(item: OrderItem, direction: 'leftToRight' | 'rightToLeft') {
+
+    if (direction === 'leftToRight') {
+      const totalOriginalQty = this.originalItems.reduce((sum, i) => sum + i.quantity, 0);
+
+      // Prevent removing the last item
+      if (totalOriginalQty <= 1 && item.quantity === 1) {
+        return;
+      }
+    }
+
     const toList = direction === 'leftToRight' ? this.partialItems : this.originalItems;
 
     if (item.quantity > 0) {
@@ -118,7 +128,10 @@ export class PartialPayPage implements OnInit {
         toList.push({ ...item, quantity: 1 });
       }
     }
+
     this.partialItems = this.partialItems.filter(i => i.quantity > 0);
+    this.originalItems = this.originalItems.filter(i => i.quantity > 0);
+
     this.updateTotal();
   }
 
