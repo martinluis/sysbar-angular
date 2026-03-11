@@ -7,6 +7,7 @@ import {OrderItem} from '../../models/order-item';
 import {OrderService} from '../../services/order.service';
 import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
 import {ToastService} from '../../services/toast.service';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-order-summary',
@@ -56,7 +57,7 @@ export class OrderSummaryComponent implements AfterViewInit {
         this.order().items = order.items;
         this.order().id = order.id
         this.removeEmptyItems();
-        this.toastService.show("Order Confirmada!", 2000, "success")
+        this.toastService.show("Orden Confirmada", 2000, "success")
         this.isItemsModified = false;
       },
       error: (error) => {
@@ -75,32 +76,47 @@ export class OrderSummaryComponent implements AfterViewInit {
   /**
    *
    */
-  async onCancel(){
-    const confirmed = await this.confirmModal.open('Desea cancelar los cambios en la orden?');
+  async onCancel() {
+    const confirmed = await this.confirmModal.open(
+      'Desea cancelar los cambios en la orden?'
+    );
+
     if (confirmed) {
-      this.cancelOrder();
+      await this.cancelOrder();
       this.isItemsModified = false;
     }
+
+    this.updateTotal();
   }
+
 
   /**
    *
    * @private
    */
-  private cancelOrder (){
-    // To be sure that the items are the originals from the DB only if the order exists
+  private updateTotal() {
+    this.order().total = this.order().items.reduce((acc, item) => acc + item.total, 0)
+  }
+
+
+  /**
+   *
+   * @private
+   */
+  private async cancelOrder() {
     if (this.order().id) {
-      this.orderService.get(this.order().id!).subscribe({
-        next: (order) => {
-          this.order().items = order.items;
-        },
-        error: (error) => {
-          console.log(error)
-        }
-      });
-    }
-    else {
-      this.order().items = []
+      try {
+        const order = await firstValueFrom(
+          this.orderService.get(this.order().id!)
+        );
+
+        this.order().items = order.items;
+
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      this.order().items = [];
     }
   }
 

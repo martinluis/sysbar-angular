@@ -8,7 +8,7 @@ import {Component, input, signal} from '@angular/core';
 })
 export class ConfirmModal {
 
-  onlyAcceptButton = input<boolean>(false)
+  showCancelButton = input<boolean>(false)
 
   message = '';
   show = false;

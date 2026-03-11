@@ -33,6 +33,7 @@ export class OrderItemComponent {
     this.orderItem().quantity++;
     this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
     this.orderItem().isUpdated = true;
+    this.orderItem().isDeleted = false;
     this.updateTotal();
   }
 
@@ -44,6 +45,7 @@ export class OrderItemComponent {
       this.orderItem().quantity--;
       this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
       this.orderItem().isUpdated = true;
+      this.orderItem().isDeleted = this.orderItem().quantity <= 0;
       this.updateTotal()
     }
   }
@@ -75,8 +77,9 @@ export class OrderItemComponent {
     this.updateTotal();
   }
 
-  /*8
-
+  /**
+   *
+   * @private
    */
   private updateTotal() {
     this.onUpdateItem.emit();

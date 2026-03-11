@@ -21,11 +21,11 @@
         </div>
       </div>
       <div class="actions-container d-flex">
-        <button class="btn btn-danger col-6" [class.disabled]="!isItemsModified" (click)="onCancel()">Cancelar</button>
         <button class="btn btn-success col-6" [class.disabled]="!isItemsModified" (click)="onConfirm()">Confirmar</button>
+        <button class="btn btn-danger col-6" [class.disabled]="!isItemsModified" (click)="onCancel()">Cancelar</button>
       </div>
     }
   </div>
 
 </div>
-<app-confirm-modal />
+<app-confirm-modal [showCancelButton]="true"/>
