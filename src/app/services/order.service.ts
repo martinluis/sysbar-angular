@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {AppProperties} from '../config/app.properties';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {concat, Observable} from 'rxjs';
 import {Order} from '../models/order';
 import {OrderType} from '../models/order-type.enum';
 import {OrderStatus} from '../models/order-status.enum';
 import {OrderItem} from '../models/order-item';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/order';
+  private apiUrl = environment.apiUrl + '/order';
 
   constructor(private http: HttpClient) {}
 

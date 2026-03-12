@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {PreparationItem} from '../models/preparation-item';
 import {interval, Observable, startWith, switchMap} from 'rxjs';
@@ -9,7 +9,7 @@ import {interval, Observable, startWith, switchMap} from 'rxjs';
 })
 export class PreparationService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/preparationQueue/';
+  private apiUrl = environment.apiUrl + '/preparationQueue/';
 
   constructor(private http: HttpClient) {}
 

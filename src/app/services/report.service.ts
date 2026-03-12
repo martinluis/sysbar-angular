@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {ReportSoldProduct} from '../models/report-sold-product';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {ReportSale} from '../models/report-sale';
 
 @Injectable({
@@ -11,7 +11,7 @@ import {ReportSale} from '../models/report-sale';
 export class ReportService {
 
 
-  private apiUrl = AppProperties['apiUrl'] + '/report/';
+  private apiUrl = environment.apiUrl + '/report/';
 
   constructor(private http: HttpClient) {}
 

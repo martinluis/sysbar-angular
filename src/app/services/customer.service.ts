@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Customer} from '../models/customer';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {AppProperties} from '../config/app.properties';
 export class CustomerService {
 
 
-  private apiUrl = AppProperties['apiUrl'] + '/customer';
+  private apiUrl = environment.apiUrl + '/customer';
 
   /**
    *

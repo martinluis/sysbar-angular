@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Expense} from '../models/expense';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ExpenseService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/expense';
+  private apiUrl = environment.apiUrl + '/expense';
 
   constructor(private http: HttpClient) {}
 

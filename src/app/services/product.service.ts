@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Product} from '../models/product';
@@ -9,7 +9,7 @@ import {Product} from '../models/product';
 })
 export class ProductService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/product';
+  private apiUrl = environment.apiUrl + '/product';
 
 
   /**

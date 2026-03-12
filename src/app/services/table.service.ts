@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {Table} from '../models/table';
 
 @Injectable({
@@ -9,7 +9,7 @@ import {Table} from '../models/table';
 })
 export class TableService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/table';
+  private apiUrl = environment.apiUrl + '/table';
 
   constructor(private http: HttpClient) {}
 

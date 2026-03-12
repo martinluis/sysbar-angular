@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AppProperties} from '../config/app.properties';
+import { environment } from '../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Cashcut} from '../models/cashcut';
@@ -9,7 +9,7 @@ import {Cashcut} from '../models/cashcut';
 })
 export class CashcutService {
 
-  private apiUrl = AppProperties['apiUrl'] + '/cashCut/';
+  private apiUrl = environment.apiUrl + '/cashCut/';
 
   constructor(private http: HttpClient) {}
 
