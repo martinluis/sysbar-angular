@@ -1,7 +1,7 @@
 import {Component, computed, OnInit, signal} from '@angular/core';
 import {Table} from '../../models/table';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+
 import {HeaderComponent} from '../../components/header/header.component';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {TableService} from '../../services/table.service';
@@ -10,10 +10,9 @@ import {TableService} from '../../services/table.service';
   selector: 'app-tables-page',
   imports: [
     FormsModule,
-    CommonModule,
     HeaderComponent,
     ReactiveFormsModule
-  ],
+],
   templateUrl: './tables-page.html',
   styleUrl: './tables-page.scss'
 })
