@@ -149,20 +149,21 @@ export class PreparationPage implements OnInit, OnDestroy {
    */
   private validateRole(){
     if (this.productType === ProductType.DRINK) {
-      if (!this.authService.hasAnyRole([Role.ADMIN, Role.BARTENDER])){
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.MANAGER, Role.BARTENDER])){
           this.router.navigate(['access']);
           throw new Error('Unauthenticated');
       }
     }
+
     if (this.productType === ProductType.FOOD) {
-      if (!this.authService.hasAnyRole([Role.ADMIN, Role.KITCHENER])){
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.MANAGER, Role.KITCHENER])){
         this.router.navigate(['access']);
         throw new Error('Unauthenticated');
       }
     }
 
     if (!this.productType) {
-      if (!this.authService.hasAnyRole([Role.ADMIN, Role.KITCHENER, Role.BARTENDER])){
+      if (!this.authService.hasAnyRole([Role.ADMIN, Role.MANAGER, Role.KITCHENER, Role.BARTENDER])){
         this.router.navigate(['access']);
         throw new Error('Unauthenticated');
       }
