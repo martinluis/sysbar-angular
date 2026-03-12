@@ -60,6 +60,15 @@ export class AuthService {
 
   /**
    *
+   */
+  getUserToken(): String {
+    const token = localStorage.getItem(this.USER_TOKEN);
+    return token ?? "";
+  }
+
+
+  /**
+   *
    * @private
    */
   private getUserOrNull(): User | null {
