@@ -58,11 +58,25 @@
     </div>
     <!-- Table Header -->
     <div class="d-flex flex-row dark-color text-white">
-      <div class="col-6 d-flex border px-4 pt-2">
-        <h6>Producto</h6>
+      <div class="col-6 border px-4 pt-2"
+           (click)="sort('name')"
+           style="cursor:pointer">
+        <h6>
+          Producto
+          @if(sortColumn() === 'name'){
+            {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+          }
+        </h6>
       </div>
-      <div class="col-3 d-flex border justify-content-center px-4 pt-2">
-        <h6>Tipo</h6>
+      <div class="col-3 border px-4 pt-2 text-center"
+           (click)="sort('type')"
+           style="cursor:pointer">
+        <h6>
+          Tipo
+          @if(sortColumn() === 'type'){
+            {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+          }
+        </h6>
       </div>
       <div class="col-3 d-flex border px-4 pt-2 justify-content-center">
         <h6>Acciones</h6>
@@ -70,7 +84,7 @@
     </div>
 
     <!-- Table Content -->
-    @for (product of productsFiltered(); track product.id) {
+    @for (product of pagedProducts(); track product.id) {
       <div class=" d-flex flex-row" [class.selected]="product.id===selected()?.id">
         <div class="col-6 pt-1 px-3 border">
           <span>{{product.name}}</span>
@@ -84,6 +98,23 @@
         </div>
       </div>
     }
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-outline-secondary" [disabled]="page() === 1" (click)="page.set(page() - 1)">
+        Previous
+      </button>
+     <div class="d-flex justify-content-between">
+       <select class="form-select w-auto mr-2" (change)="pageSize.set(+$any($event.target).value)">
+         <option value="5">5</option>
+         <option value="10" selected>10</option>
+         <option value="25">25</option>
+         <option value="50">50</option>
+       </select>
+       <span> Page {{ page() }} of {{ totalPages() }}</span>
+     </div>
+      <button class="btn btn-outline-secondary" [disabled]="page() === totalPages()" (click)="page.set(page() + 1)">
+        Next
+      </button>
+    </div>
   </div>
 
 </div>
