@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-between mt-3">
+  <button
+    class="btn btn-outline-primary col-2"
+    [class.disabled]="page() === 1"
+    (click)="prev()">
+    Previo
+  </button>
+
+  <div class="d-flex justify-content-between col-3">
+    <select
+      class="form-select w-auto"
+      (change)="changePageSize(+$any($event.target).value)">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+    </select>
+
+    <span class="offset-1 w-75 mt-2 text-success-emphasis">
+      Página {{ page() }} de {{ totalPages() }}
+    </span>
+  </div>
+
+  <button
+    class="btn btn-outline-primary col-2"
+    [class.disabled]="page() === totalPages()"
+    (click)="next()">
+    Siguiente
+  </button>
+</div>

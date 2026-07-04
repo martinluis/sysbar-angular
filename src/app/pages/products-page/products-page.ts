@@ -6,71 +6,45 @@ import {ProductService} from '../../services/product.service';
 import {Product} from '../../models/product';
 import {ProductType, ProductTypeLabels} from '../../models/product-type.enum';
 import {ToastService} from '../../services/toast.service';
+import {createPagination} from '../../utils/pagination';
+import {createTableSorter} from '../../utils/sort.table';
+import {PaginationComponent} from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-products-page',
-    imports: [
-        HeaderComponent,
-        ReactiveFormsModule
-    ],
+  imports: [
+    HeaderComponent,
+    ReactiveFormsModule,
+    PaginationComponent
+  ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss'
 })
 export class ProductsPage {
 
   formGroup!: FormGroup;
+  pagination = createPagination(() => this.productsFiltered());
+  tableSorter = createTableSorter<Product>();
 
   products = signal<Product[]>([])
   selected = signal<Product | null>(null);
   searchText = signal('');
   isEditing = signal(false);
-  sortColumn = signal<'name' | 'type'>('name');
-  sortDirection = signal<'asc' | 'desc'>('asc');
-  page = signal(1);
-  pageSize = signal(10);
+
 
   // Filter listener
   productsFiltered = computed(() => {
     let data = [...this.products()];
 
-    // Search
     if (this.searchText()) {
       const text = this.searchText().toLowerCase();
-
       data = data.filter(p =>
         p.name.toLowerCase().includes(text)
       );
     }
 
-    // Sort
-    data.sort((a, b) => {
-      const column = this.sortColumn();
-      const valueA = a[column];
-      const valueB = b[column];
-
-      let result = 0;
-
-      if (valueA < valueB) result = -1;
-      if (valueA > valueB) result = 1;
-
-      return this.sortDirection() === 'asc' ? result : -result;
-    });
-
-    return data;
+    return this.tableSorter.sortArray(data);
   });
-
-  pagedProducts = computed(() => {
-    const start = (this.page() - 1) * this.pageSize();
-
-    return this.productsFiltered().slice(
-      start,
-      start + this.pageSize()
-    );
-  });
-
-  totalPages = computed(() =>
-    Math.ceil(this.productsFiltered().length / this.pageSize())
-  );
 
   productTypeOptions = Object.values(ProductType);
 
@@ -198,21 +172,6 @@ export class ProductsPage {
         console.error(this.errorHandler.parseError(err));
       }
     });
-  }
-
-  /**
-   *
-   * @param column
-   */
-  sort(column: 'name' | 'type') {
-    if (this.sortColumn() === column) {
-      this.sortDirection.update(dir =>
-        dir === 'asc' ? 'desc' : 'asc'
-      );
-    } else {
-      this.sortColumn.set(column);
-      this.sortDirection.set('asc');
-    }
   }
 
   protected readonly ProductTypeLabels = ProductTypeLabels;

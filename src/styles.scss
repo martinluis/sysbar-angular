@@ -29,3 +29,10 @@ body {
     color: white;
   }
 }
+
+
+.btn {
+  &.disabled {
+    opacity: 0.4;
+  }
+}
