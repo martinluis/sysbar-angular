@@ -8,6 +8,10 @@ import {CashcutService} from '../../services/cashcut.service';
 import {ToastService} from '../../services/toast.service';
 import {Router, RouterLink} from '@angular/router';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {createPagination} from '../../utils/pagination';
+import {createTableSorter} from '../../utils/sort.table';
+import {Product} from '../../models/product';
+import {PaginationComponent} from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-cashcut-page',
@@ -18,7 +22,8 @@ import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
     DatePipe,
     RouterLink,
     NgbInputDatepicker,
-    FormsModule
+    FormsModule,
+    PaginationComponent
   ],
   providers: [DatePipe],
   templateUrl: './cashcut-page.html',
@@ -32,6 +37,8 @@ export class CashcutPage implements OnInit{
   isLoading = false;
   initDate: { year: number, month: number, day: number} | null = null;
   endDate: { year: number, month: number, day: number} | null = null;
+  pagination = createPagination(() => this.cashcuts());
+  tableSorter = createTableSorter<Product>();
 
 
   /**
