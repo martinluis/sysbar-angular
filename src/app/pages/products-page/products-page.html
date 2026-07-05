@@ -58,9 +58,7 @@
     </div>
     <!-- Table Header -->
     <div class="d-flex flex-row dark-color text-white">
-      <div class="col-6 border px-4 pt-2"
-           (click)="tableSorter.sort('name')"
-           style="cursor:pointer">
+      <div class="col-6 border px-4 pt-2" (click)="tableSorter.sortBy('name')" style="cursor:pointer">
         <h6>
           Producto
           @if(tableSorter.column() === 'name'){
@@ -68,9 +66,7 @@
           }
         </h6>
       </div>
-      <div class="col-3 border px-4 pt-2 text-center"
-           (click)="tableSorter.sort('type')"
-           style="cursor:pointer">
+      <div class="col-3 border px-4 pt-2 text-center" (click)="tableSorter.sortBy('type')" style="cursor:pointer">
         <h6>
           Tipo
           @if(tableSorter.column() === 'type'){

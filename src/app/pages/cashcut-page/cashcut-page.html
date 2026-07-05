@@ -106,8 +106,18 @@
    </div>
     <div class="cashcut-list-container">
       <div class="d-flex flex-row dark-color text-white p-2 text-center">
-        <div class="col-2"> <span>Fecha Inicio</span> </div>
-        <div class="col-2"> <span>Fecha Termino</span> </div>
+        <div class="col-2" (click)="tableSorter.sortBy('initialDate')">
+          <span>Fecha Inicio</span>
+          @if(tableSorter.column() === 'initialDate'){
+            {{ tableSorter.direction() === 'asc' ? '↑' : '↓' }}
+          }
+        </div>
+        <div class="col-2" (click)="tableSorter.sortBy('finalDate')">
+          <span>Fecha Termino</span>
+          @if(tableSorter.column() === 'finalDate'){
+            {{ tableSorter.direction() === 'asc' ? '↑' : '↓' }}
+          }
+        </div>
         <div class="col-2">Ventas</div>
         <div class="col-2">Gastos</div>
         <div class="col-2">Total</div>

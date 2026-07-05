@@ -43,7 +43,7 @@ export class ProductsPage {
       );
     }
 
-    return this.tableSorter.sortArray(data);
+    return this.tableSorter.sortData(data);
   });
 
   productTypeOptions = Object.values(ProductType);

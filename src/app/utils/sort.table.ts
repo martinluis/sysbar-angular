@@ -30,7 +30,7 @@ export function createTableSorter<T extends Record<string, any>>() {
    *
    * @param data
    */
-  function sortArray(data: T[]): T[] {
+  function sortData(data: T[]): T[] {
     return [...data].sort((a, b) =>
       compare(a, b, column(), direction())
     );
@@ -40,7 +40,7 @@ export function createTableSorter<T extends Record<string, any>>() {
    *
    * @param col
    */
-  function sort(col: string) {
+  function sortBy(col: string) {
     if (column() === col) {
       direction.update(dir =>
         dir === 'asc' ? 'desc' : 'asc'
@@ -54,7 +54,7 @@ export function createTableSorter<T extends Record<string, any>>() {
   return {
     column,
     direction,
-    sort,
-    sortArray
+    sortBy,
+    sortData
   };
 }

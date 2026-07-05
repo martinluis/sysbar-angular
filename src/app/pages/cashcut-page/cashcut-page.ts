@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, computed, OnInit, signal} from '@angular/core';
 import {CurrencyPipe, DatePipe} from "@angular/common";
 import {HeaderComponent} from "../../components/header/header.component";
 import {ErrorHandlerService} from '../../services/error-handler.service';
@@ -10,7 +10,6 @@ import {Router, RouterLink} from '@angular/router';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {createPagination} from '../../utils/pagination';
 import {createTableSorter} from '../../utils/sort.table';
-import {Product} from '../../models/product';
 import {PaginationComponent} from '../../components/pagination/pagination.component';
 
 @Component({
@@ -37,8 +36,11 @@ export class CashcutPage implements OnInit{
   isLoading = false;
   initDate: { year: number, month: number, day: number} | null = null;
   endDate: { year: number, month: number, day: number} | null = null;
-  pagination = createPagination(() => this.cashcuts());
-  tableSorter = createTableSorter<Product>();
+  pagination = createPagination(() => this.sortedCashcuts());
+  tableSorter = createTableSorter<Cashcut>();
+  sortedCashcuts = computed(() =>
+    this.tableSorter.sortData(this.cashcuts())
+  );
 
 
   /**
