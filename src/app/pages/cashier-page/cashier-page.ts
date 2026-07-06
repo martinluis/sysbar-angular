@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {Role} from '../../models/role.enum';
 import {ToastService} from '../../services/toast.service';
+import {PrinterService} from '../../services/printer.service';
 
 @Component({
   selector: 'app-cashier-page',
@@ -28,6 +29,7 @@ export class CashierPage implements OnInit{
   orderSelected = signal<Order|null>(null);
 
   constructor(private orderService: OrderService,
+              private printerService: PrinterService,
               private router: Router,
               private toastService: ToastService,
               private authService: AuthService) {
@@ -97,7 +99,7 @@ export class CashierPage implements OnInit{
    *
    */
   onPrintTicket() {
-    this.orderService.printTicket(this.orderSelected()?.id!).subscribe({
+    this.printerService.printTicket(this.orderSelected()?.id!).subscribe({
       next: () => {
         this.toastService.show("Se imprimió el ticket", 1000, "success");
       },

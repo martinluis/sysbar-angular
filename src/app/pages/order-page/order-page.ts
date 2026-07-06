@@ -2,6 +2,7 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
+import {PrinterService} from '../../services/printer.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {HeaderComponent} from '../../components/header/header.component';
 import {OrderSummaryComponent} from '../../components/order-summary/order-summary.component';
@@ -41,6 +42,7 @@ export class OrderPage implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private orderService: OrderService,
+              private printerService: PrinterService,
               private tableService: TableService,
               private authService: AuthService,
               private toastService: ToastService,
@@ -256,7 +258,7 @@ export class OrderPage implements OnInit {
    *
    */
   onPrintTicket() {
-    this.orderService.printTicket(this.order()!.id!).subscribe({
+    this.printerService.printTicket(this.order()!.id!).subscribe({
       next: () => {
         this.toastService.show("Se imprimió el ticket", 1000, "success");
       },
@@ -265,7 +267,6 @@ export class OrderPage implements OnInit {
         console.error(err);
       }
     })
-
   }
 
   /**
