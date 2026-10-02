@@ -9,7 +9,7 @@ import {interval, Observable, startWith, switchMap} from 'rxjs';
 })
 export class PreparationService {
 
-  private apiUrl = environment.apiUrl + '/preparationQueue/';
+  private apiUrl = environment.apiUrl + '/preparationOrder/';
 
   constructor(private http: HttpClient) {}
 
