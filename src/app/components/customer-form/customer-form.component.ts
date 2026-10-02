@@ -14,7 +14,6 @@ import {CustomerService} from '../../services/customer.service';
 export class CustomerFormComponent implements OnInit {
 
   customerForm!: FormGroup;
-  onSaveCustomer = output<Customer>();
   customer = input.required<Customer>()
 
 
@@ -34,23 +33,23 @@ export class CustomerFormComponent implements OnInit {
       address: [this.customer()?.address, Validators.required],
       phone: [this.customer()?.phone, [Validators.required, Validators.pattern(/^\d{10}$/)]]
     });
+
+    // Subscribe to form status changes to update the validity in the service
+    this.customerForm.statusChanges.subscribe(() => {
+      this.syncFormState();
+    });
+  }
+
+  private syncFormState(): void {
+    const valid = this.customerForm.valid;
+    this.customerService.setCustomerFormState(
+      valid,
+      valid ? this.customerForm.getRawValue() : null
+    );
   }
 
   /**
-   *
-   */
-  onCustomerSave(){
-    if (this.customerForm.valid) {
-      const customer: Customer = this.customerForm.value;
-      this.onSaveCustomer.emit(customer);
-    } else {
-      this.customerForm.markAllAsTouched();
-    }
-  }
-
-
-  /**
-   *
+   * Handle the phone input blur event
    */
   onPhoneBlur(): void {
     const phoneControl = this.customerForm.get('phone');
@@ -61,21 +60,21 @@ export class CustomerFormComponent implements OnInit {
   }
 
   /**
-   *
+   * Search for a customer by phone number
    * @param phone
    */
   searchCustomerByPhone(phone: string): void {
     this.customerService.findByPhone(phone).subscribe({
       next: customer => {
         this.populateForm(customer);
-        this.onCustomerSave();
+        this.syncFormState();
       }
     })
   }
 
 
   /**
-   *
+   * Populate the form with customer data
    * @param customer
    */
   populateForm(customer: Customer): void {
@@ -88,7 +87,7 @@ export class CustomerFormComponent implements OnInit {
   }
 
   /**
-   *
+   * Allow only numeric input
    * @param event
    */
   allowOnlyNumbers(event: KeyboardEvent): void {
@@ -107,7 +106,7 @@ export class CustomerFormComponent implements OnInit {
   }
 
   /**
-   *
+   * Sanitize the phone input by allowing only numeric characters and limiting to 10 digits
    * @param event
    */
   sanitizePhoneInput(event: Event): void {

@@ -8,6 +8,7 @@ import {OrderService} from '../../services/order.service';
 import {ConfirmModal} from '../commons/confirm-modal/confirm.modal';
 import {ToastService} from '../../services/toast.service';
 import {firstValueFrom} from 'rxjs';
+import {CustomerService} from '../../services/customer.service';
 
 @Component({
   selector: 'app-order-summary',
@@ -27,17 +28,17 @@ export class OrderSummaryComponent implements AfterViewInit {
   @ViewChild('contentSummary') private contentSummary!: ElementRef<HTMLDivElement>;
   isItemsModified = false;
 
-
   /**
    *
    * @param orderService
    * @param toastService
    */
-  constructor(private orderService: OrderService, private toastService: ToastService) {
+  constructor(private orderService: OrderService, private toastService: ToastService, private customerService: CustomerService) {
     effect(() => {
       this.isItemsModified = this.order().items.some(item => item.itemId === null);
       setTimeout(() => this.scrollToBottom(), 100);
     });
+
   }
 
   /**
@@ -125,12 +126,16 @@ export class OrderSummaryComponent implements AfterViewInit {
    * @private
    */
   private validateOrder(): boolean{
+    const customerState = this.customerService.customerFormState();
     if (this.order().items.length === 0) {
       this.toastService.show("La orden no puede estar vacia", 5000, "warning")
       return false;
     }
     if (this.order().orderType && this.order().orderType===OrderType.DELIVERY) {
-      if (!this.order().customer) {
+      if (customerState.valid) {
+        this.order().customer = customerState.customer;
+      }
+      else {
         this.toastService.show("Debe ingresar informacion del cliente", 5000, "warning")
         return false;
       }

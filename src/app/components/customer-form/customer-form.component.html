@@ -1,4 +1,4 @@
-<form [formGroup]="customerForm" (ngSubmit)="onCustomerSave()">
+<form [formGroup]="customerForm">
   <div class="customer-container px-2">
     <div class="row">
       <div class="col-4">
@@ -25,14 +25,11 @@
       </div>
     </div>
     <div class="row mt-2">
-      <div class="col-10">
+      <div class="col-12">
         <div class="form-floating">
           <input class="form-control" formControlName="address" type="text" placeholder="Direccion">
           <label>Direccion</label>
         </div>
-      </div>
-      <div class="col-2 d-flex ">
-        <button type="submit" class="btn btn-outline-primary w-100">Aceptar</button>
       </div>
     </div>
   </div>
