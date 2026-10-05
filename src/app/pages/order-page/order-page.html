@@ -3,7 +3,7 @@
 <div class="manage-order-container d-flex flex-wrap">
   <div class="manage-order-left-container d-flex flex-column col-8">
     @if (order()!== null && order()?.orderType === OrderType.DELIVERY) {
-      <app-customer-form (onSaveCustomer)="onSaveCustomer($event)" [customer]="order()!.customer!"/>
+      <app-customer-form [customer]="order()!.customer!"/>
     }
     @if (order() && order()?.orderType === OrderType.PERSONAL) {
       <input class="form-control" [disabled]="order()?.id!==null" type="text" placeholder="Nombre o Referencia" [(ngModel)]="order()!.reference">

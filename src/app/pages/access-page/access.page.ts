@@ -10,7 +10,7 @@ import {AuthService} from '../../services/auth.service';
   imports: [FormsModule],
   templateUrl: './access.page.html',
   standalone: true,
-  styleUrl: './access.page.scss'
+  styleUrls: ['./access.page.scss']
 })
 export class AccessPage {
 

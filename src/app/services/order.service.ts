@@ -211,9 +211,10 @@ export class OrderService {
    * @param newTableId
    */
   changeTable(order: Order, newTableId: number): Observable<Order> {
-    const url = `${this.apiUrl}/${order.id}/changeTable`
-    return this.http.patch<Order>(url,  {
-      id: newTableId
-    });
+    const url = `${this.apiUrl}/${order.id}/changeTable`;
+    // Set up the query parameters
+    const params = new HttpParams().set('tableId', newTableId.toString());
+    // Send PATCH request with params, and an empty object {} for the body
+    return this.http.patch<Order>(url, {}, { params });
   }
 }

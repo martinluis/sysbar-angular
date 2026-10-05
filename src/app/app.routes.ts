@@ -24,7 +24,7 @@ export const routes: Routes = [
   { path: 'dashboard',
     component: DashboardPage,
     canActivate: [RoleGuard],
-    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER, Role.CASHIER] }
+    data: { roles: [Role.ADMIN, Role.MANAGER, Role.WAITER, Role.CASHIER, Role.BARTENDER, Role.KITCHENER] }
   },
   { path: 'admin',
     component: AdminPage,
