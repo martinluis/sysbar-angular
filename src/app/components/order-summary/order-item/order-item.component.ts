@@ -82,8 +82,11 @@ export class OrderItemComponent {
    * @private
    */
   private updateTotal() {
+    this.order().total = this.order().items.reduce(
+      (acc, item) => item.isDeleted ? acc : acc + item.total,
+      0
+    );
     this.onUpdateItem.emit();
-    this.order().total = this.order().items.reduce((acc, item) => acc + item.total, 0)
   }
 
   /**

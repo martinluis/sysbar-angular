@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, signal, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
@@ -14,11 +14,12 @@ import {Table} from '../../models/table';
 import {TableService} from '../../services/table.service';
 import {AuthService} from '../../services/auth.service';
 import {CustomerFormComponent} from '../../components/customer-form/customer-form.component';
-import {Customer} from '../../models/customer';
 import {MoveTableModal} from '../../components/move-table-modal/move-table.modal';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Role} from '../../models/role.enum';
 import {ToastService} from '../../services/toast.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -47,109 +48,107 @@ export class OrderPage implements OnInit {
               private authService: AuthService,
               private toastService: ToastService,
               private router: Router,
+              private destroyRef: DestroyRef,
               private errorHandler: ErrorHandlerService) {
   }
 
-  /**
-   *
-   */
+  /** Initializes the order based on the current route query parameters. */
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
-      const tableId = params.get('tableId');
-      const orderType = params.get('orderType');
-      const orderId = params.get('orderId');
-      if (orderId) {
-        this.initOrderById(Number(orderId))
-        return
-      }
-      if (tableId) {
-        this.initOrderByTable(Number(tableId));
-        return
-      }
-      if (orderType) {
-        const type = OrderType[orderType as keyof typeof OrderType]
-        this.initOrderByType(type);
-        return
-      }
-    });
-  }
-
-  /**
-   *
-   * @param tableId
-   * @private
-   */
-  private initOrderByTable(tableId: number) {
-    this.orderService.getByTable(tableId).subscribe({
-      next: (order) => {
-        this.order.set(order)
-      },
-      error: (error) => {
-        console.log(this.errorHandler.parseError(error))
-        this.initDefaultLocalOrder(tableId)
-      }
-    })
-  }
-
-  /**
-   *
-   * @param type
-   * @private
-   */
-  private initOrderByType(type: OrderType){
-    const order = this.createOrder(null, type)
-    this.order.set(order);
-  }
-
-  /**
-   *
-   * @param id
-   * @private
-   */
-  private initOrderById(id: number){
-    this.orderService.get(id).subscribe({
-      next: order => {
-        if (order.status != OrderStatus.ACTIVE) {
-          console.error("Order not active");
-          this.router.navigate(['dashboard']);
+    this.route.queryParamMap.pipe(
+      switchMap(params => {
+        const orderId = params.get('orderId');
+        if (orderId !== null) {
+          const id = this.parsePositiveId(orderId);
+          if (id === null) {
+            return this.invalidOrderRequest();
+          }
+          return this.loadOrderById(id);
         }
-        this.order.set(order);
-      },
-      error: err => {
-        console.log(this.errorHandler.parseError(err));
-        this.router.navigate(['dashboard']);
-      }
-    })
 
-  }
-
-  /**
-   *
-   * @private
-   */
-  private initDefaultLocalOrder(tableId: number){
-    this.tableService.get(tableId).subscribe({
-      next: (table) => {
-        if (!table) {
-          this.router.navigate(['dashboard']);
-          return
+        const tableId = params.get('tableId');
+        if (tableId !== null) {
+          const id = this.parsePositiveId(tableId);
+          if (id === null) {
+            return this.invalidOrderRequest();
+          }
+          return this.loadOrderByTable(id);
         }
-        this.order.set( this.createOrder(table, OrderType.LOCAL) )
-      },
-      error: err => {
-        console.log(this.errorHandler.parseError(err));
-        this.router.navigate(['dashboard']);
-      }
-    })
+
+        const orderType = params.get('orderType');
+        if (orderType !== null) {
+          const type = Object.values(OrderType).find(value => value === orderType);
+          if (type === undefined) {
+            return this.invalidOrderRequest();
+          }
+          return of(this.createOrder(null, type));
+        }
+
+        return this.invalidOrderRequest();
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(order => this.order.set(order));
   }
 
-  /**
-   *
-   * @param table
-   * @param type
-   * @private
-   */
-  private createOrder(table: Table | null, type: OrderType){
+  /** Loads an active order for a table, or creates a new local order when none exists. */
+  private loadOrderByTable(tableId: number): Observable<Order | null> {
+    return this.orderService.getByTable(tableId).pipe(
+      catchError(error => {
+        console.error(this.errorHandler.parseError(error));
+        return this.tableService.get(tableId).pipe(
+          map(table => {
+            if (!table) {
+              this.router.navigate(['dashboard']);
+              return null;
+            }
+            return this.createOrder(table, OrderType.LOCAL);
+          }),
+          catchError(tableError => {
+            console.error(this.errorHandler.parseError(tableError));
+            this.router.navigate(['dashboard']);
+            return of(null);
+          })
+        );
+      })
+    );
+  }
+
+  /** Loads an order by ID and redirects away if it cannot be loaded or is inactive. */
+  private loadOrderById(id: number): Observable<Order | null> {
+    return this.orderService.get(id).pipe(
+      map(order => {
+        if (order.status !== OrderStatus.ACTIVE) {
+          this.router.navigate(['dashboard']);
+          return null;
+        }
+        return order;
+      }),
+      catchError(error => {
+        console.error(this.errorHandler.parseError(error));
+        this.router.navigate(['dashboard']);
+        return of(null);
+      })
+    );
+  }
+
+  /** Notifies the user that the route does not identify a valid order and redirects to the dashboard. */
+  private invalidOrderRequest(): Observable<null> {
+    this.toastService.show('No se pudo identificar la orden.', 2000, 'error');
+    this.router.navigate(['dashboard']);
+    return of(null);
+  }
+
+  /** Parses a route parameter as a positive, safe integer ID. */
+  private parsePositiveId(value: string): number | null {
+    if (!/^\d+$/.test(value)) {
+      return null;
+    }
+
+    const id = Number(value);
+    return Number.isSafeInteger(id) && id > 0 ? id : null;
+  }
+
+  /** Creates a new empty active order for the specified type and optional table. */
+  private createOrder(table: Table | null, type: OrderType): Order {
     const user = this.authService.getUser();
     return {
       id: null,
@@ -167,98 +166,88 @@ export class OrderPage implements OnInit {
     };
   }
 
-  /**
-   *
-   * @param product
-   */
+  /** Adds a product to the current order, combining matching unsaved items and recalculating the total. */
   onAddProduct(product: Product) {
-    let productAdded = this.order()?.items.find(it => {
-      return it.itemId===null && it.productId===product.id && it.comment===""
-    })
+    const productId = product.id;
+    if (productId === null) {
+      this.toastService.show('No se pudo agregar el producto.', 2000, 'error');
+      return;
+    }
 
-    if (productAdded) {
-      productAdded.quantity = productAdded.quantity + 1;
-      productAdded.total = productAdded.quantity * productAdded.productPrice;
-    }
-    else {
-      this.order()?.items.push({
-        itemId: null,
-        productId: product.id!,
-        productName: product.name,
-        productPrice: product.price,
-        quantity: 1,
-        comment: '',
-        total: product.price,
-        isDeleted: false,
-        isUpdated: false
-      })
-    }
-    this.order.update( o => {
-      if (!o) return o; // or null
-      const total = o.items.reduce((acc, item) => acc + item.total, 0);
-      return { ...o, total };
+    this.order.update(order => {
+      if (!order) {
+        return order;
+      }
+
+      const items = [...order.items];
+      const productAddedIndex = items.findIndex(item =>
+        item.itemId === null && item.productId === productId && item.comment === ''
+      );
+      if (productAddedIndex >= 0) {
+        const item = items[productAddedIndex];
+        const quantity = item.quantity + 1;
+        items[productAddedIndex] = {
+          ...item,
+          quantity,
+          total: quantity * item.productPrice
+        };
+      } else {
+        items.push({
+          itemId: null,
+          productId,
+          productName: product.name,
+          productPrice: product.price,
+          quantity: 1,
+          comment: '',
+          total: product.price,
+          isDeleted: false,
+          isUpdated: false
+        });
+      }
+
+      return {
+        ...order,
+        items,
+        total: items.reduce((total, item) => total + item.total, 0)
+      };
     })
   }
 
-  /**
-   *
-   * @param customer
-   */
-  onSaveCustomer(customer: Customer) {
-    this.order.update( o => {
-      if (!o) return o; // or null
-      return { ...o, customer };
-    })
-    // To update the customer info in order
-    if (this.order()?.id) {
-      this.orderService.update(this.order()!).subscribe({
-        next: (order) => {
-          console.info(order)
-        },
-        error: err => {
-          console.error(err);
-        }
-      })
-    }
-  }
-
-  /**
-   *
-   */
+  /** Navigates to the payment page for the current saved order. */
   onPay() {
-    if (!this.order()) {
+    const orderId = this.order()?.id;
+    if (orderId === null || orderId === undefined) {
       return
     }
     this.router.navigate(['pay'], {
-      queryParams: { orderId: this.order()?.id }
+      queryParams: { orderId }
     })
   }
 
-
-  /**
-   *
-   */
+  /** Navigates to the partial-payment page for the current saved order. */
   onPartialPay() {
-    if (!this.order()) {
+    const orderId = this.order()?.id;
+    if (orderId === null || orderId === undefined) {
       return
     }
     this.router.navigate(['partial-pay'], {
-      queryParams: { orderId: this.order()?.id }
+      queryParams: { orderId }
     })
   }
 
-  /**
-   *
-   */
+  /** Opens the dialog for selecting a destination table. */
   onMoveTable() {
     this.moveTableModal.open();
   }
 
-  /**
-   *
-   */
+  /** Prints the ticket for the current saved order and displays the operation result. */
   onPrintTicket() {
-    this.printerService.printTicket(this.order()!.id!).subscribe({
+    const orderId = this.order()?.id;
+    if (orderId === null || orderId === undefined) {
+      return;
+    }
+
+    this.printerService.printTicket(orderId).subscribe({
       next: () => {
         this.toastService.show("Se imprimió el ticket", 1000, "success");
       },
@@ -269,12 +258,15 @@ export class OrderPage implements OnInit {
     })
   }
 
-  /**
-   *
-   */
+  /** Moves the current order to the selected table and returns to the waiter page. */
   onConfirmMoveTable(tableId: number) {
-    this.orderService.changeTable(this.order()!, tableId).subscribe({
-      next: (order) => {
+    const order = this.order();
+    if (!order?.id) {
+      return;
+    }
+
+    this.orderService.changeTable(order, tableId).subscribe({
+      next: () => {
         this.router.navigate(['waiter']);
       },
       error: err => {
@@ -283,9 +275,7 @@ export class OrderPage implements OnInit {
     })
   }
 
-  /**
-   *
-   */
+  /** Checks whether the current user has at least one of the specified roles. */
   hasPermissions(roles: Role[]): boolean {
     return this.authService.hasAnyRole(roles);
   }
