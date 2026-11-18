@@ -54,12 +54,12 @@
           <br>
           <div class="actions-container d-flex flex-row justify-content-between">
             @if (hasPermissions([Role.ADMIN, Role.MANAGER])) {
-              <button class="btn btn-outline-danger col-2" (click)="onDeleteOrder()">Eliminar</button>
+              <button class="btn btn-outline-danger col-2" [disabled]="isDeleting" (click)="onDeleteOrder()">Eliminar</button>
             }
             @if (hasPermissions([Role.ADMIN, Role.MANAGER, Role.WAITER])) {
               <button class="btn btn-outline-primary col-2" (click)="onUpdateOrder()">Modificar</button>
             }
-            <button class="btn btn-outline-primary col-2" (click)="onPrintTicket()">Ticket</button>
+            <button class="btn btn-outline-primary col-2" [disabled]="isPrinting" (click)="onPrintTicket()">Ticket</button>
             @if (orderSelected()?.orderType === OrderType.LOCAL) {
               <button class="btn btn-outline-success col-2" (click)="onPartialPay()">Pago Parcial</button>
             }
@@ -67,7 +67,7 @@
           </div>
           <br>
           <div class="items-container">
-            @for (item of orderSelected()?.items; track item.itemId) {
+            @for (item of orderSelected()?.items; track item.itemId ?? $index) {
               <div class="order-item-detail d-flex flex-column">
                 <div class="col-12">
                   <div class="d-flex flex-row">

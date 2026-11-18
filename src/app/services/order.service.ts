@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {concat, Observable} from 'rxjs';
+import {concat, last, Observable} from 'rxjs';
 import {Order} from '../models/order';
 import {OrderType} from '../models/order-type.enum';
 import {OrderStatus} from '../models/order-status.enum';
@@ -92,7 +92,11 @@ export class OrderService {
       observables.push( this.addItems(order) );
     }
 
-    return concat(...observables);
+    if (observables.length === 0) {
+      return this.get(order.id);
+    }
+
+    return concat(...observables).pipe(last());
   }
 
   /**

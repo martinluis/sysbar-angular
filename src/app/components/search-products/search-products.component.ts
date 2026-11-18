@@ -1,9 +1,13 @@
-import {Component, effect, OnInit, output, signal} from '@angular/core';
+import {Component, computed, DestroyRef, OnInit, output, signal} from '@angular/core';
 import {Product} from '../../models/product';
 import {ProductItemComponent} from './product-item/product-item.component';
 import {ProductService} from '../../services/product.service';
 import {FormsModule} from '@angular/forms';
 import {ProductType} from '../../models/product-type.enum';
+import {catchError, of} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {ErrorHandlerService} from '../../services/error-handler.service';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
   selector: 'app-search-products',
@@ -14,84 +18,66 @@ import {ProductType} from '../../models/product-type.enum';
   templateUrl: './search-products.component.html',
   styleUrl: './search-products.component.scss'
 })
-export class SearchProductsComponent implements OnInit{
+export class SearchProductsComponent implements OnInit {
 
-  onAddProduct = output<Product>()
-  private _products: Product[] = []; // All products
+  onAddProduct = output<Product>();
+  private allProducts = signal<Product[]>([]);
   keyword = signal<string>("");
-  filterType = signal<ProductType | null>(null) ;
-  products: Product[] = []
+  filterType = signal<ProductType | null>(null);
+  products = computed(() => this.filterProducts(this.allProducts(), this.keyword(), this.filterType()));
 
 
-  /**
-   *
-   * @param productService
-   */
-  constructor(private productService: ProductService) {
-    effect(() => {
-      this.products = this.filterProducts(this.keyword(), this.filterType());
-    });
+  constructor(private productService: ProductService,
+              private errorHandler: ErrorHandlerService,
+              private toastService: ToastService,
+              private destroyRef: DestroyRef) {
   }
 
-  /**
-   *
-   */
+  /** Loads the product catalog used by the search and category filters. */
   ngOnInit(): void {
-    this.productService.getAll().subscribe({
-      next: (data) => {
-        this._products = data;
-        this.products = data;
-      }
-    });
+    this.productService.getAll().pipe(
+      catchError(error => {
+        this.toastService.show(this.errorHandler.parseError(error), 3000, "error");
+        return of([]);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(products => this.allProducts.set(products));
   }
 
 
-  /**
-   *
-   * @param product
-   */
-  addProduct(product: Product){
+  /** Emits a selected product to the parent order editor. */
+  addProduct(product: Product) {
+    if (product.id === null) {
+      this.toastService.show("No se pudo agregar el producto.", 2000, "error");
+      return;
+    }
     this.onAddProduct.emit(product)
   }
 
-  /**
-   *
-   */
+  /** Removes the category filter and displays all matching products. */
   onFilterAll() {
     this.filterType.set(null);
   }
 
-  /**
-   *
-   */
+  /** Filters the product list to food items. */
   onFilterFood() {
     this.filterType.set(ProductType.FOOD);
   }
 
-  /**
-   *
-   */
+  /** Filters the product list to drink items. */
   onFilterDrink() {
     this.filterType.set(ProductType.DRINK);
   }
 
-  /**
-   *
-   * @param keyword
-   * @param type
-   * @private
-   */
-  private filterProducts(keyword: string , type: ProductType | null): Product[]{
-    let products = this._products.filter(it => {
-          if (keyword === "" || keyword.length < 2) {
-            return this._products;
-          }
-          return it.name.toLowerCase().includes(keyword.toLowerCase());
-      });
-    if (type != null ) {
-       products = products.filter(it => it.type === type);
-    }
-    return products
+  /** Applies the name search and optional category filter to the loaded product catalog. */
+  private filterProducts(products: Product[], keyword: string, type: ProductType | null): Product[] {
+    const searchTerm = keyword.trim().toLocaleLowerCase();
+    return products.filter(product => {
+      const matchesName = searchTerm.length < 2
+        || product.name.toLocaleLowerCase().includes(searchTerm);
+      const matchesType = type === null || product.type === type;
+      return matchesName && matchesType;
+    });
   }
 
   protected readonly ProductType = ProductType;

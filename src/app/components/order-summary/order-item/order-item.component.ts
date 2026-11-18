@@ -26,61 +26,66 @@ export class OrderItemComponent {
   constructor(private authService: AuthService) {
   }
 
-  /**
-   *
-   */
-  onAdd(){
-    this.orderItem().quantity++;
-    this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
-    this.orderItem().isUpdated = true;
-    this.orderItem().isDeleted = false;
+  /** Adds one unit and restores an existing item if it had been marked for deletion. */
+  onAdd() {
+    const item = this.orderItem();
+    item.quantity++;
+    item.total = item.quantity * item.productPrice;
+    item.isUpdated = item.itemId !== null;
+    item.isDeleted = false;
     this.updateTotal();
   }
 
-  /**
-   *
-   */
+  /** Removes one unit, deleting a draft item at zero and marking persisted items for deletion. */
   onSubtract() {
-    if (this.orderItem().quantity > 0) {
-      this.orderItem().quantity--;
-      this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
-      this.orderItem().isUpdated = true;
-      this.orderItem().isDeleted = this.orderItem().quantity <= 0;
-      this.updateTotal()
+    const item = this.orderItem();
+    if (item.quantity <= 0) {
+      return;
     }
+
+    item.quantity--;
+    item.total = item.quantity * item.productPrice;
+    if (item.quantity === 0) {
+      if (item.itemId === null) {
+        this.order().items = this.order().items.filter(orderItem => orderItem !== item);
+      } else {
+        item.isDeleted = true;
+        item.isUpdated = false;
+      }
+    } else if (item.itemId !== null) {
+      item.isUpdated = true;
+    }
+    this.updateTotal();
   }
 
-  /**
-   *
-   */
+  /** Applies the confirmed comment and quantity changes from the item editor. */
   async onEdit() {
     const confirmedItem = await this.editModal.open(this.orderItem());
     if (confirmedItem) {
-      this.orderItem().comment = confirmedItem.comment;
-      this.orderItem().quantity = confirmedItem.quantity;
-      this.orderItem().total = this.orderItem().quantity * this.orderItem().productPrice;
-      this.orderItem().isUpdated = true;
+      const item = this.orderItem();
+      item.comment = confirmedItem.comment;
+      item.quantity = confirmedItem.quantity;
+      item.total = item.quantity * item.productPrice;
+      item.isUpdated = item.itemId !== null;
+      item.isDeleted = item.quantity === 0 && item.itemId !== null;
       this.updateTotal();
     }
   }
 
-  /**
-   *
-   */
+  /** Marks a persisted item for deletion or removes an unsaved draft item. */
   onDelete() {
-    if (this.orderItem().itemId) {
-      this.orderItem().isDeleted = true;
+    const item = this.orderItem();
+    if (item.itemId !== null) {
+      item.isDeleted = true;
+      item.isUpdated = false;
     }
     else {
-      this.order().items = this.order().items.filter(it => it !== this.orderItem())
+      this.order().items = this.order().items.filter(orderItem => orderItem !== item);
     }
     this.updateTotal();
   }
 
-  /**
-   *
-   * @private
-   */
+  /** Recalculates the non-deleted order total and notifies the summary of item changes. */
   private updateTotal() {
     this.order().total = this.order().items.reduce(
       (acc, item) => item.isDeleted ? acc : acc + item.total,
@@ -89,23 +94,17 @@ export class OrderItemComponent {
     this.onUpdateItem.emit();
   }
 
-  /**
-   *
-   */
+  /** Indicates whether this persisted item is marked for deletion. */
   get isDeleted(): boolean {
     return this.orderItem().itemId!==null && this.orderItem().isDeleted;
   }
 
-  /**
-   *
-   */
+  /** Indicates whether this item has pending local changes. */
   get isModified(): boolean {
     return !this.orderItem().itemId || this.orderItem().isUpdated;
   }
 
-  /**
-   *
-   */
+  /** Checks whether the current user has at least one of the specified roles. */
   hasPermissions(roles: Role[]): boolean {
     return this.authService.hasAnyRole(roles);
   }

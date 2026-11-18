@@ -1,7 +1,7 @@
 <div class="search-product-container d-flex flex-column">
   <div class="filter-container d-flex flex-row">
     <div class="col-5">
-      <input class="form-control" type="text" [(ngModel)]="keyword" placeholder="Buscar">
+      <input class="form-control" type="text" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" placeholder="Buscar">
     </div>
     <div class="btn-group col-5 offset-2" role="group" aria-label="Basic example">
       <button type="button" (click)="onFilterAll()" [class.active]="filterType()===null" class="btn btn-outline-secondary active">Todo</button>
@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="search-product-items-container d-flex flex-wrap justify-content-center ">
-    @for (product of products; track product.id) {
+    @for (product of products(); track product.id ?? $index) {
       <app-product-item [product]="product" (click)="addProduct(product)"/>
     }
   </div>
