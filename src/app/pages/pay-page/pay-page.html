@@ -19,12 +19,12 @@
           <label>Importe</label>
         </div>
         <div class="form-floating">
-          <input class="form-control" formControlName="discount" type="number" min="0" max="99" (input)="limitDiscount($event)" placeholder="Descuento %">
+          <input class="form-control" formControlName="discount" type="number" min="0" max="99" step="1" placeholder="Descuento %">
           <label>Descuento %</label>
         </div>
         <br>
         <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
-        <button class="btn btn-outline-danger col-12" (click)="cancel()">Cancelar</button>
+        <button class="btn btn-outline-danger col-12" type="button" [disabled]="isLoading" (click)="cancel()">Cancelar</button>
       </form>
     </div>
     <br>

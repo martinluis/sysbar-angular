@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrderService} from '../../services/order.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
@@ -10,13 +10,15 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   ValidatorFn,
   Validators
 } from '@angular/forms';
 import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
 import {OrderStatus} from '../../models/order-status.enum';
+import {ToastService} from '../../services/toast.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-pay-page',
@@ -24,7 +26,6 @@ import {OrderStatus} from '../../models/order-status.enum';
     HeaderComponent,
     OrderSummaryComponent,
     CurrencyPipe,
-    FormsModule,
     ReactiveFormsModule,
     ConfirmModal,
   ],
@@ -35,10 +36,10 @@ export class PayPage implements OnInit {
 
   @ViewChild(ConfirmModal) confirmModal!: ConfirmModal;
 
-  order!: Order;
+  order: Order | null = null;
   paymentForm!: FormGroup;
-  totalAmount: number = 0; // Example base total
-  finalTotal: number = 0;  // Will be updated live
+  totalAmount = 0;
+  finalTotal = 0;
   isLoading = false;
 
   /**
@@ -53,88 +54,97 @@ export class PayPage implements OnInit {
               private orderService: OrderService,
               private router: Router,
               private fb: FormBuilder,
+              private destroyRef: DestroyRef,
+              private toastService: ToastService,
               private errorHandler: ErrorHandlerService) {
 
   }
 
-  /**
-   *
-   */
+  /** Initializes the payment form and loads the requested order from the route. */
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
-      const orderId = params.get('orderId');
-      if (orderId) {
-        this.initView(Number(orderId))
-        return
-      }
-      else {
-        this.router.navigate(['dashboard']);
+    this.initFormControl();
+
+    this.route.queryParamMap.pipe(
+      switchMap(params => {
+        const orderId = params.get('orderId');
+        const id = orderId === null ? null : this.parsePositiveId(orderId);
+        if (id === null) {
+          this.toastService.show('No se pudo identificar la orden.', 2000, 'error');
+          this.router.navigate(['dashboard']);
+          return of(null);
+        }
+        return this.loadOrder(id);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(order => {
+      this.order = order;
+      if (order) {
+        this.totalAmount = order.total;
+        this.finalTotal = order.total;
+        this.updateCashValidator();
       }
     });
-    this.initFormControl();
   }
 
-  /**
-   *
-   * @param id
-   * @private
-   */
-  private initView(id: number) {
-    this.orderService.get(id).subscribe({
-      next: order => {
+  /** Loads an active order by ID, redirecting and reporting errors for invalid orders. */
+  private loadOrder(id: number): Observable<Order | null> {
+    return this.orderService.get(id).pipe(
+      map(order => {
         if (order.status !== OrderStatus.ACTIVE) {
-          console.log("Order is not active");
+          this.toastService.show('La orden ya no está activa.', 2000, 'error');
           this.router.navigate(['dashboard']);
+          return null;
         }
-        this.order = order;
-        this.finalTotal = this.order.total;
-        this.totalAmount =  this.order.total;
-        this.updateCashValidator();
-      },
-      error: err => {
-        console.log(this.errorHandler.parseError(err));
+        return order;
+      }),
+      catchError(error => {
+        this.toastService.show(this.errorHandler.parseError(error), 3000, 'error');
         this.router.navigate(['dashboard']);
-      }
-    })
+        return of(null);
+      })
+    );
   }
 
-  /**
-   *
-   * @private
-   */
+  /** Creates the payment controls and recalculates the total whenever the discount changes. */
   private initFormControl() {
     this.paymentForm = this.fb.group({
-      discount: [null, [Validators.min(1), Validators.max(99)]],
-      cash: [null, [Validators.min(1), this.cashEnoughValidator(this.finalTotal)]]
+      discount: [null, [Validators.min(0), Validators.max(99)]],
+      cash: [null, [Validators.required, this.cashEnoughValidator(this.finalTotal)]]
     });
 
-    this.paymentForm.get('discount')?.valueChanges.subscribe(value => {
-      if (this.paymentForm.get('discount')?.valid) {
-        const discountValue = Number(value);
-        this.finalTotal = this.calculateTotalWithDiscount(discountValue);
-      } else {
-        this.finalTotal = this.totalAmount; // Reset if invalid
-      }
+    this.paymentForm.get('discount')?.valueChanges.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(value => {
+      const discountControl = this.paymentForm.get('discount');
+      const discountValue = value === null || value === '' ? 0 : Number(value);
+      this.finalTotal = discountControl?.valid && Number.isFinite(discountValue)
+        ? this.calculateTotalWithDiscount(discountValue)
+        : this.totalAmount;
       this.updateCashValidator();
     });
   }
 
-  /**
-   *
-   */
+  /** Validates and submits the payment, then shows the change due before navigating away. */
   onPay() {
+    const order = this.order;
+    if (!order?.id || this.isLoading) {
+      return;
+    }
+
     if (this.paymentForm.valid) {
-      this.isLoading = true
-      this.orderService.pay(this.order,this.paymentForm.get('discount')?.value, this.paymentForm.get('cash')?.value).subscribe({
-        next: order => {
-          this.isLoading = false
-          this.confirmCashBack().then(
-            () => this.router.navigate(['dashboard'])
-          )
+      const discount = Number(this.paymentForm.get('discount')?.value ?? 0);
+      const cash = Number(this.paymentForm.get('cash')?.value);
+      this.isLoading = true;
+      this.orderService.pay(order, discount, cash).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.confirmCashBack().then(() => this.router.navigate(['dashboard']));
         },
         error: err => {
-          this.isLoading = false
-          console.log(this.errorHandler.parseError(err));
+          this.isLoading = false;
+          this.toastService.show(this.errorHandler.parseError(err), 3000, 'error');
         }
       });
     }
@@ -143,51 +153,42 @@ export class PayPage implements OnInit {
     }
   }
 
-  /**
-   *
-   */
+  /** Returns to the dashboard without submitting the payment. */
   cancel() {
     this.router.navigate(['dashboard']);
   }
 
-  /**
-   *
-   * @param discount
-   * @private
-   */
+  /** Calculates the payable amount after applying a percentage discount, rounded to cents. */
   private calculateTotalWithDiscount(discount: number): number {
-    return this.totalAmount - (this.totalAmount * (discount / 100));
+    return Math.round((this.totalAmount - (this.totalAmount * (discount / 100))) * 100) / 100;
   }
 
-  /**
-   *
-   * @param minAmount
-   */
+  /** Ensures the entered cash is a finite amount at least equal to the amount due. */
   cashEnoughValidator(minAmount: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value === null || control.value === '') {
+        return null;
+      }
       const value = Number(control.value);
-      if (isNaN(value)) return null;
+      if (!Number.isFinite(value)) {
+        return { invalidCash: true };
+      }
       return value < minAmount ? { notEnoughCash: true } : null;
     };
   }
 
-  /**
-   * Call updateCashValidator() whenever finalTotal changes.
-   */
+  /** Refreshes the cash validator whenever the final payment total changes. */
   updateCashValidator() {
     this.paymentForm.get('cash')?.setValidators([
       Validators.required,
       this.cashEnoughValidator(this.finalTotal)
     ]);
-    this.paymentForm.get('cash')?.updateValueAndValidity();
+    this.paymentForm.get('cash')?.updateValueAndValidity({emitEvent: false});
   }
 
-
-  /**
-   *
-   */
-  async confirmCashBack(){
-    const cashBack = this.paymentForm.get('cash')?.value - this.finalTotal;
+  /** Opens the confirmation dialog showing the formatted change due to the customer. */
+  async confirmCashBack() {
+    const cashBack = Number(this.paymentForm.get('cash')?.value) - this.finalTotal;
     const cashBackFormated = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -197,25 +198,12 @@ export class PayPage implements OnInit {
     await this.confirmModal.open(`Cambio: ${cashBackFormated} `);
   }
 
-  /**
-   *
-   * @param event
-   */
-  limitDiscount(event: any): void {
-    let value = event.target.value;
-
-    if (value > 99) {
-      event.target.value = 99;
-      this.paymentForm.get('discount')?.setValue(99, { emitEvent: true });
+  /** Parses a route parameter as a positive, safe integer ID. */
+  private parsePositiveId(value: string): number | null {
+    if (!/^\d+$/.test(value)) {
+      return null;
     }
-
-    if (value < 0) {
-      event.target.value = 0;
-      this.paymentForm.get('discount')?.setValue(0, { emitEvent: true });
-    }
+    const id = Number(value);
+    return Number.isSafeInteger(id) && id > 0 ? id : null;
   }
-
 }
-
-
-
