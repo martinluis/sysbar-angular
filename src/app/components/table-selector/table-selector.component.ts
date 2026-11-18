@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TableSelectorItemComponent} from './table-selector-item/table-selector-item.component';
 import {TableService} from '../../services/table.service';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Table} from '../../models/table';
 import {AsyncPipe} from '@angular/common';
 import {Router} from '@angular/router';
@@ -26,7 +26,9 @@ export class TableSelectorComponent implements OnInit {
    *
    */
   ngOnInit(): void {
-    this.tables$ = this.tableService.getAll();
+    this.tables$ = this.tableService.getAll().pipe(
+      map(tables => [...tables].sort((a, b) => a.name.localeCompare(b.name)))
+    );
   }
 
 
