@@ -33,7 +33,7 @@ export class UsersPage {
     const users = this.users().filter(item =>
       item.name.toLowerCase().includes(term)
     );
-    return users.filter( usr => usr.code != 'develop')
+    return users.filter( usr => usr.code != 'developer' && usr.code != 'develop')
   });
 
 
