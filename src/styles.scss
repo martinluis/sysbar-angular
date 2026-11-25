@@ -11,6 +11,10 @@ body {
   padding: 0;
 }
 
+.primary-color {
+  background: $primary-color !important;
+}
+
 .dark-color {
   background: #263c48 !important;
 }

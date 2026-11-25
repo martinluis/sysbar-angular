@@ -4,7 +4,7 @@
   <!-- Left panel -->
   <div class="orders-list-container col-5 d-flex flex-column">
     <div class="orders-items-container bg-white">
-      <div class="col-12 text-center pt-2 pb-1 text-white dark-color">
+      <div class="col-12 text-center pt-2 pb-1 text-white primary-color">
         <h5>{{ 'PAGES_A.CASHIER.ACTIVE_ORDERS' | translate }}</h5>
       </div>
       @for (order of orders$ | async; track order.id) {
