@@ -22,7 +22,6 @@ import {
 } from '@angular/common/http';
 
 import { authInterceptor } from './services/auth-interceptor.service';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
@@ -38,8 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([authInterceptor])
     ),
-
-    provideAnimations(),
 
     provideCharts(withDefaultRegisterables()),
 
