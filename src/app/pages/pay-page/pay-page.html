@@ -5,34 +5,34 @@
     <br>
     @if (order && order.customer) {
       <div class="col-10">
-        <h4>Cliente: {{order.customer.firstName}} {{order.customer.lastName}}</h4>
+        <h4>{{ 'PAGES_B.PAY.CUSTOMER' | translate }}: {{order.customer.firstName}} {{order.customer.lastName}}</h4>
       </div>
       <div class="col-10">
-        <h4>Direccion: {{order.customer.address}}</h4>
+        <h4>{{ 'PAGES_B.PAY.ADDRESS' | translate }}: {{order.customer.address}}</h4>
       </div>
       <br>
     }
     <div class="actions-container col-3">
       <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
         <div class="form-floating">
-          <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
-          <label>Importe</label>
+          <input class="form-control" formControlName="cash" type="number" [placeholder]="'PAGES_B.PAY.AMOUNT' | translate">
+          <label>{{ 'PAGES_B.PAY.AMOUNT' | translate }}</label>
         </div>
         <div class="form-floating">
-          <input class="form-control" formControlName="discount" type="number" min="0" max="99" step="1" placeholder="Descuento %">
-          <label>Descuento %</label>
+          <input class="form-control" formControlName="discount" type="number" min="0" max="99" step="1" [placeholder]="'PAGES_B.PAY.DISCOUNT_PERCENT' | translate">
+          <label>{{ 'PAGES_B.PAY.DISCOUNT_PERCENT' | translate }}</label>
         </div>
         <br>
-        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
-        <button class="btn btn-outline-danger col-12" type="button" [disabled]="isLoading" (click)="cancel()">Cancelar</button>
+        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">{{ 'PAGES_B.PAY.PAY' | translate }}</button>
+        <button class="btn btn-outline-danger col-12" type="button" [disabled]="isLoading" (click)="cancel()">{{ 'PAGES_B.COMMON.CANCEL' | translate }}</button>
       </form>
     </div>
     <br>
     <br>
-    <h3 class="sub-label">Subtotal: {{this.totalAmount | currency: "USD"}}</h3>
-    <h3 class="total-label">Descuento: {{paymentForm.get('discount')?.value ?? 0}}%</h3>
+    <h3 class="sub-label">{{ 'PAGES_B.PAY.SUBTOTAL' | translate }}: {{this.totalAmount | currency: "USD"}}</h3>
+    <h3 class="total-label">{{ 'PAGES_B.PAY.DISCOUNT' | translate }}: {{paymentForm.get('discount')?.value ?? 0}}%</h3>
     <br>
-    <h2 class="fw-bold">Total: {{this.finalTotal | currency: "USD"}}</h2>
+    <h2 class="fw-bold">{{ 'PAGES_B.PAY.TOTAL' | translate }}: {{this.finalTotal | currency: "USD"}}</h2>
   </div>
   <div class="order-summary-container col-4">
     @if (order) {

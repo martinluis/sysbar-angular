@@ -1,48 +1,48 @@
 <app-header />
 <div class="container products-container py-4">
-  <h2 class="mb-4">Administración de Productos</h2>
+  <h2 class="mb-4">{{ 'PAGES_B.PRODUCTS.TITLE' | translate }}</h2>
 
   <form [formGroup]="formGroup" (ngSubmit)="isEditing() ? update() : add()">
     <div class="d-flex flex-row">
       <div class="col-5">
         <div class="form-floating mb-3">
-          <input type="text" formControlName="name" name="name" class="form-control"  placeholder="Nombre del Producto"/>
-          <label>Nombre del Producto</label>
+          <input type="text" formControlName="name" name="name" class="form-control" [placeholder]="'PAGES_B.PRODUCTS.NAME' | translate"/>
+          <label>{{ 'PAGES_B.PRODUCTS.NAME' | translate }}</label>
         </div>
       </div>
       <div class="col-2 ms-4">
         <div class="form-floating">
           <select class="form-select" formControlName="type">
-            <option [value]="null" disabled>Tipo de Prodcuto</option>
+            <option [value]="null" disabled>{{ 'PAGES_B.PRODUCTS.TYPE_PLACEHOLDER' | translate }}</option>
             @for (type of productTypeOptions; track type)  {
               <option [value]="type">
-                {{ ProductTypeLabels[type] }}
+                {{ ProductTypeLabels[type] | translate }}
               </option>
             }
           </select>
-          <label>Tipo</label>
+          <label>{{ 'PAGES_B.COMMON.TYPE' | translate }}</label>
         </div>
       </div>
       <div class="col-2 ms-4">
         <div class="form-floating mb-3">
-          <input type="number" formControlName="price" name="name"  class="form-control" placeholder="Precio"/>
-          <label>Precio</label>
+          <input type="number" formControlName="price" name="name" class="form-control" [placeholder]="'PAGES_B.PRODUCTS.PRICE' | translate"/>
+          <label>{{ 'PAGES_B.PRODUCTS.PRICE' | translate }}</label>
         </div>
       </div>
       <div class="col-2 ms-4">
         <div class="form-floating mb-3">
-          <input type="number" formControlName="stock" name="name" class="form-control" placeholder="Stock"/>
-          <label>Stock</label>
+          <input type="number" formControlName="stock" name="name" class="form-control" [placeholder]="'PAGES_B.PRODUCTS.STOCK' | translate"/>
+          <label>{{ 'PAGES_B.PRODUCTS.STOCK' | translate }}</label>
         </div>
       </div>
     </div>
     <div class="d-flex flex-row mt-4">
       <div class="col-12 d-flex align-items-end justify-content-end">
         @if (isEditing()) {
-          <button type="button" class="btn btn-outline-danger col-3" (click)="resetForm()">Cancel</button>
+          <button type="button" class="btn btn-outline-danger col-3" (click)="resetForm()">{{ 'PAGES_B.COMMON.CANCEL' | translate }}</button>
         }
         <button type="submit" class="btn btn-outline-success col-3 offset-1" [class.disabled]="!formGroup.valid">
-          {{ isEditing() ? 'Actualizar' : 'Agregar' }}
+          {{ (isEditing() ? 'PAGES_B.COMMON.UPDATE' : 'PAGES_B.COMMON.ADD') | translate }}
         </button>
       </div>
     </div>
@@ -53,14 +53,14 @@
   <div class="product-content-container">
     <div class="d-flex flex-row">
       <div class="col-4 mb-2">
-        <input class="form-control" placeholder="Buscar" (input)="searchText.set($any($event.target).value)" [value]="searchText()" >
+        <input class="form-control" [placeholder]="'PAGES_B.COMMON.SEARCH' | translate" (input)="searchText.set($any($event.target).value)" [value]="searchText()" >
       </div>
     </div>
     <!-- Table Header -->
     <div class="d-flex flex-row dark-color text-white">
       <div class="col-6 border px-4 pt-2" (click)="tableSorter.sortBy('name')" style="cursor:pointer">
         <h6>
-          Producto
+          {{ 'PAGES_B.PRODUCTS.PRODUCT' | translate }}
           @if(tableSorter.column() === 'name'){
             {{ tableSorter.direction() === 'asc' ? '↑' : '↓' }}
           }
@@ -68,14 +68,14 @@
       </div>
       <div class="col-3 border px-4 pt-2 text-center" (click)="tableSorter.sortBy('type')" style="cursor:pointer">
         <h6>
-          Tipo
+          {{ 'PAGES_B.COMMON.TYPE' | translate }}
           @if(tableSorter.column() === 'type'){
             {{tableSorter.direction() === 'asc' ? '↑' : '↓' }}
           }
         </h6>
       </div>
       <div class="col-3 d-flex border px-4 pt-2 justify-content-center">
-        <h6>Acciones</h6>
+        <h6>{{ 'PAGES_B.COMMON.ACTIONS' | translate }}</h6>
       </div>
     </div>
 
@@ -86,11 +86,11 @@
           <span>{{product.name}}</span>
         </div>
         <div class="col-3 pt-1 px-3 border d-flex justify-content-center">
-          <span>{{ProductTypeLabels[product.type]}}</span>
+          <span>{{ProductTypeLabels[product.type] | translate}}</span>
         </div>
         <div class="col-3 p-1 px-3 border d-flex flex-row justify-content-center">
-          <button class="btn btn-sm btn-outline-primary col-5" (click)="edit(product)">Editar</button>
-          <button class="btn btn-sm btn-outline-danger col-5 offset-1" (click)="delete(product.id!)">Eliminar</button>
+          <button class="btn btn-sm btn-outline-primary col-5" (click)="edit(product)">{{ 'PAGES_B.COMMON.EDIT' | translate }}</button>
+          <button class="btn btn-sm btn-outline-danger col-5 offset-1" (click)="delete(product.id!)">{{ 'PAGES_B.COMMON.DELETE' | translate }}</button>
         </div>
       </div>
     }

@@ -12,12 +12,14 @@ import {ProductType} from '../../models/product-type.enum';
 import {AuthService} from '../../services/auth.service';
 import {Role} from '../../models/role.enum';
 import {Subject, takeUntil} from 'rxjs';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cashier-page',
   imports: [
     HeaderComponent,
     DatePipe,
+    TranslatePipe,
   ],
   templateUrl: './preparation-page.html',
   styleUrl: './preparation-page.scss'
@@ -178,11 +180,11 @@ export class PreparationPage implements OnInit, OnDestroy {
   getTypeDescription(order: Preparation): string {
       switch (order.orderType) {
         case OrderType.PERSONAL:
-          return "Personal";
+          return 'PAGES_B.PREPARATION.PERSONAL';
         case OrderType.LOCAL:
           return order.tableName;
         case OrderType.DELIVERY:
-          return "A domicilio";
+          return 'PAGES_B.PREPARATION.DELIVERY';
       }
   }
 

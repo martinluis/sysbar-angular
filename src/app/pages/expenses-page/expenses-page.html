@@ -1,27 +1,27 @@
 <app-header />
 <div class="container expenses-container py-4">
-  <h2 class="mb-4">Administración de Gastos</h2>
+  <h2 class="mb-4">{{ 'PAGES_A.EXPENSES.TITLE' | translate }}</h2>
 
   <form [formGroup]="formGroup" (ngSubmit)="isEditing() ? update() : add()">
     <div class="d-flex flex-row">
       <div class="col-6">
         <div class="form-floating mb-3">
-          <input type="text" formControlName="description" name="name" class="form-control"  placeholder="Descripcion del gasto"/>
-          <label>Descripcion del gasto</label>
+          <input type="text" formControlName="description" name="name" class="form-control" [placeholder]="'PAGES_A.EXPENSES.DESCRIPTION' | translate"/>
+          <label>{{ 'PAGES_A.EXPENSES.DESCRIPTION' | translate }}</label>
         </div>
       </div>
       <div class="col-2 ms-2">
         <div class="form-floating mb-3">
-          <input type="number" formControlName="amount" name="name"  class="form-control" placeholder="Cantidad"/>
-          <label>Cantidad</label>
+          <input type="number" formControlName="amount" name="name" class="form-control" [placeholder]="'PAGES_A.EXPENSES.AMOUNT' | translate"/>
+          <label>{{ 'PAGES_A.EXPENSES.AMOUNT' | translate }}</label>
         </div>
       </div>
       <div class="col-4 d-flex justify-content-end py-2 pb-4">
         @if (isEditing()) {
-          <button type="button" class="btn btn-outline-danger col-5 offset-1" (click)="resetForm()">Cancel</button>
+          <button type="button" class="btn btn-outline-danger col-5 offset-1" (click)="resetForm()">{{ 'PAGES_A.COMMON.CANCEL' | translate }}</button>
         }
         <button type="submit" class="btn btn-outline-success col-5 ms-2" [class.disabled]="!formGroup.valid">
-          {{ isEditing() ? 'Actualizar' : 'Agregar' }}
+          {{ (isEditing() ? 'PAGES_A.COMMON.UPDATE' : 'PAGES_A.COMMON.ADD') | translate }}
         </button>
       </div>
     </div>
@@ -32,19 +32,19 @@
   <div class="expense-content-container">
     <div class="d-flex flex-row">
       <div class="col-4 mb-2">
-        <input class="form-control" placeholder="Buscar" (input)="searchText.set($any($event.target).value)" [value]="searchText()" >
+        <input class="form-control" [placeholder]="'PAGES_A.COMMON.SEARCH' | translate" (input)="searchText.set($any($event.target).value)" [value]="searchText()" >
       </div>
     </div>
     <!-- Table Header -->
     <div class="d-flex flex-row dark-color text-white">
       <div class="col-6 d-flex border px-4 pt-2">
-        <h6>Descripcion del gasto</h6>
+        <h6>{{ 'PAGES_A.EXPENSES.DESCRIPTION' | translate }}</h6>
       </div>
       <div class="col-3 d-flex border justify-content-center px-4 pt-2">
-        <h6>Cantidad</h6>
+        <h6>{{ 'PAGES_A.EXPENSES.AMOUNT' | translate }}</h6>
       </div>
       <div class="col-3 d-flex border px-4 pt-2 justify-content-center">
-        <h6>Acciones</h6>
+        <h6>{{ 'PAGES_A.COMMON.ACTIONS' | translate }}</h6>
       </div>
     </div>
 
@@ -58,8 +58,8 @@
           <span>{{expense.amount | currency: "USD"}}</span>
         </div>
         <div class="col-3 p-1 px-3 border d-flex flex-row justify-content-center">
-          <button class="btn btn-sm btn-outline-primary col-5" (click)="edit(expense)">Editar</button>
-          <button class="btn btn-sm btn-outline-danger col-5 offset-1" (click)="delete(expense.id!)">Eliminar</button>
+          <button class="btn btn-sm btn-outline-primary col-5" (click)="edit(expense)">{{ 'PAGES_A.COMMON.EDIT' | translate }}</button>
+          <button class="btn btn-sm btn-outline-danger col-5 offset-1" (click)="delete(expense.id!)">{{ 'PAGES_A.COMMON.DELETE' | translate }}</button>
         </div>
       </div>
     }

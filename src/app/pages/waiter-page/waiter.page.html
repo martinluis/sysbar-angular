@@ -1,8 +1,8 @@
 <app-header />
 
 <div class="sub-header d-flex flex-wrap justify-content-end" >
-  <button class="btn btn-outline-primary col-2" (click)="createDeliveryOrder()">Para Llevar</button>
-  <button class="btn btn-outline-primary col-2" (click)="createPersonalOrder()">Personal</button>
+  <button class="btn btn-outline-primary col-2" (click)="createDeliveryOrder()">{{ 'PAGES_B.WAITER.TAKEAWAY' | translate }}</button>
+  <button class="btn btn-outline-primary col-2" (click)="createPersonalOrder()">{{ 'PAGES_B.PREPARATION.PERSONAL' | translate }}</button>
 </div>
 <hr class="border-1 border-black " />
 
@@ -14,4 +14,3 @@
   <br>
   <app-personal-order-selector/>
 </div>
-

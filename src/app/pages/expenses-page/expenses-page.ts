@@ -6,6 +6,7 @@ import {ErrorHandlerService} from '../../services/error-handler.service';
 import {ExpenseService} from '../../services/expense.service';
 import {CurrencyPipe} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-expenses-page',
@@ -13,7 +14,8 @@ import {AuthService} from '../../services/auth.service';
     FormsModule,
     HeaderComponent,
     ReactiveFormsModule,
-    CurrencyPipe
+    CurrencyPipe,
+    TranslatePipe
   ],
   templateUrl: './expenses-page.html',
   styleUrl: './expenses-page.scss'

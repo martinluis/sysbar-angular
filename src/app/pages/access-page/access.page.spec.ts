@@ -7,6 +7,9 @@ import {of, throwError} from 'rxjs';
 import {User} from '../../models/user';
 import {Role} from '../../models/role.enum';
 import { HttpErrorResponse } from '@angular/common/http';
+import {provideRouter} from '@angular/router';
+import {provideTranslateService, TranslateService} from '@ngx-translate/core';
+import {AuthService} from '../../services/auth.service';
 
 describe('AccessPage', () => {
   let component: AccessPage;
@@ -19,8 +22,20 @@ describe('AccessPage', () => {
 
     await TestBed.configureTestingModule({
       imports: [FormsModule, AccessPage],
-      providers: [{ provide: UserService, useValue: userServiceMock }]
+      providers: [
+        { provide: UserService, useValue: userServiceMock },
+        { provide: AuthService, useValue: jasmine.createSpyObj('AuthService', ['setUser']) },
+        provideRouter([]),
+        provideTranslateService()
+      ]
     }).compileComponents();
+
+    const translate = TestBed.inject(TranslateService);
+    translate.setTranslation('es', {
+      ACCESS: {CODE_PLACEHOLDER: 'Codigo', ACCESS_BTN: 'Acceder'},
+      ERRORS: {USER_CODE_INVALID: 'Codigo no Valido'}
+    });
+    translate.use('es');
 
     fixture = TestBed.createComponent(AccessPage);
     component = fixture.componentInstance;
@@ -53,11 +68,19 @@ describe('AccessPage', () => {
     fixture.detectChanges();
 
     const errorText = fixture.debugElement.query(By.css('.error-text')).nativeElement;
-    expect(errorText.textContent).toContain('Usuario no Valido');
+    expect(errorText.textContent).toContain('Codigo no Valido');
+  });
+
+  it('should display translated access labels', () => {
+    const input = fixture.debugElement.query(By.css('input')).nativeElement;
+    const button = fixture.debugElement.query(By.css('button')).nativeElement;
+
+    expect(input.placeholder).toBe('Codigo');
+    expect(button.textContent).toContain('Acceder');
   });
 
   it('should not show error if code is correct', () => {
-    const user: User = {id: 1, name: "Luis", roles: [Role.ADMIN], token: ""}
+    const user: User = {id: 1, name: "Luis", code: "1234", roles: [Role.ADMIN], token: ""}
     const loginResponse = of(user);
     userServiceMock.requestAccess.and.returnValue(loginResponse);
 

@@ -1,12 +1,12 @@
 <div class="search-product-container d-flex flex-column">
   <div class="filter-container d-flex flex-row">
     <div class="col-5">
-      <input class="form-control" type="text" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" placeholder="Buscar">
+      <input class="form-control" type="text" [ngModel]="keyword()" (ngModelChange)="keyword.set($event)" [placeholder]="'COMPONENTS.PRODUCTS.SEARCH' | translate">
     </div>
-    <div class="btn-group col-5 offset-2" role="group" aria-label="Basic example">
-      <button type="button" (click)="onFilterAll()" [class.active]="filterType()===null" class="btn btn-outline-secondary active">Todo</button>
-      <button type="button" (click)="onFilterFood()"  [class.active]="filterType()===ProductType.FOOD" class="btn btn-outline-secondary">Comida</button>
-      <button type="button" (click)="onFilterDrink()"  [class.active]="filterType()===ProductType.DRINK" class="btn btn-outline-secondary">Bebidas</button>
+    <div class="btn-group col-5 offset-2" role="group" [attr.aria-label]="'COMPONENTS.PRODUCTS.FILTER_LABEL' | translate">
+      <button type="button" (click)="onFilterAll()" [class.active]="filterType()===null" class="btn btn-outline-secondary active">{{ 'COMPONENTS.PRODUCTS.ALL' | translate }}</button>
+      <button type="button" (click)="onFilterFood()"  [class.active]="filterType()===ProductType.FOOD" class="btn btn-outline-secondary">{{ 'COMPONENTS.PRODUCTS.FOOD' | translate }}</button>
+      <button type="button" (click)="onFilterDrink()"  [class.active]="filterType()===ProductType.DRINK" class="btn btn-outline-secondary">{{ 'COMPONENTS.PRODUCTS.DRINKS' | translate }}</button>
     </div>
   </div>
   <div class="search-product-items-container d-flex flex-wrap justify-content-center ">

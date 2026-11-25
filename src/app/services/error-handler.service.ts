@@ -12,7 +12,7 @@ export class ErrorHandlerService {
    * @param err
    */
   parseError(err: any): string {
-    let errorMsg = 'An unexpected error occurred.';
+    let errorMsg = 'ERRORS.UNEXPECTED';
 
     const error: ErrorResponse = err?.error;
 

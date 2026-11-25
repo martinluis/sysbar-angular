@@ -18,7 +18,8 @@ import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal
 import {OrderStatus} from '../../models/order-status.enum';
 import {ToastService} from '../../services/toast.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import {catchError, firstValueFrom, map, Observable, of, switchMap} from 'rxjs';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pay-page',
@@ -28,6 +29,7 @@ import {catchError, map, Observable, of, switchMap} from 'rxjs';
     CurrencyPipe,
     ReactiveFormsModule,
     ConfirmModal,
+    TranslatePipe,
   ],
   templateUrl: './pay-page.html',
   styleUrl: './pay-page.scss'
@@ -56,6 +58,7 @@ export class PayPage implements OnInit {
               private fb: FormBuilder,
               private destroyRef: DestroyRef,
               private toastService: ToastService,
+              private translate: TranslateService,
               private errorHandler: ErrorHandlerService) {
 
   }
@@ -69,7 +72,7 @@ export class PayPage implements OnInit {
         const orderId = params.get('orderId');
         const id = orderId === null ? null : this.parsePositiveId(orderId);
         if (id === null) {
-          this.toastService.show('No se pudo identificar la orden.', 2000, 'error');
+          this.toastService.show(this.translate.instant('PAGES_B.PAY.ORDER_NOT_IDENTIFIED'), 2000, 'error');
           this.router.navigate(['dashboard']);
           return of(null);
         }
@@ -91,7 +94,7 @@ export class PayPage implements OnInit {
     return this.orderService.get(id).pipe(
       map(order => {
         if (order.status !== OrderStatus.ACTIVE) {
-          this.toastService.show('La orden ya no está activa.', 2000, 'error');
+          this.toastService.show(this.translate.instant('PAGES_B.PAY.ORDER_INACTIVE'), 2000, 'error');
           this.router.navigate(['dashboard']);
           return null;
         }
@@ -195,7 +198,8 @@ export class PayPage implements OnInit {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(cashBack);
-    await this.confirmModal.open(`Cambio: ${cashBackFormated} `);
+    const message = await firstValueFrom(this.translate.get('PAGES_B.PAY.CHANGE', {amount: cashBackFormated}));
+    await this.confirmModal.open(message);
   }
 
   /** Parses a route parameter as a positive, safe integer ID. */

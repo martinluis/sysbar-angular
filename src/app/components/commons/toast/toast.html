@@ -1,4 +1,3 @@
 @if (visible()) {
-  <div class="toast text-center {{style()}}" [@fadeInOut]>{{ message() }} </div>
+  <div class="toast text-center {{style()}}" [@fadeInOut]>{{ message() | translate }} </div>
 }
-

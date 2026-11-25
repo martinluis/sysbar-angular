@@ -5,12 +5,14 @@ import {map, Observable} from 'rxjs';
 import {Table} from '../../models/table';
 import {AsyncPipe} from '@angular/common';
 import {Router} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-table-selector',
   imports: [
     TableSelectorItemComponent,
-    AsyncPipe
+    AsyncPipe,
+    TranslatePipe
   ],
   templateUrl: './table-selector.component.html',
   styleUrl: './table-selector.component.scss'

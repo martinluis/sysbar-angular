@@ -11,6 +11,7 @@ import {Role} from '../../models/role.enum';
 import {ToastService} from '../../services/toast.service';
 import {PrinterService} from '../../services/printer.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cashier-page',
@@ -18,7 +19,8 @@ import {ErrorHandlerService} from '../../services/error-handler.service';
     HeaderComponent,
     AsyncPipe,
     DatePipe,
-    CurrencyPipe
+    CurrencyPipe,
+    TranslatePipe
   ],
   templateUrl: './cashier-page.html',
   styleUrl: './cashier-page.scss'
@@ -35,7 +37,8 @@ export class CashierPage implements OnInit{
               private router: Router,
               private toastService: ToastService,
               private errorHandler: ErrorHandlerService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private translate: TranslateService) {
   }
 
   /** Loads active orders for display in the cashier's order list. */
@@ -95,7 +98,7 @@ export class CashierPage implements OnInit{
     this.orderService.delete(orderId).subscribe({
       next: () => {
         this.isDeleting = false;
-        this.toastService.show("Se eliminó la orden", 2000, "success");
+        this.toastService.show(this.translate.instant('PAGES_A.CASHIER.ORDER_DELETED'), 2000, "success");
         this.loadActiveOrders();
         this.orderSelected.set(null);
       },
@@ -117,7 +120,7 @@ export class CashierPage implements OnInit{
     this.printerService.printTicket(orderId).subscribe({
       next: () => {
         this.isPrinting = false;
-        this.toastService.show("Se imprimió el ticket", 1000, "success");
+        this.toastService.show(this.translate.instant('PAGES_A.CASHIER.PRINT_SUCCESS'), 1000, "success");
       },
       error: err => {
         this.isPrinting = false;
@@ -130,11 +133,11 @@ export class CashierPage implements OnInit{
   getTypeDescription(order: Order): string {
     switch (order.orderType) {
       case OrderType.PERSONAL:
-        return `Personal - ${order.reference}`;
+        return this.translate.instant('PAGES_A.ORDER_TYPE.PERSONAL', {reference: order.reference});
       case OrderType.LOCAL:
-        return order.table?.name ?? "Mesa";
+        return order.table?.name ?? this.translate.instant('PAGES_A.ORDER_TYPE.TABLE');
       case OrderType.DELIVERY:
-        return "A domicilio";
+        return this.translate.instant('PAGES_A.ORDER_TYPE.DELIVERY');
     }
   }
 
@@ -159,7 +162,7 @@ export class CashierPage implements OnInit{
     if (id !== null && id !== undefined && Number.isSafeInteger(id) && id > 0) {
       return id;
     }
-    this.toastService.show("Selecciona una orden válida.", 2000, "warning");
+    this.toastService.show(this.translate.instant('PAGES_A.CASHIER.SELECT_VALID_ORDER'), 2000, "warning");
     return null;
   }
 

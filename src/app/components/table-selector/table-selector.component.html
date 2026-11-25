@@ -1,7 +1,6 @@
-<h2>Mesas</h2>
+<h2>{{ 'COMPONENTS.TABLES.TITLE' | translate }}</h2>
 <div class="d-flex flex-wrap">
   @for (table of tables$ | async ; track table.id) {
     <app-table-selector-item [table]="table" (click)="goToOrder(table.id!)"/>
   }
 </div>
-

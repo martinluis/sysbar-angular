@@ -2,11 +2,13 @@ import {Component, input, OnInit, output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Customer} from '../../models/customer';
 import {CustomerService} from '../../services/customer.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-customer-form',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslatePipe
   ],
   templateUrl: './customer-form.component.html',
   styleUrl: './customer-form.component.scss'

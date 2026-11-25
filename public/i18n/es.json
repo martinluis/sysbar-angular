@@ -1,7 +1,252 @@
 {
   "HEADER_TITLE": "SysBar Restaurant",
-  "ACCESS": {
-    "ACCESS_BTN": "Acceder",
-    "CODE_PLACEHOLDER": "Codigo"
+  "PRODUCT_TYPE": {
+    "DRINK": "Bebida",
+    "FOOD": "Comida"
+  },
+  "ERRORS": {
+    "USER_CODE_INVALID": "Codigo no Valido",
+    "SERVICE_CONNECTION": "Error de conexion al servicio",
+    "TABLE_WITHOUT_ACTIVE_ORDER": "Mesa no tiene ordenes activas",
+    "EXPENSE_USER_REQUIRED": "Usuario requerido para el gasto",
+    "UNEXPECTED": "Ocurrio un error inesperado."
+  },
+  "CONFIG": {
+    "SECTION": {
+      "WAITER": "Mesero",
+      "CASHIER": "Cajero",
+      "KITCHEN": "Cocinero",
+      "BARTENDER": "Bartender",
+      "EXPENSES": "Gastos",
+      "ADMIN": "Admin",
+      "TABLES": "Mesas",
+      "PRODUCTS": "Productos",
+      "USERS": "Usuarios",
+      "CASHCUT": "Corte de Caja",
+      "SALES_REPORT": "Reporte de Ventas"
+    }
+  },
+  "COMPONENTS": {
+    "COMMON": {
+      "ACCEPT": "Aceptar",
+      "CANCEL": "Cancelar",
+      "CONFIRM": "Confirmar"
+    },
+    "CUSTOMER": {
+      "PHONE": "Teléfono",
+      "FIRST_NAME": "Nombre",
+      "LAST_NAME": "Apellido",
+      "ADDRESS": "Direccion"
+    },
+    "HEADER": {
+      "LOGO": "Logo"
+    },
+    "MOVE_TABLE": {
+      "SELECT_TABLE": "Seleccione la mesa a donde se movera la orden"
+    },
+    "ORDER": {
+      "COMMENTS": "Comentarios",
+      "TOTAL": "Total:",
+      "CONFIRMED": "Orden Confirmada",
+      "CANCEL_CHANGES": "Desea cancelar los cambios en la orden?",
+      "EMPTY": "La orden no puede estar vacia",
+      "CUSTOMER_REQUIRED": "Debe ingresar informacion del cliente",
+      "REFERENCE_REQUIRED": "Debe ingresar el nombre o referencia",
+      "TABLE": "Mesa",
+      "DELIVERY": "A domicilio",
+      "PERSONAL": "Personal"
+    },
+    "PAGINATION": {
+      "PREVIOUS": "Previo",
+      "PAGE": "Página {{page}} de {{total}}",
+      "NEXT": "Siguiente"
+    },
+    "PERSONAL_ORDERS": {
+      "TITLE": "Ordenes Personales"
+    },
+    "PRODUCTS": {
+      "SEARCH": "Buscar",
+      "FILTER_LABEL": "Filtro de productos",
+      "ALL": "Todo",
+      "FOOD": "Comida",
+      "DRINKS": "Bebidas",
+      "ADD_ERROR": "No se pudo agregar el producto."
+    },
+    "TABLES": {
+      "TITLE": "Mesas"
+    }
+  },
+  "PAGES_A": {
+    "COMMON": {
+      "ACTIONS": "Acciones",
+      "ADD": "Agregar",
+      "CANCEL": "Cancelar",
+      "DELETE": "Eliminar",
+      "EDIT": "Editar",
+      "SEARCH": "Buscar",
+      "UPDATE": "Actualizar",
+      "VIEW_DETAILS": "Ver detalle"
+    },
+    "ORDER_TYPE": {
+      "DELIVERY": "A domicilio",
+      "PERSONAL": "Personal - {{reference}}",
+      "TABLE": "Mesa"
+    },
+    "ACCESS": {
+      "ACCESS_BTN": "Acceder",
+      "CODE_PLACEHOLDER": "Codigo"
+    },
+    "CASHCUT": {
+      "ACTIVE_TITLE": "Corte activo",
+      "CASH_TOTAL": "Total en caja",
+      "CREATE_ERROR": "Error al crear el corte de caja",
+      "CREATED": "Se generó el corte",
+      "DATE_FORMAT": "yyyy-mm-dd",
+      "END": "Fin de corte",
+      "END_DATE": "Fecha final",
+      "EXPENSES": "Gastos",
+      "INITIAL_BALANCE": "Saldo inicial",
+      "INITIAL_CASH_PLACEHOLDER": "Saldo inicial de caja",
+      "INVALID_DATES": "Fechas incorrectas",
+      "LIST_TITLE": "Lista de cortes",
+      "PERFORM_CASHCUT": "Realizar corte",
+      "SALES": "Ventas",
+      "SEARCH_DATES_REQUIRED": "Seleccione fechas de búsqueda",
+      "SELECT_END_DATE": "Seleccionar fecha final",
+      "SELECT_START_DATE": "Seleccionar fecha de inicio",
+      "START": "Inicio de corte",
+      "START_DATE": "Fecha de inicio",
+      "TOTAL": "Total",
+      "TOTAL_EXPENSES": "Gastos totales",
+      "TOTAL_SALES": "Ventas totales"
+    },
+    "CASHCUT_DETAIL": {
+      "EXPENSES_TITLE": "Lista de gastos del corte",
+      "ORDERS": "Órdenes",
+      "ORDERS_TITLE": "Lista de órdenes del corte",
+      "TITLE": "Detalle de corte",
+      "TOTAL": "Total",
+      "USER": "Usuario",
+      "WAITER": "Mesero"
+    },
+    "CASHIER": {
+      "ACTIVE_ORDERS": "Órdenes activas",
+      "DELETE": "Eliminar",
+      "EDIT": "Modificar",
+      "ORDER_DELETED": "Se eliminó la orden",
+      "PARTIAL_PAYMENT": "Pago parcial",
+      "PAY": "Pagar",
+      "PRINT_SUCCESS": "Se imprimió el ticket",
+      "SELECT_VALID_ORDER": "Selecciona una orden válida.",
+      "TICKET": "Ticket",
+      "WAITER": "Mesero"
+    },
+    "EXPENSES": {
+      "AMOUNT": "Cantidad",
+      "DESCRIPTION": "Descripción del gasto",
+      "TITLE": "Administración de gastos"
+    },
+    "ORDER": {
+      "ADD_PRODUCT_ERROR": "No se pudo agregar el producto.",
+      "INVALID_ORDER": "No se pudo identificar la orden.",
+      "MOVE_TABLE": "Mover mesa",
+      "NAME_OR_REFERENCE": "Nombre o referencia",
+      "PARTIAL_PAYMENT": "Pago parcial",
+      "PAY": "Pagar",
+      "PRINT_ERROR": "Error al imprimir el ticket",
+      "PRINT_SUCCESS": "Se imprimió el ticket",
+      "TICKET": "Ticket"
+    },
+    "PARTIAL_PAY": {
+      "AMOUNT": "Importe",
+      "CHANGE": "Cambio: {{amount}}",
+      "ORIGINAL_ORDER": "Orden original",
+      "PARTIAL_ORDER": "Orden parcial",
+      "PAY": "Pagar",
+      "TOTAL_TO_PAY": "Total parcial a pagar"
+    }
+  },
+  "PAGES_B": {
+    "COMMON": {
+      "CANCEL": "Cancelar",
+      "UPDATE": "Actualizar",
+      "ADD": "Agregar",
+      "SEARCH": "Buscar",
+      "NAME": "Nombre",
+      "TYPE": "Tipo",
+      "ACTIONS": "Acciones",
+      "EDIT": "Editar",
+      "DELETE": "Eliminar"
+    },
+    "PAY": {
+      "CUSTOMER": "Cliente",
+      "ADDRESS": "Dirección",
+      "AMOUNT": "Importe",
+      "DISCOUNT_PERCENT": "Descuento %",
+      "PAY": "Pagar",
+      "SUBTOTAL": "Subtotal",
+      "DISCOUNT": "Descuento",
+      "TOTAL": "Total",
+      "ORDER_NOT_IDENTIFIED": "No se pudo identificar la orden.",
+      "ORDER_INACTIVE": "La orden ya no está activa.",
+      "CHANGE": "Cambio: {{amount}} "
+    },
+    "PREPARATION": {
+      "ACTIVE_ORDERS": "Órdenes Activas",
+      "WAITER": "Mesero",
+      "FINISH": "Terminar",
+      "PERSONAL": "Personal",
+      "DELIVERY": "A domicilio"
+    },
+    "PRODUCTS": {
+      "TITLE": "Administración de Productos",
+      "NAME": "Nombre del Producto",
+      "TYPE_PLACEHOLDER": "Tipo de Producto",
+      "PRICE": "Precio",
+      "STOCK": "Stock",
+      "PRODUCT": "Producto",
+      "CREATED": "Producto creado",
+      "UPDATED": "Producto actualizado",
+      "DELETED": "Producto eliminado",
+      "ERROR": "Error al crear el producto"
+    },
+    "REPORTS": {
+      "TITLE": "Reporte de Ventas",
+      "START_DATE": "Fecha Inicio",
+      "END_DATE": "Fecha Final",
+      "SALES_BY_DATE": "Ventas por Fecha",
+      "SALES": "Ventas ($)",
+      "MOST_SOLD": "Productos más Vendidos",
+      "UNITS_SOLD": "Unidades Vendidas",
+      "SELECT_DATES": "Selecciones Fechas",
+      "INVALID_DATES": "Fechas Incorrectas"
+    },
+    "TABLES": {
+      "TITLE": "Administración de Mesas",
+      "NAME": "Nombre de Mesa"
+    },
+    "USERS": {
+      "TITLE": "Administración de Usuarios",
+      "NAME": "Nombre de Usuario",
+      "CODE": "Código",
+      "ROLES": "Roles",
+      "CREATED": "Usuario creado",
+      "CREATE_ERROR": "Error al crear el usuario",
+      "UPDATED": "Usuario actualizado",
+      "UPDATE_ERROR": "Error al actualizar el usuario",
+      "DELETED": "Usuario eliminado",
+      "DELETE_ERROR": "Error al borrar el usuario"
+    },
+    "ROLES": {
+      "ADMIN": "Admin",
+      "MANAGER": "Manager",
+      "WAITER": "Mesero",
+      "CASHIER": "Cajero",
+      "KITCHENER": "Cocinero",
+      "BARTENDER": "Bartender"
+    },
+    "WAITER": {
+      "TAKEAWAY": "Para Llevar"
+    }
   }
 }

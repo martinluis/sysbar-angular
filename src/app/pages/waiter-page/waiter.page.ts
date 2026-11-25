@@ -6,13 +6,15 @@ import {OrderType} from '../../models/order-type.enum';
 import {
   PersonalOrderSelectorComponent
 } from '../../components/personal-order-selector/personal-order-selector.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-waiter-dashboard-page',
   imports: [
     HeaderComponent,
     TableSelectorComponent,
-    PersonalOrderSelectorComponent
+    PersonalOrderSelectorComponent,
+    TranslatePipe
   ],
   templateUrl: './waiter.page.html',
   styleUrl: './waiter.page.scss'

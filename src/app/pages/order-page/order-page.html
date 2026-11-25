@@ -6,7 +6,7 @@
       <app-customer-form [customer]="order()!.customer!"/>
     }
     @if (order() && order()?.orderType === OrderType.PERSONAL) {
-      <input class="form-control" [disabled]="order()?.id!==null" type="text" placeholder="Nombre o Referencia" [(ngModel)]="order()!.reference">
+      <input class="form-control" [disabled]="order()?.id!==null" type="text" [placeholder]="'PAGES_A.ORDER.NAME_OR_REFERENCE' | translate" [(ngModel)]="order()!.reference">
       <br>
     }
     <div class="manage-order-product-container">
@@ -16,13 +16,13 @@
     @if (order()?.id && hasPermissions([Role.ADMIN, Role.CASHIER, Role.MANAGER])){
       <div class="manage-order-actions-container d-flex flex-row justify-content-center ">
         @if (order()?.orderType === OrderType.LOCAL) {
-          <button class="btn btn-outline-primary col-2" (click)="onMoveTable()">Mover Mesa</button>
+          <button class="btn btn-outline-primary col-2" (click)="onMoveTable()">{{ 'PAGES_A.ORDER.MOVE_TABLE' | translate }}</button>
         }
-        <button class="btn btn-outline-primary col-2" (click)="onPrintTicket()">Ticket</button>
+        <button class="btn btn-outline-primary col-2" (click)="onPrintTicket()">{{ 'PAGES_A.ORDER.TICKET' | translate }}</button>
         @if (order()?.orderType === OrderType.LOCAL) {
-          <button class="btn btn-outline-success col-2" (click)="onPartialPay()">Pago Parcial</button>
+          <button class="btn btn-outline-success col-2" (click)="onPartialPay()">{{ 'PAGES_A.ORDER.PARTIAL_PAYMENT' | translate }}</button>
         }
-        <button class="btn btn-outline-success col-2" (click)="onPay()">Pagar</button>
+        <button class="btn btn-outline-success col-2" (click)="onPay()">{{ 'PAGES_A.ORDER.PAY' | translate }}</button>
       </div>
     }
   </div>

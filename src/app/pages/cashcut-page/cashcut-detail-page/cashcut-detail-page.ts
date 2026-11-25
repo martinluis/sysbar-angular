@@ -10,13 +10,15 @@ import {Cashcut} from '../../../models/cashcut';
 import {AuthService} from '../../../services/auth.service';
 import {Expense} from '../../../models/expense';
 import {ExpenseService} from '../../../services/expense.service';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cashcut-detail-page',
   imports: [
     HeaderComponent,
     CurrencyPipe,
-    DatePipe
+    DatePipe,
+    TranslatePipe
   ],
   templateUrl: './cashcut-detail-page.html',
   styleUrl: './cashcut-detail-page.scss'
@@ -37,7 +39,8 @@ export class CashcutDetailPage implements OnInit {
   constructor(private route: ActivatedRoute,
               private cashcutService: CashcutService,
               private expenseService: ExpenseService,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private translate: TranslateService) {}
 
   /**
    *
@@ -74,11 +77,11 @@ export class CashcutDetailPage implements OnInit {
   getTypeDescription(order: Order): string {
     switch (order.orderType) {
       case OrderType.PERSONAL:
-        return `Personal - ${order.reference}`;
+        return this.translate.instant('PAGES_A.ORDER_TYPE.PERSONAL', {reference: order.reference});
       case OrderType.LOCAL:
-        return order.table?.name ?? "Mesa";
+        return order.table?.name ?? this.translate.instant('PAGES_A.ORDER_TYPE.TABLE');
       case OrderType.DELIVERY:
-        return "A domicilio";
+        return this.translate.instant('PAGES_A.ORDER_TYPE.DELIVERY');
     }
   }
 

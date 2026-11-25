@@ -10,42 +10,42 @@ export interface AppSection {
 
 export const APP_SECTION: AppSection[] = [
   {
-    name: 'Mesero',
+    name: 'CONFIG.SECTION.WAITER',
     path: '/waiter',
     queryParams: {},
     image: 'img/waiter-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.WAITER]
   },
   {
-    name: 'Cajero',
+    name: 'CONFIG.SECTION.CASHIER',
     path: '/cashier',
     queryParams: {},
     image: 'img/cashier-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER]
   },
   {
-    name: 'Cocinero',
+    name: 'CONFIG.SECTION.KITCHEN',
     path: '/preparation',
     queryParams: {type: 'FOOD'},
     image: 'img/food-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.KITCHENER]
   },
   {
-    name: 'Bartender',
+    name: 'CONFIG.SECTION.BARTENDER',
     path: '/preparation',
     queryParams: {type: 'DRINK'},
     image: 'img/drink-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.BARTENDER]
   },
   {
-    name: 'Gastos',
+    name: 'CONFIG.SECTION.EXPENSES',
     path: '/expenses',
     queryParams: {},
     image: 'img/expenses-icon.svg',
     roles: [Role.ADMIN, Role.MANAGER, Role.CASHIER]
   },
   {
-    name: 'Admin',
+    name: 'CONFIG.SECTION.ADMIN',
     path: '/admin',
     queryParams: {},
     image: 'img/admin-icon.svg',
@@ -56,35 +56,35 @@ export const APP_SECTION: AppSection[] = [
 
 export const ADMIN_SECTION: AppSection[] = [
   {
-    name: 'Mesas',
+    name: 'CONFIG.SECTION.TABLES',
     path: '/tables',
     queryParams: {},
     image: 'img/tables-icon.svg',
     roles: [Role.ADMIN]
   },
   {
-    name: 'Productos',
+    name: 'CONFIG.SECTION.PRODUCTS',
     path: '/products',
     queryParams: {},
     image: 'img/products-icon.svg',
     roles: [Role.ADMIN]
   },
   {
-    name: 'Usuarios',
+    name: 'CONFIG.SECTION.USERS',
     path: '/users',
     queryParams: {},
     image: 'img/users-icon.svg',
     roles: [Role.ADMIN]
   },
   {
-    name: 'Corte de Caja',
+    name: 'CONFIG.SECTION.CASHCUT',
     path: '/cashcut',
     queryParams: {},
     image: 'img/cashcut-icon.svg',
     roles: [Role.ADMIN]
   },
   {
-    name: 'Reporte de Ventas',
+    name: 'CONFIG.SECTION.SALES_REPORT',
     path: '/reports',
     queryParams: {},
     image: 'img/report-icon.svg',

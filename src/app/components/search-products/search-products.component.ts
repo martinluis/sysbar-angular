@@ -8,12 +8,14 @@ import {catchError, of} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {ToastService} from '../../services/toast.service';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-products',
   imports: [
     ProductItemComponent,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './search-products.component.html',
   styleUrl: './search-products.component.scss'
@@ -30,7 +32,8 @@ export class SearchProductsComponent implements OnInit {
   constructor(private productService: ProductService,
               private errorHandler: ErrorHandlerService,
               private toastService: ToastService,
-              private destroyRef: DestroyRef) {
+              private destroyRef: DestroyRef,
+              private translate: TranslateService) {
   }
 
   /** Loads the product catalog used by the search and category filters. */
@@ -48,7 +51,7 @@ export class SearchProductsComponent implements OnInit {
   /** Emits a selected product to the parent order editor. */
   addProduct(product: Product) {
     if (product.id === null) {
-      this.toastService.show("No se pudo agregar el producto.", 2000, "error");
+      this.toastService.show(this.translate.instant('COMPONENTS.PRODUCTS.ADD_ERROR'), 2000, "error");
       return;
     }
     this.onAddProduct.emit(product)

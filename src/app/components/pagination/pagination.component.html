@@ -3,7 +3,7 @@
     class="btn btn-outline-primary col-2"
     [class.disabled]="page() === 1"
     (click)="prev()">
-    Previo
+    {{ 'COMPONENTS.PAGINATION.PREVIOUS' | translate }}
   </button>
 
   <div class="d-flex justify-content-between col-3">
@@ -17,7 +17,7 @@
     </select>
 
     <span class="offset-1 w-75 mt-2 text-success-emphasis">
-      Página {{ page() }} de {{ totalPages() }}
+      {{ 'COMPONENTS.PAGINATION.PAGE' | translate: { page: page(), total: totalPages() } }}
     </span>
   </div>
 
@@ -25,6 +25,6 @@
     class="btn btn-outline-primary col-2"
     [class.disabled]="page() === totalPages()"
     (click)="next()">
-    Siguiente
+    {{ 'COMPONENTS.PAGINATION.NEXT' | translate }}
   </button>
 </div>

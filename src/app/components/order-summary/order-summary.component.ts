@@ -12,13 +12,15 @@ import {CustomerService} from '../../services/customer.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {finalize} from 'rxjs';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-summary',
   imports: [
     OrderItemComponent,
     CurrencyPipe,
-    ConfirmModal
+    ConfirmModal,
+    TranslatePipe
   ],
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss'
@@ -41,7 +43,8 @@ export class OrderSummaryComponent implements AfterViewInit {
               private toastService: ToastService,
               private customerService: CustomerService,
               private errorHandler: ErrorHandlerService,
-              private destroyRef: DestroyRef) {
+              private destroyRef: DestroyRef,
+              private translate: TranslateService) {
     effect(() => {
       this.isItemsModified = this.order().items.some(
         item => item.itemId === null || item.isUpdated || item.isDeleted
@@ -69,7 +72,7 @@ export class OrderSummaryComponent implements AfterViewInit {
         this.order().id = order.id;
         this.removeEmptyItems();
         this.updateTotal();
-        this.toastService.show("Orden Confirmada", 2000, "success");
+        this.toastService.show(this.translate.instant('COMPONENTS.ORDER.CONFIRMED'), 2000, "success");
         this.isItemsModified = false;
       },
       error: (error) => {
@@ -86,9 +89,8 @@ export class OrderSummaryComponent implements AfterViewInit {
   /** Confirms cancellation and restores the current order from the server or clears a new draft. */
   async onCancel() {
     if (this.isSaving || !this.isItemsModified) return;
-    const confirmed = await this.confirmModal.open(
-      'Desea cancelar los cambios en la orden?'
-    );
+    const message = await firstValueFrom(this.translate.get('COMPONENTS.ORDER.CANCEL_CHANGES'));
+    const confirmed = await this.confirmModal.open(message);
 
     if (confirmed) {
       try {
@@ -128,7 +130,7 @@ export class OrderSummaryComponent implements AfterViewInit {
     const customerState = this.customerService.customerFormState();
     const activeItems = this.order().items.filter(item => !item.isDeleted && item.quantity > 0);
     if (activeItems.length === 0) {
-      this.toastService.show("La orden no puede estar vacia", 5000, "warning")
+      this.toastService.show(this.translate.instant('COMPONENTS.ORDER.EMPTY'), 5000, "warning")
       return false;
     }
     if (this.order().orderType === OrderType.DELIVERY) {
@@ -136,13 +138,13 @@ export class OrderSummaryComponent implements AfterViewInit {
         this.order().customer = customerState.customer;
       }
       else {
-        this.toastService.show("Debe ingresar informacion del cliente", 5000, "warning")
+        this.toastService.show(this.translate.instant('COMPONENTS.ORDER.CUSTOMER_REQUIRED'), 5000, "warning")
         return false;
       }
     }
     if (this.order().orderType === OrderType.PERSONAL) {
       if (!this.order().reference.trim()) {
-        this.toastService.show("Debe ingresar el nombre o referencia", 5000, "warning")
+        this.toastService.show(this.translate.instant('COMPONENTS.ORDER.REFERENCE_REQUIRED'), 5000, "warning")
         return false;
       }
     }
@@ -161,13 +163,13 @@ export class OrderSummaryComponent implements AfterViewInit {
     let headerTitle = "";
     switch (this.order()?.orderType) {
       case OrderType.LOCAL:
-        headerTitle = this.order().table?.name ?? "Mesa";
+        headerTitle = this.order().table?.name ?? this.translate.instant('COMPONENTS.ORDER.TABLE');
         break;
       case OrderType.DELIVERY:
-        headerTitle = "A domicilio"
+        headerTitle = this.translate.instant('COMPONENTS.ORDER.DELIVERY')
         break;
       case OrderType.PERSONAL:
-        headerTitle = "Personal"
+        headerTitle = this.translate.instant('COMPONENTS.ORDER.PERSONAL')
         break;
     }
     return headerTitle;

@@ -1,6 +1,6 @@
 export const AppLabels: { [key: string]: string } = {
-  "user.code.invalid": "Codigo no Valido",
-  "service.connection.error": "Error de conexion al servicio",
-  "table.without.active.order": "Mesa no tiene ordenes activas",
-  "expense.user.required": "Usuario requerido para el gasto"
+  "user.code.invalid": "ERRORS.USER_CODE_INVALID",
+  "service.connection.error": "ERRORS.SERVICE_CONNECTION",
+  "table.without.active.order": "ERRORS.TABLE_WITHOUT_ACTIVE_ORDER",
+  "expense.user.required": "ERRORS.EXPENSE_USER_REQUIRED"
 };

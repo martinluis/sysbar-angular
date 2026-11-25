@@ -9,13 +9,15 @@ import {ToastService} from '../../services/toast.service';
 import {createPagination} from '../../utils/pagination';
 import {createTableSorter} from '../../utils/sort.table';
 import {PaginationComponent} from '../../components/pagination/pagination.component';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-products-page',
   imports: [
     HeaderComponent,
     ReactiveFormsModule,
-    PaginationComponent
+    PaginationComponent,
+    TranslatePipe
   ],
   templateUrl: './products-page.html',
   styleUrl: './products-page.scss'
@@ -59,7 +61,8 @@ export class ProductsPage {
   constructor(private productService: ProductService,
               private formBuilder: FormBuilder,
               private errorHandler: ErrorHandlerService,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private translate: TranslateService) {
 
   }
 
@@ -111,10 +114,10 @@ export class ProductsPage {
       this.productService.save(newTable).subscribe({
         next: table => {
           this.products.set([...this.products(), table]);
-          this.toastService.show('Producto creado', 2000, "success");
+          this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.CREATED'), 2000, "success");
         },
         error: err => {
-          this.toastService.show('Error al crear el productp', 2000, "error");
+          this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.ERROR'), 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -144,10 +147,10 @@ export class ProductsPage {
             t.id === product.id ? { ...product } : t
           );
           this.products.set(updatedTables);
-          this.toastService.show('Producto actualizado', 2000, "success");
+          this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.UPDATED'), 2000, "success");
         },
         error: err => {
-          this.toastService.show('Error al crear el productp', 2000, "error");
+          this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.ERROR'), 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -165,10 +168,10 @@ export class ProductsPage {
       next: () => {
         const products = this.products().filter(it => it.id !== id);
         this.products.set(products);
-        this.toastService.show('Producto eliminado', 2000, "success");
+        this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.DELETED'), 2000, "success");
       },
       error: err => {
-        this.toastService.show('Error al crear el productp', 2000, "error");
+        this.toastService.show(this.translate.instant('PAGES_B.PRODUCTS.ERROR'), 2000, "error");
         console.error(this.errorHandler.parseError(err));
       }
     });

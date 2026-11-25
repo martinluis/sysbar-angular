@@ -11,10 +11,10 @@ export enum Role {
 
 
 export const RoleLabels: Record<Role, string> = {
-  [Role.ADMIN]: 'Admin',
-  [Role.MANAGER]: 'Manager',
-  [Role.WAITER]: 'Mesero',
-  [Role.CASHIER]: 'Cajero',
-  [Role.KITCHENER]: 'Cocinero',
-  [Role.BARTENDER]: 'Bartender',
+  [Role.ADMIN]: 'PAGES_B.ROLES.ADMIN',
+  [Role.MANAGER]: 'PAGES_B.ROLES.MANAGER',
+  [Role.WAITER]: 'PAGES_B.ROLES.WAITER',
+  [Role.CASHIER]: 'PAGES_B.ROLES.CASHIER',
+  [Role.KITCHENER]: 'PAGES_B.ROLES.KITCHENER',
+  [Role.BARTENDER]: 'PAGES_B.ROLES.BARTENDER',
 };

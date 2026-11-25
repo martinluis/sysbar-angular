@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {FormsModule} from '@angular/forms';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,9 @@ import {ErrorHandlerService} from '../../services/error-handler.service';
 import {ReportService} from '../../services/report.service';
 import {ChartData, ChartOptions} from 'chart.js';
 import {BaseChartDirective} from 'ng2-charts';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {startWith} from 'rxjs';
 
 @Component({
   selector: 'app-reports-page',
@@ -16,6 +19,7 @@ import {BaseChartDirective} from 'ng2-charts';
     FormsModule,
     NgbInputDatepicker,
     BaseChartDirective,
+    TranslatePipe,
   ],
   providers: [DatePipe],
   templateUrl: './reports-page.html',
@@ -41,7 +45,9 @@ export class ReportsPage implements OnInit {
   constructor(private toastService: ToastService,
               private reportService: ReportService,
               private datePipe: DatePipe,
-              private errorHandler: ErrorHandlerService,) {
+              private errorHandler: ErrorHandlerService,
+              private translate: TranslateService,
+              private destroyRef: DestroyRef) {
 
   }
 
@@ -53,7 +59,7 @@ export class ReportsPage implements OnInit {
     responsive: true,
     plugins: {
       legend: { display: true },
-      title: { display: true, text: 'Ventas por Fecha' },
+      title: { display: true, text: '' },
     },
     scales: {
       x: {
@@ -72,7 +78,7 @@ export class ReportsPage implements OnInit {
     datasets: [
       {
         type: 'line',
-        label: 'Ventas ($)',
+        label: '',
         data: [],
         borderColor: 'rgb(141,190,229)',
         backgroundColor: '#14578c',
@@ -88,7 +94,7 @@ export class ReportsPage implements OnInit {
     responsive: true,
     plugins: {
       legend: { display: true },
-      title: { display: true, text: 'Productos más Vendidos' },
+      title: { display: true, text: '' },
     },
     scales: {
       x: {
@@ -107,7 +113,7 @@ export class ReportsPage implements OnInit {
     datasets: [
       {
         type: 'bar',
-        label: 'Unidades Vendidas',
+        label: '',
         data: [],
         borderColor: 'rgb(141,190,229)',
         backgroundColor: '#14578c'
@@ -120,6 +126,21 @@ export class ReportsPage implements OnInit {
    *
    */
   ngOnInit(): void {
+    this.translate.onTranslationRefresh.pipe(
+      startWith(undefined),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      if (this.salesChartOptions.plugins?.title) {
+        this.salesChartOptions.plugins.title.text = this.translate.instant('PAGES_B.REPORTS.SALES_BY_DATE');
+      }
+      this.salesChartData.datasets[0].label = this.translate.instant('PAGES_B.REPORTS.SALES');
+      if (this.mostProductsSoldChartOptions.plugins?.title) {
+        this.mostProductsSoldChartOptions.plugins.title.text = this.translate.instant('PAGES_B.REPORTS.MOST_SOLD');
+      }
+      this.mostProductsSoldChartData.datasets[0].label = this.translate.instant('PAGES_B.REPORTS.UNITS_SOLD');
+      this.salesChart?.update();
+      this.mostSoldProductsChart?.update();
+    });
     const initDate = new Date();
     const endDate = new Date();
     initDate.setDate(initDate.getDate() - 29);
@@ -138,7 +159,7 @@ export class ReportsPage implements OnInit {
    */
   onSearch() {
     if (this.initDate === null || this.endDate === null) {
-      this.toastService.show("Selecciones Fechas", 2000, "warning");
+      this.toastService.show(this.translate.instant('PAGES_B.REPORTS.SELECT_DATES'), 2000, "warning");
       return;
     }
 
@@ -146,7 +167,7 @@ export class ReportsPage implements OnInit {
     const endDate = new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day);
 
     if (initDate > endDate) {
-      this.toastService.show("Fechas Incorrectas", 2000, "error");
+      this.toastService.show(this.translate.instant('PAGES_B.REPORTS.INVALID_DATES'), 2000, "error");
       return
     }
 

@@ -9,6 +9,8 @@ import {HeaderComponent} from '../../components/header/header.component';
 import {CurrencyPipe} from '@angular/common';
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-partial-pay-page',
@@ -16,7 +18,8 @@ import {ConfirmModal} from '../../components/commons/confirm-modal/confirm.modal
     HeaderComponent,
     CurrencyPipe,
     ReactiveFormsModule,
-    ConfirmModal
+    ConfirmModal,
+    TranslatePipe
   ],
   templateUrl: './partial-pay-page.html',
   styleUrl: './partial-pay-page.scss'
@@ -45,7 +48,8 @@ export class PartialPayPage implements OnInit {
               private orderService: OrderService,
               private router: Router,
               private formBuilder: FormBuilder,
-              private errorHandler: ErrorHandlerService) {
+              private errorHandler: ErrorHandlerService,
+              private translate: TranslateService) {
 
   }
 
@@ -219,7 +223,8 @@ export class PartialPayPage implements OnInit {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(cashBack);
-    await this.confirmModal.open(`Cambio: ${cashBackFormated} `);
+    const message = await firstValueFrom(this.translate.get('PAGES_A.PARTIAL_PAY.CHANGE', {amount: cashBackFormated}));
+    await this.confirmModal.open(message);
   }
 
 }

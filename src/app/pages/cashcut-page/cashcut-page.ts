@@ -11,6 +11,7 @@ import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {createPagination} from '../../utils/pagination';
 import {createTableSorter} from '../../utils/sort.table';
 import {PaginationComponent} from '../../components/pagination/pagination.component';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cashcut-page',
@@ -22,7 +23,8 @@ import {PaginationComponent} from '../../components/pagination/pagination.compon
     RouterLink,
     NgbInputDatepicker,
     FormsModule,
-    PaginationComponent
+    PaginationComponent,
+    TranslatePipe
   ],
   providers: [DatePipe],
   templateUrl: './cashcut-page.html',
@@ -57,7 +59,8 @@ export class CashcutPage implements OnInit{
               private formBuilder: FormBuilder,
               private cashcutService: CashcutService,
               private datePipe: DatePipe,
-              private errorHandler: ErrorHandlerService,) {
+              private errorHandler: ErrorHandlerService,
+              private translate: TranslateService) {
   }
 
   /**
@@ -105,7 +108,7 @@ export class CashcutPage implements OnInit{
       next: finishedCashcut => {
         this.cashcuts.set([...this.cashcuts(), finishedCashcut]);
         this.cashcutForm.reset();
-        this.toastService.show('Se genero el corte', 2000, "success");
+        this.toastService.show(this.translate.instant('PAGES_A.CASHCUT.CREATED'), 2000, "success");
         this.cashcutService.createActive(cashcut).subscribe({
           next: cashcut => {
             this.cashcutActive.set(cashcut);
@@ -116,7 +119,7 @@ export class CashcutPage implements OnInit{
         })
       },
       error: err => {
-        this.toastService.show('Error al crear el corte de caja', 2000, "error");
+        this.toastService.show(this.translate.instant('PAGES_A.CASHCUT.CREATE_ERROR'), 2000, "error");
         console.error(this.errorHandler.parseError(err));
       }
     })
@@ -127,7 +130,7 @@ export class CashcutPage implements OnInit{
    */
   onSearch() {
     if (this.initDate === null || this.endDate === null) {
-      this.toastService.show("Selecciones Fechas de Busqueda", 2000, "warning");
+      this.toastService.show(this.translate.instant('PAGES_A.CASHCUT.SEARCH_DATES_REQUIRED'), 2000, "warning");
       return;
     }
     const initDate = new Date(this.initDate.year, this.initDate.month - 1, this.initDate.day);
@@ -135,7 +138,7 @@ export class CashcutPage implements OnInit{
     const endDate = new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day);
     const endDateString = this.datePipe.transform(endDate, 'yyyy-MM-dd');
     if (initDate > endDate) {
-      this.toastService.show("Fechas Incorrectas", 2000, "error");
+      this.toastService.show(this.translate.instant('PAGES_A.CASHCUT.INVALID_DATES'), 2000, "error");
       return
     }
     this.cashcutService.getAll(initDateString ?? "", endDateString ?? "").subscribe({

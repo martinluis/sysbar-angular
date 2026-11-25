@@ -5,13 +5,13 @@
   <div class="orders-list-container col-5 d-flex flex-column">
     <div class="orders-items-container bg-white">
       <div class="col-12 text-center pt-2 pb-1 text-white dark-color">
-        <h5>Ordenes Activas</h5>
+        <h5>{{ 'PAGES_B.PREPARATION.ACTIVE_ORDERS' | translate }}</h5>
       </div>
       @for (order of orders; track order.id) {
         <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected && orderSelected === order" >
           <div class="d-flex flex-row">
             <div class="col-12">
-              <span>{{getTypeDescription(order)}}</span>
+              <span>{{ order.orderType === OrderType.LOCAL ? order.tableName : (getTypeDescription(order) | translate) }}</span>
             </div>
           </div>
           <span class="order-item-sub">{{order.createdAt | date: 'dd-MM-yyyy HH:mm'}}</span>
@@ -27,15 +27,15 @@
         <div class="d-flex flex-column p-2">
           <div class="d-flex flex-row">
             <div class="col-12">
-              <h4>{{getTypeDescription(orderSelected)}}</h4>
+              <h4>{{ orderSelected.orderType === OrderType.LOCAL ? orderSelected.tableName : (getTypeDescription(orderSelected) | translate) }}</h4>
             </div>
           </div>
           @switch (orderSelected.orderType) {
             @case (OrderType.PERSONAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected.userName}}</span>
+              <span class="order-item-sub">{{ 'PAGES_B.PREPARATION.WAITER' | translate }}: {{orderSelected.userName}}</span>
             }
             @case (OrderType.LOCAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected.userName}}</span>
+              <span class="order-item-sub">{{ 'PAGES_B.PREPARATION.WAITER' | translate }}: {{orderSelected.userName}}</span>
             }
             @case (OrderType.DELIVERY) {
               <span class="order-item-sub">
@@ -59,7 +59,7 @@
                   </div>
                 </div>
                 <div class="col-2 d-flex flex-column justify-content-center">
-                  <button class="btn btn-outline-success" (click)="onCompleteItem(item.id)">Terminar</button>
+                  <button class="btn btn-outline-success" (click)="onCompleteItem(item.id)">{{ 'PAGES_B.PREPARATION.FINISH' | translate }}</button>
                 </div>
               </div>
             }

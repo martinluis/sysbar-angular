@@ -1,10 +1,11 @@
 import {Component, signal} from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-toast',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './toast.html',
   styleUrl: './toast.scss',
   animations: [

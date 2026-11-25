@@ -4,10 +4,12 @@ import {OrderService} from '../../services/order.service';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderStatus} from '../../models/order-status.enum';
 import {Router} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-personal-order-selector',
     imports: [
+      TranslatePipe
     ],
   templateUrl: './personal-order-selector.component.html',
   styleUrl: './personal-order-selector.component.scss'

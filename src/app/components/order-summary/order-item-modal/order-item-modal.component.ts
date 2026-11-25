@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {OrderItem} from '../../../models/order-item';
 import {FormsModule} from '@angular/forms';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-item-modal',
   imports: [
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './order-item-modal.component.html',
   styleUrl: './order-item-modal.component.scss'

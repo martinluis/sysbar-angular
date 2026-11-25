@@ -8,7 +8,7 @@
       <!-- Left container -->
       <div class="col-6 border">
         <div class="dark-color d-flex justify-content-center align-items-center pt-2 text-white">
-          <h5>Order Orignal</h5>
+          <h5>{{ 'PAGES_A.PARTIAL_PAY.ORIGINAL_ORDER' | translate }}</h5>
         </div>
         <div class="p-3">
           @for (item of originalItems; track item.itemId) {
@@ -25,7 +25,7 @@
       <!-- Right container -->
         <div class="col-6 border">
           <div class="dark-color d-flex justify-content-center align-items-center pt-2 text-white">
-            <h5>Orden Parcial</h5>
+            <h5>{{ 'PAGES_A.PARTIAL_PAY.PARTIAL_ORDER' | translate }}</h5>
           </div>
           <div class="p-3">
             @for (item of partialItems; track item.itemId) {
@@ -43,7 +43,7 @@
   <div class="partial-pay-info-container col-5 d-flex flex-column align-items-center">
     <div class="row">
       <div class="col-12 text-center">
-        <h3>Total Parcial a Pagar</h3>
+        <h3>{{ 'PAGES_A.PARTIAL_PAY.TOTAL_TO_PAY' | translate }}</h3>
       </div>
     </div>
     <div class="row">
@@ -55,12 +55,12 @@
     <div class="actions-container col-5">
       <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
         <div class="form-floating">
-          <input class="form-control" formControlName="cash" type="number" placeholder="Importe">
-          <label>Importe</label>
+          <input class="form-control" formControlName="cash" type="number" [placeholder]="'PAGES_A.PARTIAL_PAY.AMOUNT' | translate">
+          <label>{{ 'PAGES_A.PARTIAL_PAY.AMOUNT' | translate }}</label>
         </div>
         <br>
-        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">Pagar</button>
-        <button class="btn btn-outline-danger col-12" (click)="cancel()">Cancelar</button>
+        <button class="btn btn-outline-success col-12" [class.disabled]="!paymentForm.valid" [disabled]="isLoading">{{ 'PAGES_A.PARTIAL_PAY.PAY' | translate }}</button>
+        <button class="btn btn-outline-danger col-12" (click)="cancel()">{{ 'PAGES_A.COMMON.CANCEL' | translate }}</button>
       </form>
     </div>
   </div>

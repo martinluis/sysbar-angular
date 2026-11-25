@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {AuthService} from '../../services/auth.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-access-page',
-  imports: [FormsModule],
+  imports: [FormsModule,TranslatePipe],
   templateUrl: './access.page.html',
   standalone: true,
   styleUrls: ['./access.page.scss']

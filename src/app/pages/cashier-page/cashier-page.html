@@ -5,7 +5,7 @@
   <div class="orders-list-container col-5 d-flex flex-column">
     <div class="orders-items-container bg-white">
       <div class="col-12 text-center pt-2 pb-1 text-white dark-color">
-        <h5> Ordenes Activas</h5>
+        <h5>{{ 'PAGES_A.CASHIER.ACTIVE_ORDERS' | translate }}</h5>
       </div>
       @for (order of orders$ | async; track order.id) {
         <div class="order-item d-flex flex-column" (click)="onSelectOrder(order)" [class.active]="orderSelected() && orderSelected() === order" >
@@ -38,10 +38,10 @@
           </div>
           @switch (orderSelected()?.orderType) {
             @case (OrderType.PERSONAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected()?.user?.name}}</span>
+              <span class="order-item-sub">{{ 'PAGES_A.CASHIER.WAITER' | translate }}: {{orderSelected()?.user?.name}}</span>
             }
             @case (OrderType.LOCAL) {
-              <span class="order-item-sub">Mesero: {{orderSelected()?.user?.name}}</span>
+              <span class="order-item-sub">{{ 'PAGES_A.CASHIER.WAITER' | translate }}: {{orderSelected()?.user?.name}}</span>
             }
             @case (OrderType.DELIVERY) {
               <span class="order-item-sub">
@@ -54,16 +54,16 @@
           <br>
           <div class="actions-container d-flex flex-row justify-content-between">
             @if (hasPermissions([Role.ADMIN, Role.MANAGER])) {
-              <button class="btn btn-outline-danger col-2" [disabled]="isDeleting" (click)="onDeleteOrder()">Eliminar</button>
+              <button class="btn btn-outline-danger col-2" [disabled]="isDeleting" (click)="onDeleteOrder()">{{ 'PAGES_A.CASHIER.DELETE' | translate }}</button>
             }
             @if (hasPermissions([Role.ADMIN, Role.MANAGER, Role.WAITER])) {
-              <button class="btn btn-outline-primary col-2" (click)="onUpdateOrder()">Modificar</button>
+              <button class="btn btn-outline-primary col-2" (click)="onUpdateOrder()">{{ 'PAGES_A.CASHIER.EDIT' | translate }}</button>
             }
-            <button class="btn btn-outline-primary col-2" [disabled]="isPrinting" (click)="onPrintTicket()">Ticket</button>
+            <button class="btn btn-outline-primary col-2" [disabled]="isPrinting" (click)="onPrintTicket()">{{ 'PAGES_A.CASHIER.TICKET' | translate }}</button>
             @if (orderSelected()?.orderType === OrderType.LOCAL) {
-              <button class="btn btn-outline-success col-2" (click)="onPartialPay()">Pago Parcial</button>
+              <button class="btn btn-outline-success col-2" (click)="onPartialPay()">{{ 'PAGES_A.CASHIER.PARTIAL_PAYMENT' | translate }}</button>
             }
-            <button class="btn btn-outline-success col-2" (click)="onPay()">Pagar</button>
+            <button class="btn btn-outline-success col-2" (click)="onPay()">{{ 'PAGES_A.CASHIER.PAY' | translate }}</button>
           </div>
           <br>
           <div class="items-container">

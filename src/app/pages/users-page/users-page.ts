@@ -6,13 +6,15 @@ import {ErrorHandlerService} from '../../services/error-handler.service';
 import {UserService} from '../../services/user.service';
 import {Role, RoleLabels} from '../../models/role.enum';
 import {ToastService} from '../../services/toast.service';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users-page',
     imports: [
         FormsModule,
         HeaderComponent,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslatePipe
     ],
   templateUrl: './users-page.html',
   styleUrl: './users-page.scss'
@@ -44,7 +46,8 @@ export class UsersPage {
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
               private errorHandler: ErrorHandlerService,
-              private toastService: ToastService) {
+              private toastService: ToastService,
+              private translate: TranslateService) {
 
   }
 
@@ -109,11 +112,11 @@ export class UsersPage {
       this.userService.save(newTable).subscribe({
         next: user => {
           this.users.set([...this.users(), user]);
-          this.toastService.show('Usuario creado', 2000, "success");
+          this.toastService.show(this.translate.instant('PAGES_B.USERS.CREATED'), 2000, "success");
 
         },
         error: err => {
-          this.toastService.show('Error al crear el usuario', 2000, "error");
+          this.toastService.show(this.translate.instant('PAGES_B.USERS.CREATE_ERROR'), 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -143,10 +146,10 @@ export class UsersPage {
             t.id === user.id ? { ...user } : t
           );
           this.users.set(updatedTables);
-          this.toastService.show('Usuario actualizado', 2000, "success");
+          this.toastService.show(this.translate.instant('PAGES_B.USERS.UPDATED'), 2000, "success");
         },
         error: err => {
-          this.toastService.show('Error al actualizar el usuario', 2000, "error");
+          this.toastService.show(this.translate.instant('PAGES_B.USERS.UPDATE_ERROR'), 2000, "error");
           console.error(this.errorHandler.parseError(err));
         }
       });
@@ -164,11 +167,11 @@ export class UsersPage {
       next: () => {
         const users = this.users().filter(it => it.id !== id);
         this.users.set(users);
-        this.toastService.show('Usuario eliminado', 2000, "success");
+        this.toastService.show(this.translate.instant('PAGES_B.USERS.DELETED'), 2000, "success");
 
       },
       error: err => {
-        this.toastService.show('Error al borrar el usuario', 2000, "error");
+        this.toastService.show(this.translate.instant('PAGES_B.USERS.DELETE_ERROR'), 2000, "error");
         console.error(this.errorHandler.parseError(err));
       }
     });
@@ -189,15 +192,10 @@ export class UsersPage {
    *
    * @param roles
    */
-  formatSelectedRoles(roles: Role[]){
-    let stringRoles: string[] = []
-    for (const role of roles) {
-        stringRoles.push(RoleLabels[role]);
-    }
-    return stringRoles.join(", ");
+  roleKey(role: Role): string {
+    return RoleLabels[role] ?? role;
   }
 
   protected readonly Role = Role;
   protected readonly Object = Object;
-  protected readonly RoleLabels = RoleLabels;
 }

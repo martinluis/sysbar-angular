@@ -3,13 +3,13 @@
 
   <!-- Top panel -->
   <div class="d-flex flex-column mt-4">
-    <h2>Corte Activo</h2>
+    <h2>{{ 'PAGES_A.CASHCUT.ACTIVE_TITLE' | translate }}</h2>
     @if (cashcutActive()) {
       <div class="d-flex flex-row mt-2">
         <div class="d-flex flex-column col-5">
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4>Inicio de corte:</h4>
+              <h4>{{ 'PAGES_A.CASHCUT.START' | translate }}:</h4>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <h4>{{cashcutActive()!.initialDate | date:  'dd-MM-yyyy HH:mm'}}</h4>
@@ -17,7 +17,7 @@
           </div>
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4>Saldo Inicial:</h4>
+              <h4>{{ 'PAGES_A.CASHCUT.INITIAL_BALANCE' | translate }}:</h4>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <h4>{{cashcutActive()!.initialAmount | currency:"USD"}}</h4>
@@ -25,7 +25,7 @@
           </div>
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4>Ventas Totales:</h4>
+              <h4>{{ 'PAGES_A.CASHCUT.TOTAL_SALES' | translate }}:</h4>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <h4>{{cashcutActive()!.totalOrders | currency:"USD"}}</h4>
@@ -33,7 +33,7 @@
           </div>
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4>Gastos Totales:</h4>
+              <h4>{{ 'PAGES_A.CASHCUT.TOTAL_EXPENSES' | translate }}:</h4>
             </div>
             <div class="d-flex col-6 justify-content-end">
               <h4>{{cashcutActive()!.totalExpenses | currency:"USD"}}</h4>
@@ -41,26 +41,26 @@
           </div>
           <div class="d-flex flex-row">
             <div class="col-6">
-              <h4 class="fw-bold success">Total en Caja:</h4>
+              <h4 class="fw-bold success">{{ 'PAGES_A.CASHCUT.CASH_TOTAL' | translate }}:</h4>
             </div>
             <div class="col-6 d-flex justify-content-end">
               <h4 class="fw-bold success">{{cashcutActive()!.total | currency:"USD"}}</h4>
             </div>
           </div>
           <div class="d-flex flex-row justify-content-center mt-4">
-              <button class="btn btn-outline-primary col-6" [routerLink]="['/cashcut/details', cashcutActive()!.id]">Ver Detalle</button>
+              <button class="btn btn-outline-primary col-6" [routerLink]="['/cashcut/details', cashcutActive()!.id]">{{ 'PAGES_A.COMMON.VIEW_DETAILS' | translate }}</button>
           </div>
         </div>
         <div class="d-flex flex-column col-5 offset-2">
           <div class="actions-container">
             <form [formGroup]="cashcutForm" (ngSubmit)="onCashCut()">
               <div class="form-floating">
-                <input class="form-control" formControlName="initialAmount" type="number" placeholder="Saldo inicial de caja">
-                <label>Saldo inicial de caja</label>
+                <input class="form-control" formControlName="initialAmount" type="number" [placeholder]="'PAGES_A.CASHCUT.INITIAL_CASH_PLACEHOLDER' | translate">
+                <label>{{ 'PAGES_A.CASHCUT.INITIAL_CASH_PLACEHOLDER' | translate }}</label>
               </div>
               <br>
-              <button class="btn btn-outline-primary col-12 mb-2" [class.disabled]="!cashcutForm.valid" [disabled]="isLoading">Realizar Corte</button>
-              <button class="btn btn-outline-danger col-12" (click)="onCancel()">Cancelar</button>
+              <button class="btn btn-outline-primary col-12 mb-2" [class.disabled]="!cashcutForm.valid" [disabled]="isLoading">{{ 'PAGES_A.CASHCUT.PERFORM_CASHCUT' | translate }}</button>
+              <button class="btn btn-outline-danger col-12" (click)="onCancel()">{{ 'PAGES_A.COMMON.CANCEL' | translate }}</button>
             </form>
           </div>
         </div>
@@ -72,14 +72,14 @@
 
   <!-- Bottom panel -->
   <div class="d-flex flex-column">
-    <h2>Lista de Cortes</h2>
+    <h2>{{ 'PAGES_A.CASHCUT.LIST_TITLE' | translate }}</h2>
    <div class="d-flex flex-row justify-content-end mb-3">
      <div class="col-3 d-flex flex-row">
-       <span class="col-5 align-content-center text-end">Fecha Inicio</span>
+       <span class="col-5 align-content-center text-end">{{ 'PAGES_A.CASHCUT.START_DATE' | translate }}</span>
        <div class="col-7 mx-2">
          <div class="input-group">
-           <input class="form-control" (click)="dpStart.toggle()" [(ngModel)]="initDate" name="dp" ngbDatepicker #dpStart="ngbDatepicker" placeholder="yyyy-mm-dd" readonly/>
-           <button class="btn btn-secondary" (click)="dpStart.toggle()" type="button">
+           <input class="form-control" (click)="dpStart.toggle()" [(ngModel)]="initDate" name="dp" ngbDatepicker #dpStart="ngbDatepicker" [placeholder]="'PAGES_A.CASHCUT.DATE_FORMAT' | translate" readonly/>
+           <button class="btn btn-secondary" (click)="dpStart.toggle()" type="button" [attr.aria-label]="'PAGES_A.CASHCUT.SELECT_START_DATE' | translate">
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
                <path d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23"/>
                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
@@ -89,11 +89,11 @@
        </div>
      </div>
      <div class="col-3 d-flex flex-row mx-4">
-       <span class="col-5 align-content-center text-end">Fecha Final</span>
+       <span class="col-5 align-content-center text-end">{{ 'PAGES_A.CASHCUT.END_DATE' | translate }}</span>
        <div class="col-7 mx-2">
          <div class="input-group">
-           <input class="form-control" (click)="dpEnd.toggle()" [(ngModel)]="endDate" ngbDatepicker #dpEnd="ngbDatepicker" placeholder="yyyy-mm-dd" readonly/>
-           <button class="btn btn-secondary" (click)="dpEnd.toggle()" type="button">
+           <input class="form-control" (click)="dpEnd.toggle()" [(ngModel)]="endDate" ngbDatepicker #dpEnd="ngbDatepicker" [placeholder]="'PAGES_A.CASHCUT.DATE_FORMAT' | translate" readonly/>
+           <button class="btn btn-secondary" (click)="dpEnd.toggle()" type="button" [attr.aria-label]="'PAGES_A.CASHCUT.SELECT_END_DATE' | translate">
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
                <path d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23"/>
                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
@@ -102,25 +102,25 @@
          </div>
        </div>
      </div>
-     <button class="btn btn-outline-primary col-2 offset-1" (click)="onSearch()">Buscar</button>
+     <button class="btn btn-outline-primary col-2 offset-1" (click)="onSearch()">{{ 'PAGES_A.COMMON.SEARCH' | translate }}</button>
    </div>
     <div class="cashcut-list-container">
       <div class="d-flex flex-row dark-color text-white p-2 text-center">
         <div class="col-2" (click)="tableSorter.sortBy('initialDate')">
-          <span>Fecha Inicio</span>
+          <span>{{ 'PAGES_A.CASHCUT.START_DATE' | translate }}</span>
           @if(tableSorter.column() === 'initialDate'){
             {{ tableSorter.direction() === 'asc' ? '↑' : '↓' }}
           }
         </div>
         <div class="col-2" (click)="tableSorter.sortBy('finalDate')">
-          <span>Fecha Termino</span>
+          <span>{{ 'PAGES_A.CASHCUT.END_DATE' | translate }}</span>
           @if(tableSorter.column() === 'finalDate'){
             {{ tableSorter.direction() === 'asc' ? '↑' : '↓' }}
           }
         </div>
-        <div class="col-2">Ventas</div>
-        <div class="col-2">Gastos</div>
-        <div class="col-2">Total</div>
+        <div class="col-2">{{ 'PAGES_A.CASHCUT.SALES' | translate }}</div>
+        <div class="col-2">{{ 'PAGES_A.CASHCUT.EXPENSES' | translate }}</div>
+        <div class="col-2">{{ 'PAGES_A.CASHCUT.TOTAL' | translate }}</div>
         <div class="col-2"></div>
       </div>
       @for (cashcut of pagination.pagedData(); track cashcut.id) {
@@ -130,7 +130,7 @@
           <div class="col-2"><span>{{cashcut.totalOrders | currency: "USD" }}</span></div>
           <div class="col-2"><span>{{cashcut.totalExpenses | currency: "USD" }}</span></div>
           <div class="col-2"><span>{{cashcut.total | currency: "USD" }}</span></div>
-          <div class="col-2"> <button class="btn btn-outline-primary" [routerLink]="['/cashcut/details', cashcut.id]"> Ver Detalle</button> </div>
+          <div class="col-2"> <button class="btn btn-outline-primary" [routerLink]="['/cashcut/details', cashcut.id]">{{ 'PAGES_A.COMMON.VIEW_DETAILS' | translate }}</button> </div>
         </div>
       }
     </div>
@@ -143,4 +143,3 @@
     <br><br>
   </div>
 </div>
-

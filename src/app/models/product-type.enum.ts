@@ -5,6 +5,6 @@ export enum ProductType {
 }
 
 export const ProductTypeLabels: Record<ProductType, string> = {
-  [ProductType.DRINK]: 'Bebida',
-  [ProductType.FOOD]: 'Comida',
+  [ProductType.DRINK]: 'PRODUCT_TYPE.DRINK',
+  [ProductType.FOOD]: 'PRODUCT_TYPE.FOOD',
 };

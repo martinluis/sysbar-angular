@@ -20,6 +20,7 @@ import {Role} from '../../models/role.enum';
 import {ToastService} from '../../services/toast.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manage-order-page',
@@ -30,7 +31,8 @@ import {catchError, map, Observable, of, switchMap} from 'rxjs';
     CustomerFormComponent,
     MoveTableModal,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './order-page.html',
   styleUrl: './order-page.scss'
@@ -49,7 +51,8 @@ export class OrderPage implements OnInit {
               private toastService: ToastService,
               private router: Router,
               private destroyRef: DestroyRef,
-              private errorHandler: ErrorHandlerService) {
+              private errorHandler: ErrorHandlerService,
+              private translate: TranslateService) {
   }
 
   /** Initializes the order based on the current route query parameters. */
@@ -132,7 +135,7 @@ export class OrderPage implements OnInit {
 
   /** Notifies the user that the route does not identify a valid order and redirects to the dashboard. */
   private invalidOrderRequest(): Observable<null> {
-    this.toastService.show('No se pudo identificar la orden.', 2000, 'error');
+    this.toastService.show(this.translate.instant('PAGES_A.ORDER.INVALID_ORDER'), 2000, 'error');
     this.router.navigate(['dashboard']);
     return of(null);
   }
@@ -170,7 +173,7 @@ export class OrderPage implements OnInit {
   onAddProduct(product: Product) {
     const productId = product.id;
     if (productId === null) {
-      this.toastService.show('No se pudo agregar el producto.', 2000, 'error');
+      this.toastService.show(this.translate.instant('PAGES_A.ORDER.ADD_PRODUCT_ERROR'), 2000, 'error');
       return;
     }
 
@@ -249,10 +252,10 @@ export class OrderPage implements OnInit {
 
     this.printerService.printTicket(orderId).subscribe({
       next: () => {
-        this.toastService.show("Se imprimió el ticket", 1000, "success");
+        this.toastService.show(this.translate.instant('PAGES_A.ORDER.PRINT_SUCCESS'), 1000, "success");
       },
       error: err => {
-        this.toastService.show("Error al imprimir el ticket", 2000, "error");
+        this.toastService.show(this.translate.instant('PAGES_A.ORDER.PRINT_ERROR'), 2000, "error");
         console.error(err);
       }
     })

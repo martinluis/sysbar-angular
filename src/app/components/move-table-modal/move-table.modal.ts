@@ -3,11 +3,13 @@ import {AsyncPipe} from '@angular/common';
 import {TableService} from '../../services/table.service';
 import {Observable} from 'rxjs';
 import {Table} from '../../models/table';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-move-table-modal',
   imports: [
     AsyncPipe,
+    TranslatePipe
   ],
   templateUrl: './move-table.modal.html',
   styleUrl: './move-table.modal.scss'

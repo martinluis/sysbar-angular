@@ -5,13 +5,15 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {HeaderComponent} from '../../components/header/header.component';
 import {ErrorHandlerService} from '../../services/error-handler.service';
 import {TableService} from '../../services/table.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tables-page',
   imports: [
     FormsModule,
     HeaderComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslatePipe
 ],
   templateUrl: './tables-page.html',
   styleUrl: './tables-page.scss'

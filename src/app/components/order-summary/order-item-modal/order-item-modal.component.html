@@ -9,13 +9,13 @@
       </div>
       <br>
         <div class="form-floating">
-          <textarea class="form-control" [(ngModel)]="item.comment" placeholder="Comentarios"></textarea>
-          <label>Comentarios</label>
+          <textarea class="form-control" [(ngModel)]="item.comment" [placeholder]="'COMPONENTS.ORDER.COMMENTS' | translate"></textarea>
+          <label>{{ 'COMPONENTS.ORDER.COMMENTS' | translate }}</label>
         </div>
       <hr class="mb-4 mt-4">
       <div class="row justify-content-center">
-        <button class="btn btn-primary col-5" (click)="confirm(true)">Aceptar</button>
-        <button class="btn btn-primary col-5 offset-1" (click)="confirm(false)">Cancelar</button>
+        <button class="btn btn-primary col-5" (click)="confirm(true)">{{ 'COMPONENTS.COMMON.ACCEPT' | translate }}</button>
+        <button class="btn btn-primary col-5 offset-1" (click)="confirm(false)">{{ 'COMPONENTS.COMMON.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>

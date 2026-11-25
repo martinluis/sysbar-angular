@@ -7,32 +7,31 @@
                  (keydown)="allowOnlyNumbers($event)"
                  (input)="sanitizePhoneInput($event)"
                  (blur)="onPhoneBlur()"
-                 size="10" placeholder="Teléfono">
-          <label>Teléfono</label>
+                 size="10" [placeholder]="'COMPONENTS.CUSTOMER.PHONE' | translate">
+          <label>{{ 'COMPONENTS.CUSTOMER.PHONE' | translate }}</label>
         </div>
       </div>
       <div class="col-4">
         <div class="form-floating">
-          <input class="form-control" formControlName="firstName" type="text" placeholder="Nombre">
-          <label>Nombre</label>
+          <input class="form-control" formControlName="firstName" type="text" [placeholder]="'COMPONENTS.CUSTOMER.FIRST_NAME' | translate">
+          <label>{{ 'COMPONENTS.CUSTOMER.FIRST_NAME' | translate }}</label>
         </div>
       </div>
       <div class="col-4">
         <div class="form-floating">
-          <input class="form-control" formControlName="lastName" type="text" placeholder="Apellido">
-          <label>Apellido</label>
+          <input class="form-control" formControlName="lastName" type="text" [placeholder]="'COMPONENTS.CUSTOMER.LAST_NAME' | translate">
+          <label>{{ 'COMPONENTS.CUSTOMER.LAST_NAME' | translate }}</label>
         </div>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col-12">
         <div class="form-floating">
-          <input class="form-control" formControlName="address" type="text" placeholder="Direccion">
-          <label>Direccion</label>
+          <input class="form-control" formControlName="address" type="text" [placeholder]="'COMPONENTS.CUSTOMER.ADDRESS' | translate">
+          <label>{{ 'COMPONENTS.CUSTOMER.ADDRESS' | translate }}</label>
         </div>
       </div>
     </div>
   </div>
 </form>
 <br>
-

@@ -1,8 +1,9 @@
 import {Component, input, signal} from '@angular/core';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirm-modal',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './confirm.modal.html',
   styleUrl: './confirm.modal.scss'
 })
