@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {TableSelectorItemComponent} from './table-selector-item/table-selector-item.component';
 import {TableService} from '../../services/table.service';
 import {map, Observable} from 'rxjs';
@@ -15,6 +15,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './table-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './table-selector.component.scss'
 })
 export class TableSelectorComponent implements OnInit {

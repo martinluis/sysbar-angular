@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {OrderItem} from '../../../models/order-item';
 import {FormsModule} from '@angular/forms';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './order-item-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './order-item-modal.component.scss'
 })
 export class OrderItemModalComponent {

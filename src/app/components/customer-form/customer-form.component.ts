@@ -1,4 +1,4 @@
-import {Component, input, OnInit, output} from '@angular/core';
+import {Component, input, OnInit, output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Customer} from '../../models/customer';
 import {CustomerService} from '../../services/customer.service';
@@ -11,6 +11,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './customer-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './customer-form.component.scss'
 })
 export class CustomerFormComponent implements OnInit {

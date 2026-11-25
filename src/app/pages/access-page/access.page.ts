@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
@@ -11,6 +11,7 @@ import {TranslatePipe} from '@ngx-translate/core';
   imports: [FormsModule,TranslatePipe],
   templateUrl: './access.page.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./access.page.scss']
 })
 export class AccessPage {

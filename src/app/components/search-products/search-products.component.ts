@@ -1,4 +1,4 @@
-import {Component, computed, DestroyRef, OnInit, output, signal} from '@angular/core';
+import {Component, computed, DestroyRef, OnInit, output, signal, ChangeDetectionStrategy} from '@angular/core';
 import {Product} from '../../models/product';
 import {ProductItemComponent} from './product-item/product-item.component';
 import {ProductService} from '../../services/product.service';
@@ -18,6 +18,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './search-products.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search-products.component.scss'
 })
 export class SearchProductsComponent implements OnInit {

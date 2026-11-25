@@ -1,10 +1,11 @@
-import {Component, input, signal} from '@angular/core';
+import {Component, input, signal, ChangeDetectionStrategy} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirm-modal',
   imports: [TranslatePipe],
   templateUrl: './confirm.modal.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './confirm.modal.scss'
 })
 export class ConfirmModal {

@@ -33,10 +33,10 @@
               <h4>{{getTypeDescription(orderSelected()!)}}</h4>
             </div>
             <div class="col-2 text-end">
-              <h3>{{orderSelected()?.total | currency: "USD"}}</h3>
+              <h3>{{$safeNavigationMigration(orderSelected()?.total) | currency: "USD"}}</h3>
             </div>
           </div>
-          @switch (orderSelected()?.orderType) {
+          @switch ($safeNavigationMigration(orderSelected()?.orderType)) {
             @case (OrderType.PERSONAL) {
               <span class="order-item-sub">{{ 'PAGES_A.CASHIER.WAITER' | translate }}: {{orderSelected()?.user?.name}}</span>
             }

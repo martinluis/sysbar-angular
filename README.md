@@ -1,6 +1,8 @@
 # SysbarAngular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.4.
+This project uses [Angular CLI](https://github.com/angular/angular-cli) version 22.
+
+Angular 22 requires Node.js `^22.22.3`, `^24.15.0`, or `^26.0.0`. Install dependencies with `npm install` before running the application.
 
 ## Development server
 

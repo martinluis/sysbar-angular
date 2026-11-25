@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {TableSelectorComponent} from '../../components/table-selector/table-selector.component';
 import {Router} from '@angular/router';
@@ -17,6 +17,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './waiter.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './waiter.page.scss'
 })
 export class WaiterPage {

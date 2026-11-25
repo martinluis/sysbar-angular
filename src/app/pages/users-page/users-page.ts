@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, signal, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HeaderComponent} from "../../components/header/header.component";
 import {User} from '../../models/user';
@@ -17,6 +17,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
         TranslatePipe
     ],
   templateUrl: './users-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './users-page.scss'
 })
 export class UsersPage {

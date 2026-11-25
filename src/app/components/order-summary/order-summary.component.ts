@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, DestroyRef, effect, ElementRef, input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, DestroyRef, effect, ElementRef, input, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderType} from '../../models/order-type.enum';
 import {OrderItemComponent} from './order-item/order-item.component';
@@ -23,6 +23,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './order-summary.component.scss'
 })
 export class OrderSummaryComponent implements AfterViewInit {

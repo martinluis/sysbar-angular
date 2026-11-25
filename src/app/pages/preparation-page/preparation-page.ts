@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {DatePipe} from '@angular/common';
 import {OrderType} from '../../models/order-type.enum';
@@ -22,6 +22,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe,
   ],
   templateUrl: './preparation-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './preparation-page.scss'
 })
 export class PreparationPage implements OnInit, OnDestroy {

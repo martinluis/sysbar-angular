@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
 import {OrderType} from '../../models/order-type.enum';
@@ -12,6 +12,7 @@ import {TranslatePipe} from '@ngx-translate/core';
       TranslatePipe
     ],
   templateUrl: './personal-order-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './personal-order-selector.component.scss'
 })
 export class PersonalOrderSelectorComponent implements OnInit{

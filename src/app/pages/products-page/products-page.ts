@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, signal, ChangeDetectionStrategy} from '@angular/core';
 import {HeaderComponent} from "../../components/header/header.component";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ErrorHandlerService} from '../../services/error-handler.service';
@@ -20,6 +20,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './products-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './products-page.scss'
 })
 export class ProductsPage {

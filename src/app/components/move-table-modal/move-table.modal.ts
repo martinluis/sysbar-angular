@@ -1,4 +1,4 @@
-import {Component, OnInit, output} from '@angular/core';
+import {Component, OnInit, output, ChangeDetectionStrategy} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {TableService} from '../../services/table.service';
 import {Observable} from 'rxjs';
@@ -12,6 +12,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './move-table.modal.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './move-table.modal.scss'
 })
 export class MoveTableModal implements OnInit{

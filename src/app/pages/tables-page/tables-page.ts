@@ -1,4 +1,4 @@
-import {Component, computed, OnInit, signal} from '@angular/core';
+import {Component, computed, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {Table} from '../../models/table';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -16,6 +16,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
 ],
   templateUrl: './tables-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tables-page.scss'
 })
 export class TablesPage implements OnInit {

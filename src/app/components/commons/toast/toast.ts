@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import {TranslatePipe} from '@ngx-translate/core';
 
@@ -8,6 +8,7 @@ import {TranslatePipe} from '@ngx-translate/core';
   imports: [TranslatePipe],
   templateUrl: './toast.html',
   styleUrl: './toast.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [

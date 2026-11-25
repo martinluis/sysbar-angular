@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-info-modal',
   imports: [],
   templateUrl: './info.modal.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './info.modal.scss'
 })
 export class InfoModal {

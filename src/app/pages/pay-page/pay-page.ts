@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrderService} from '../../services/order.service';
 import {ErrorHandlerService} from '../../services/error-handler.service';
@@ -32,6 +32,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe,
   ],
   templateUrl: './pay-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pay-page.scss'
 })
 export class PayPage implements OnInit {

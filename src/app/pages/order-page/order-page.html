@@ -6,7 +6,7 @@
       <app-customer-form [customer]="order()!.customer!"/>
     }
     @if (order() && order()?.orderType === OrderType.PERSONAL) {
-      <input class="form-control" [disabled]="order()?.id!==null" type="text" [placeholder]="'PAGES_A.ORDER.NAME_OR_REFERENCE' | translate" [(ngModel)]="order()!.reference">
+      <input class="form-control" [disabled]="$safeNavigationMigration(order()?.id)!==null" type="text" [placeholder]="'PAGES_A.ORDER.NAME_OR_REFERENCE' | translate" [(ngModel)]="order()!.reference">
       <br>
     }
     <div class="manage-order-product-container">

@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {OrderService} from '../../services/order.service';
 import {catchError, Observable, of} from 'rxjs';
@@ -23,6 +23,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './cashier-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cashier-page.scss'
 })
 export class CashierPage implements OnInit{

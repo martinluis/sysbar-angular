@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HeaderComponent} from '../../../components/header/header.component';
 import {CurrencyPipe, DatePipe} from '@angular/common';
@@ -21,6 +21,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './cashcut-detail-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cashcut-detail-page.scss'
 })
 export class CashcutDetailPage implements OnInit {

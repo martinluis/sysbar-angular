@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {FormsModule} from '@angular/forms';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,7 @@ import {startWith} from 'rxjs';
   ],
   providers: [DatePipe],
   templateUrl: './reports-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './reports-page.scss'
 })
 export class ReportsPage implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrderService} from '../../services/order.service';
 import {OrderStatus} from '../../models/order-status.enum';
@@ -22,6 +22,7 @@ import {firstValueFrom} from 'rxjs';
     TranslatePipe
   ],
   templateUrl: './partial-pay-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './partial-pay-page.scss'
 })
 export class PartialPayPage implements OnInit {

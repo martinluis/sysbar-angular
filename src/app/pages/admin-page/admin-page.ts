@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {DashboardItemComponent} from "../../components/dashboard-item/dashboard-item.component";
 import {HeaderComponent} from "../../components/header/header.component";
 import {AuthService} from '../../services/auth.service';
@@ -12,6 +12,7 @@ import {ADMIN_SECTION, AppSection} from '../../config/app.config';
         HeaderComponent
     ],
   templateUrl: './admin-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './admin-page.scss'
 })
 export class AdminPage {

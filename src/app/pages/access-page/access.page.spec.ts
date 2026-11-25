@@ -32,7 +32,7 @@ describe('AccessPage', () => {
 
     const translate = TestBed.inject(TranslateService);
     translate.setTranslation('es', {
-      ACCESS: {CODE_PLACEHOLDER: 'Codigo', ACCESS_BTN: 'Acceder'},
+      PAGES_A: {ACCESS: {CODE_PLACEHOLDER: 'Codigo', ACCESS_BTN: 'Acceder'}},
       ERRORS: {USER_CODE_INVALID: 'Codigo no Valido'}
     });
     translate.use('es');

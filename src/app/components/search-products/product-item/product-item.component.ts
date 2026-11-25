@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 import {Product} from '../../../models/product';
 import {CurrencyPipe} from '@angular/common';
 
@@ -8,6 +8,7 @@ import {CurrencyPipe} from '@angular/common';
     CurrencyPipe
   ],
   templateUrl: './product-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './product-item.component.scss'
 })
 export class ProductItemComponent {

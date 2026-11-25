@@ -1,4 +1,4 @@
-import {Component, input, output, ViewChild} from '@angular/core';
+import {Component, input, output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {OrderItem} from '../../../models/order-item';
 import {CurrencyPipe} from '@angular/common';
 import {Order} from '../../../models/order';
@@ -13,6 +13,7 @@ import {Role} from '../../../models/role.enum';
     OrderItemModalComponent
   ],
   templateUrl: './order-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './order-item.component.scss'
 })
 export class OrderItemComponent {

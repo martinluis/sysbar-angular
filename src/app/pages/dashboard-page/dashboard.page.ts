@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {APP_SECTION, AppSection} from '../../config/app.config';
 import {DashboardItemComponent} from '../../components/dashboard-item/dashboard-item.component';
@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
     DashboardItemComponent
   ],
   templateUrl: './dashboard.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.page.scss'
 })
 export class DashboardPage {

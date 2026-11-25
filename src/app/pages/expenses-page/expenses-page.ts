@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, signal, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HeaderComponent} from "../../components/header/header.component";
 import {Expense} from '../../models/expense';
@@ -18,6 +18,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './expenses-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './expenses-page.scss'
 })
 export class ExpensesPage {

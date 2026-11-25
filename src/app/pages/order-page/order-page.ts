@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, DestroyRef, OnInit, signal, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
@@ -35,6 +35,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     TranslatePipe
   ],
   templateUrl: './order-page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './order-page.scss'
 })
 export class OrderPage implements OnInit {
