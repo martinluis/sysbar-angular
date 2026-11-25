@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (
   let headers: Record<string, string> = {
     'API-Key': apiKey
   };
-  const url = new URL(req.url);
+  const url = new URL(req.url, document.baseURI);
   if (url.pathname.startsWith('/sysbar/api/') && token) {
     headers = {
       ...headers,

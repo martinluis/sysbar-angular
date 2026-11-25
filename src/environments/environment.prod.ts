@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://127.0.0.1:8080/sysbar/api'
+  apiUrl: 'http://desktop-h1m7hj9.local:8080/sysbar/api'
 };
